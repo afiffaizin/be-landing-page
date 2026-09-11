@@ -3,9 +3,9 @@
 @section('title', 'Edit About Section')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-indigo-600">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.about-sections.index') }}" class="text-slate-500 hover:text-indigo-600">About Section</a>
+    <a href="{{ route('admin.about-sections.index') }}" class="text-slate-500 hover:text-slate-900">About Section</a>
     <span>/</span>
     <span class="text-slate-800">Edit Konten</span>
 @endsection
@@ -16,7 +16,7 @@
     <a href="{{ route('admin.about-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
         Batalkan
     </a>
-    <button type="submit" form="about-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors">
+    <button type="submit" form="about-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
         </svg>
@@ -27,8 +27,8 @@
 @section('page_headline', 'Edit Konten About Section')
 @section('page_subtitle', 'Kelola informasi pengantar, visi misi singkat, daftar poin keunggulan, serta tautan aksi dokumentasi.')
 @section('status_badge')
-    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
-        <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200/60">
+        <span class="w-2 h-2 rounded-full bg-slate-500"></span>
         Status Section: Mode Edit Aktif
     </span>
 @endsection
@@ -46,7 +46,7 @@
             <!-- CARD 1: Konten Utama & Deskripsi -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6">
                 <div class="flex items-center gap-3 pb-5 border-b border-slate-100 mb-5">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
@@ -74,7 +74,7 @@
                                maxlength="255"
                                placeholder="Contoh: Tentang Program Pengabdian"
                                oninput="document.getElementById('title-counter').innerText = this.value.length + ' / 255 Karakter'"
-                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all">
+                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
                         <p class="text-[11px] text-slate-400 mt-1.5">
                             Gunakan judul yang jelas dan mencerminkan esensi program.
                         </p>
@@ -98,7 +98,7 @@
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6">
                 <div class="flex items-center justify-between pb-5 border-b border-slate-100 mb-5">
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                             </svg>
@@ -109,9 +109,9 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-3 text-xs font-medium">
-                        <button type="button" onclick="collapseAllPoints()" class="text-slate-500 hover:text-indigo-600 underline">Collapse All</button>
+                        <button type="button" onclick="collapseAllPoints()" class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
                         <span class="text-slate-300">|</span>
-                        <button type="button" onclick="expandAllPoints()" class="text-slate-500 hover:text-indigo-600 underline">Expand All</button>
+                        <button type="button" onclick="expandAllPoints()" class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
                     </div>
                 </div>
 
@@ -159,7 +159,7 @@
                                                name="points[{{ $idx }}][number]"
                                                value="{{ $point['number'] ?? ($idx + 1) }}"
                                                required
-                                               class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600">
+                                               class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
                                     </div>
                                     <div class="md:col-span-3">
                                         <label class="block text-[11px] font-semibold text-slate-600 mb-1">Judul Poin <span class="text-rose-500">*</span></label>
@@ -169,7 +169,7 @@
                                                required
                                                placeholder="Contoh: Pemberdayaan Masyarakat"
                                                oninput="updatePointTitle(this)"
-                                               class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600">
+                                               class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
                                     </div>
                                 </div>
                                 <div>
@@ -178,7 +178,7 @@
                                               rows="3"
                                               required
                                               placeholder="Jelaskan kegiatan atau sasaran dari poin ini..."
-                                              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600">{{ $point['description'] ?? '' }}</textarea>
+                                              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">{{ $point['description'] ?? '' }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -188,11 +188,11 @@
                 <!-- Add Button -->
                 <button type="button"
                         onclick="addPointItem()"
-                        class="mt-4 w-full py-3 border-2 border-dashed border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/20 rounded-xl text-xs font-bold text-indigo-600 transition-colors flex items-center justify-center gap-2">
+                        class="mt-4 w-full py-3 border border-dashed border-slate-200 hover:border-slate-400 hover:bg-slate-50 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors flex items-center justify-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
-                    <span>+ Tambah Poin Baru</span>
+                    <span>Tambah Poin Baru</span>
                 </button>
             </div>
 
@@ -204,7 +204,7 @@
             <!-- CARD 3: Media Dokumentasi -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6">
                 <div class="flex items-center gap-3 pb-5 border-b border-slate-100 mb-5">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
@@ -219,7 +219,7 @@
                     <label class="block text-xs font-bold text-slate-700 mb-2">Gambar Utama</label>
                     <div id="dropzone"
                          onclick="document.getElementById('image-input').click()"
-                         class="border-2 border-dashed border-slate-200 hover:border-indigo-400 rounded-2xl p-6 text-center cursor-pointer transition-all bg-slate-50/50 hover:bg-indigo-50/20">
+                         class="border-2 border-dashed border-slate-200 hover:border-slate-400 rounded-2xl p-6 text-center cursor-pointer transition-all bg-slate-50/50 hover:bg-slate-50">
                         <input type="file"
                                id="image-input"
                                name="image"
@@ -234,7 +234,7 @@
                                  alt="Preview"
                                  class="w-full h-36 object-cover rounded-xl border border-slate-200 shadow-xs mb-2">
                             <div class="flex items-center justify-center gap-4 text-xs">
-                                <span class="text-indigo-600 font-semibold underline">Ganti Gambar</span>
+                                <span class="text-slate-900 font-semibold underline">Ganti Gambar</span>
                                 @if($aboutSection->image)
                                     <label onclick="event.stopPropagation()" class="flex items-center gap-1.5 text-rose-600 hover:text-rose-800 font-semibold cursor-pointer">
                                         <input type="checkbox" name="remove_image" value="1" class="rounded border-slate-300 text-rose-600">
@@ -246,13 +246,13 @@
 
                         <!-- Dropzone Icon & Text -->
                         <div id="dropzone-content" class="{{ $aboutSection->image ? 'hidden' : '' }}">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-3">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center mx-auto mb-3">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                 </svg>
                             </div>
                             <p class="text-xs font-bold text-slate-800">
-                                Tarik & lepas file atau <span class="text-indigo-600 underline">Jelajahi</span>
+                                Tarik & lepas file atau <span class="text-slate-900 font-semibold underline">Jelajahi</span>
                             </p>
                             <p class="text-[11px] text-slate-400 mt-1">
                                 Format: PNG, JPG, WEBP • Maksimal 2MB
@@ -268,7 +268,7 @@
             <!-- CARD 4: Visibilitas -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 space-y-4">
                 <div class="flex items-center gap-3 pb-5 border-b border-slate-100">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -297,7 +297,7 @@
                                {{ old('is_active', $aboutSection->is_active) ? 'checked' : '' }}
                                onchange="toggleStatusBadge(this)"
                                class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-slate-900"></div>
                     </label>
                 </div>
 
@@ -312,8 +312,8 @@
                         <span class="text-slate-600">{{ $aboutSection->updated_at->diffForHumans() }}</span>
                     </div>
                     <div class="flex justify-between text-slate-500 pt-1">
-                        <span>Tautan Live Publik:</span>
-                        <a href="/api/v1/about/{{ $aboutSection->id }}" target="_blank" class="font-semibold text-indigo-600 hover:underline">+ Lihat Penayangan</a>
+                        <span>Status Publikasi:</span>
+                        <span class="font-semibold text-slate-700">Tersedia via API Publik</span>
                     </div>
                 </div>
             </div>
@@ -410,7 +410,7 @@
                                    name="points[${nextIndex}][number]"
                                    value="${nextNum}"
                                    required
-                                   class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600">
+                                   class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
                         </div>
                         <div class="md:col-span-3">
                             <label class="block text-[11px] font-semibold text-slate-600 mb-1">Judul Poin <span class="text-rose-500">*</span></label>
@@ -419,7 +419,7 @@
                                    required
                                    placeholder="Contoh: Penerapan IPTEK"
                                    oninput="updatePointTitle(this)"
-                                   class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600">
+                                   class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
                         </div>
                     </div>
                     <div>
@@ -428,7 +428,7 @@
                                   rows="3"
                                   required
                                   placeholder="Jelaskan kegiatan atau sasaran dari poin ini..."
-                                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600"></textarea>
+                                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800"></textarea>
                     </div>
                 </div>
             </div>

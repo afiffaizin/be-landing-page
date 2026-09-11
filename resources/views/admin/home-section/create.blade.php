@@ -3,9 +3,9 @@
 @section('title', 'Buat Banner Baru - Home Section')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-indigo-600">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-indigo-600">Home Section</a>
+    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-slate-900">Home Section</a>
     <span>/</span>
     <span class="text-slate-800">Create</span>
 @endsection
@@ -16,7 +16,7 @@
     <a href="{{ route('admin.home-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
         Batalkan
     </a>
-    <button type="submit" form="home-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors">
+    <button type="submit" form="home-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
         </svg>
@@ -45,7 +45,7 @@
             <!-- CARD 1: Konten Utama -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6">
                 <div class="flex items-center gap-3 pb-5 border-b border-slate-100 mb-5">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
@@ -73,7 +73,7 @@
                                maxlength="255"
                                placeholder="Contoh: Pengabdian Kepada Masyarakat"
                                oninput="document.getElementById('title-counter').innerText = this.value.length + ' / 255 Karakter'"
-                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all">
+                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
                         <p class="text-[11px] text-slate-400 mt-1.5">
                             Gunakan kalimat pemikat yang ringkas dan merepresentasikan fokus utama program.
                         </p>
@@ -98,7 +98,7 @@
             <!-- CARD 2: Tombol Aksi (Call to Action) -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6">
                 <div class="flex items-center gap-3 pb-5 border-b border-slate-100 mb-5">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
                         </svg>
@@ -114,7 +114,7 @@
                     <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3">
                         <div class="flex items-center justify-between pb-2 border-b border-slate-200/60">
                             <span class="text-xs font-bold text-slate-800">Tombol Utama (Button 1)</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-100 text-indigo-700">PRIMER</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-900 text-white">PRIMER</span>
                         </div>
                         <div>
                             <label for="button_one_text" class="block text-[11px] font-semibold text-slate-600 mb-1">Teks Tombol</label>
@@ -123,7 +123,7 @@
                                    name="button_one_text"
                                    value="{{ old('button_one_text') }}"
                                    placeholder="Contoh: Lihat Program"
-                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all">
+                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
                         </div>
                         <div>
                             <label for="button_one_link" class="block text-[11px] font-semibold text-slate-600 mb-1">Tautan / URL</label>
@@ -132,7 +132,7 @@
                                    name="button_one_link"
                                    value="{{ old('button_one_link') }}"
                                    placeholder="Contoh: #programs atau https://..."
-                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all">
+                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
                             <p class="text-[10px] text-slate-400 mt-1">Bisa berupa anchor (#section) atau URL web eksternal.</p>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                                    name="button_two_text"
                                    value="{{ old('button_two_text') }}"
                                    placeholder="Contoh: Hubungi Kami"
-                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all">
+                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
                         </div>
                         <div>
                             <label for="button_two_link" class="block text-[11px] font-semibold text-slate-600 mb-1">Tautan / URL</label>
@@ -159,7 +159,7 @@
                                    name="button_two_link"
                                    value="{{ old('button_two_link') }}"
                                    placeholder="Contoh: #contact atau https://wa.me/..."
-                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition-all">
+                                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
                             <p class="text-[10px] text-slate-400 mt-1">Bisa berupa anchor (#section) atau URL web eksternal.</p>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
             <!-- CARD 3: Media Banner -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6">
                 <div class="flex items-center gap-3 pb-5 border-b border-slate-100 mb-5">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
@@ -189,7 +189,7 @@
                     <label class="block text-xs font-bold text-slate-700 mb-2">Gambar Utama</label>
                     <div id="dropzone"
                          onclick="document.getElementById('image-input').click()"
-                         class="border-2 border-dashed border-slate-200 hover:border-indigo-400 rounded-2xl p-6 text-center cursor-pointer transition-all bg-slate-50/50 hover:bg-indigo-50/20">
+                         class="border-2 border-dashed border-slate-200 hover:border-slate-400 rounded-2xl p-6 text-center cursor-pointer transition-all bg-slate-50/50 hover:bg-slate-50">
                         <input type="file"
                                id="image-input"
                                name="image"
@@ -207,13 +207,13 @@
 
                         <!-- Dropzone Icon & Text -->
                         <div id="dropzone-content">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-3">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center mx-auto mb-3">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                 </svg>
                             </div>
                             <p class="text-xs font-bold text-slate-800">
-                                Tarik & lepas file atau <span class="text-indigo-600 underline">Jelajahi</span>
+                                Tarik & lepas file atau <span class="text-slate-900 font-semibold underline">Jelajahi</span>
                             </p>
                             <p class="text-[11px] text-slate-400 mt-1">
                                 Format: PNG, JPG, WEBP • Maksimal 2MB
@@ -229,7 +229,7 @@
             <!-- CARD 4: Visibilitas -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6 space-y-4">
                 <div class="flex items-center gap-3 pb-5 border-b border-slate-100">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -257,7 +257,7 @@
                                checked
                                onchange="toggleStatusBadge(this)"
                                class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-slate-900"></div>
                     </label>
                 </div>
 
@@ -272,8 +272,8 @@
                         <span class="text-slate-600">Belum ada histori</span>
                     </div>
                     <div class="flex justify-between text-slate-500 pt-1">
-                        <span>Tautan Live Publik:</span>
-                        <a href="/api/v1/home" target="_blank" class="font-semibold text-indigo-600 hover:underline">+ Lihat Penayangan</a>
+                        <span>Status Publikasi:</span>
+                        <span class="font-semibold text-slate-700">Tersedia via API Publik</span>
                     </div>
                 </div>
             </div>

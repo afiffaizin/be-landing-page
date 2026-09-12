@@ -16,7 +16,7 @@
     <a href="{{ route('admin.about-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
         Batalkan
     </a>
-    <button type="submit" form="about-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors">
+    <button type="submit" form="about-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-blue-500/20 transition-all duration-150">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
         </svg>
@@ -73,7 +73,7 @@
                                maxlength="255"
                                placeholder="Contoh: Tentang Program Pengabdian"
                                oninput="document.getElementById('title-counter').innerText = this.value.length + ' / 255 Karakter'"
-                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
+                               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all">
                         <p class="text-[11px] text-slate-400 mt-1.5">
                             Gunakan judul yang jelas dan mencerminkan esensi program.
                         </p>
@@ -147,7 +147,7 @@
                                            name="points[0][number]"
                                            value="1"
                                            required
-                                           class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
+                                           class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600">
                                 </div>
                                 <div class="md:col-span-3">
                                     <label class="block text-[11px] font-semibold text-slate-600 mb-1">Judul Poin <span class="text-rose-500">*</span></label>
@@ -157,7 +157,7 @@
                                            required
                                            placeholder="Contoh: Pemberdayaan Masyarakat"
                                            oninput="updatePointTitle(this)"
-                                           class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
+                                           class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600">
                                 </div>
                             </div>
                             <div>
@@ -166,7 +166,7 @@
                                           rows="3"
                                           required
                                           placeholder="Jelaskan kegiatan atau sasaran dari poin ini..."
-                                          class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">Mendorong kemandirian masyarakat melalui pelatihan, pendampingan, dan pemanfaatan potensi lokal.</textarea>
+                                          class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600">Mendorong kemandirian masyarakat melalui pelatihan, pendampingan, dan pemanfaatan potensi lokal.</textarea>
                             </div>
                         </div>
                     </div>
@@ -273,23 +273,24 @@
                                checked
                                onchange="toggleStatusBadge(this)"
                                class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-slate-900"></div>
+                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                     </label>
                 </div>
 
                 <!-- Metadata info -->
                 <div class="pt-4 border-t border-slate-100 space-y-2 text-xs">
                     <div class="flex justify-between text-slate-500">
-                        <span>Versi Konten:</span>
-                        <span class="font-semibold text-slate-700">v1.0 (Terbaru)</span>
-                    </div>
-                    <div class="flex justify-between text-slate-500">
                         <span>Terakhir Diperbarui:</span>
                         <span class="text-slate-600">Belum ada histori</span>
                     </div>
-                    <div class="flex justify-between text-slate-500 pt-1">
+                    <div class="flex justify-between items-center text-slate-500 pt-1">
                         <span>Status Publikasi:</span>
-                        <span class="font-semibold text-slate-700">Tersedia via API Publik</span>
+                        <a href="{{ url('/api/v1/about') }}" target="_blank" title="Klik untuk melihat data JSON di tab baru" class="inline-flex items-center gap-1 font-semibold text-slate-900 hover:text-blue-600 hover:underline transition-colors">
+                            <span>Tersedia via API Publik</span>
+                            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -387,7 +388,7 @@
                                    name="points[${nextIndex}][number]"
                                    value="${nextNum}"
                                    required
-                                   class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
+                                   class="point-number-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600">
                         </div>
                         <div class="md:col-span-3">
                             <label class="block text-[11px] font-semibold text-slate-600 mb-1">Judul Poin <span class="text-rose-500">*</span></label>
@@ -396,7 +397,7 @@
                                    required
                                    placeholder="Contoh: Penerapan IPTEK"
                                    oninput="updatePointTitle(this)"
-                                   class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
+                                   class="point-title-input w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600">
                         </div>
                     </div>
                     <div>
@@ -405,7 +406,7 @@
                                   rows="3"
                                   required
                                   placeholder="Jelaskan kegiatan atau sasaran dari poin ini..."
-                                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800"></textarea>
+                                  class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"></textarea>
                     </div>
                 </div>
             </div>

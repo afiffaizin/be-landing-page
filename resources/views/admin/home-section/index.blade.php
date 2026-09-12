@@ -11,7 +11,7 @@
 @section('page_title', 'Kelola Home Section (Banner Beranda)')
 
 @section('header_actions')
-    <a href="{{ route('admin.home-sections.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl shadow-xs transition-colors">
+    <a href="{{ route('admin.home-sections.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-blue-500/20 transition-all duration-150">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
@@ -36,7 +36,7 @@
                        name="search"
                        value="{{ request('search') }}"
                        placeholder="Cari berdasarkan judul atau deskripsi..."
-                       class="w-full pl-10 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all">
+                       class="w-full pl-10 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -44,14 +44,14 @@
                 </div>
             </div>
 
-            <select name="status" onchange="this.form.submit()" class="py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
+            <select name="status" onchange="this.form.submit()" class="py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600">
                 <option value="">Semua Status</option>
                 <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Hanya Aktif</option>
                 <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Hanya Nonaktif</option>
             </select>
 
             @if(request('search') || request('status'))
-                <a href="{{ route('admin.home-sections.index') }}" class="text-xs text-slate-500 hover:text-slate-800 underline">Reset</a>
+                <a href="{{ route('admin.home-sections.index') }}" class="text-xs text-blue-600 hover:text-blue-700 underline font-medium">Reset</a>
             @endif
         </form>
     </div>
@@ -93,7 +93,7 @@
                             </td>
                             <td class="py-3.5 px-5 whitespace-nowrap">
                                 @if($section->button_one_text)
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-medium text-[11px] border border-slate-200">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 font-medium text-[11px] border border-blue-200/80">
                                         {{ $section->button_one_text }}
                                     </span>
                                 @else
@@ -127,7 +127,7 @@
                             <td class="py-3.5 px-5 whitespace-nowrap text-right">
                                 <div class="flex items-center justify-end gap-1.5">
                                     <a href="{{ route('admin.home-sections.edit', $section) }}"
-                                       class="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                                       class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                        title="Edit Section">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -162,7 +162,7 @@
                                 <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                                     Tambahkan home section pertama Anda untuk ditampilkan di landing page publik.
                                 </p>
-                                <a href="{{ route('admin.home-sections.create') }}" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl transition-colors">
+                                <a href="{{ route('admin.home-sections.create') }}" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-blue-500/20 transition-all duration-150">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                     </svg>

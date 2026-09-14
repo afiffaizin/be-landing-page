@@ -20,9 +20,12 @@
 @endsection
 
 @section('page_headline', 'Daftar Banner Beranda')
-@section('page_subtitle', 'Kelola judul utama, narasi hero, gambar ilustrasi, dan tombol call-to-action (CTA).')
+@section('page_subtitle', 'Kelola banner beranda landing page. Sistem menampilkan 1 banner aktif, banner lainnya tersimpan sebagai draft.')
 @section('status_badge')
-    <span class="text-xs text-slate-500 font-medium">Total: {{ $homeSections->total() }} Record</span>
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        1 Banner Aktif Utama
+    </span>
 @endsection
 
 @section('content')
@@ -46,8 +49,8 @@
 
             <select name="status" onchange="this.form.submit()" class="py-2 px-3 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                 <option value="">Semua Status</option>
-                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Hanya Aktif</option>
-                <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Hanya Nonaktif</option>
+                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Hanya Aktif (Publikasi)</option>
+                <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Hanya Draft</option>
             </select>
 
             @if(request('search') || request('status'))
@@ -114,10 +117,10 @@
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit"
-                                            title="Klik untuk ubah status"
-                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold transition-all {{ $section->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100' : 'bg-gray-100 text-slate-600 border border-gray-200 hover:bg-gray-200' }}">
+                                            title="{{ $section->is_active ? 'Klik untuk ubah menjadi Draft' : 'Klik untuk Publikasikan' }}"
+                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold transition-all cursor-pointer {{ $section->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100' : 'bg-gray-100 text-slate-600 border border-gray-200 hover:bg-gray-200' }}">
                                         <span class="w-1.5 h-1.5 rounded-full {{ $section->is_active ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
-                                        {{ $section->is_active ? 'Aktif' : 'Nonaktif' }}
+                                        {{ $section->is_active ? 'Aktif' : 'Draft' }}
                                     </button>
                                 </form>
                             </td>

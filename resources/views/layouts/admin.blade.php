@@ -99,7 +99,7 @@
             </div>
             <div>
                 <span class="text-base font-bold text-white tracking-tight block">Eco-Enzyme</span>
-                <span class="text-[11px] font-medium text-emerald-300 bg-emerald-800/60 border border-emerald-600/40 px-2 py-0.5 rounded-md inline-block mt-0.5">Admin Panel</span>
+                <span class="text-[11px] font-medium text-emerald-300 bg-emerald-800/60 border border-emerald-600/40 px-2 py-0.5 rounded-md inline-block mt-0.5">Admin Portal</span>
             </div>
         </div>
 

@@ -32,9 +32,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 14.5c1.5 2 3.5 3 5 3s3.5-1 5-3"></path>
                 </svg>
             </div>
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Eco-Enzyme Admin</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Eco-Enzyme Admin Portal</h1>
             <div class="flex items-center justify-center gap-2 mt-1.5">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">Eco-Enzyme CMS</span>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">CMS Studio v2.4</span>
                 <span class="text-slate-300">•</span>
                 <span class="text-xs font-medium text-slate-500">Pengabdian Dosen</span>
             </div>

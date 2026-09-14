@@ -88,6 +88,67 @@ class AdminPanelTest extends TestCase
         ]);
     }
 
+    public function test_authenticated_user_can_create_home_section_as_draft(): void
+    {
+        $response = $this->actingAs($this->user)->post(route('admin.home-sections.store'), [
+            'title' => 'Banner Draf Pengabdian',
+            'description' => '<p>Deskripsi banner draf yang belum dipublikasikan.</p>',
+            'action' => 'draft',
+        ]);
+
+        $response->assertRedirect(route('admin.home-sections.index'))
+                 ->assertSessionHas('success', 'Banner Beranda berhasil disimpan sebagai draft!');
+
+        $this->assertDatabaseHas('home_sections', [
+            'title' => 'Banner Draf Pengabdian',
+            'is_active' => false,
+        ]);
+    }
+
+    public function test_authenticated_user_can_create_active_banner_and_deactivate_others(): void
+    {
+        $oldBanner = HomeSection::create([
+            'title' => 'Banner Lama Aktif',
+            'description' => 'Deskripsi banner lama',
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($this->user)->post(route('admin.home-sections.store'), [
+            'title' => 'Banner Baru Pengganti',
+            'description' => '<p>Deskripsi banner baru</p>',
+            'action' => 'publish',
+        ]);
+
+        $response->assertRedirect(route('admin.home-sections.index'));
+
+        $this->assertDatabaseHas('home_sections', [
+            'title' => 'Banner Baru Pengganti',
+            'is_active' => true,
+        ]);
+
+        $this->assertDatabaseHas('home_sections', [
+            'id' => $oldBanner->id,
+            'is_active' => false,
+        ]);
+    }
+
+    public function test_authenticated_user_can_toggle_home_section_status(): void
+    {
+        $banner = HomeSection::create([
+            'title' => 'Banner Toggle Test',
+            'description' => 'Deskripsi banner toggle',
+            'is_active' => false,
+        ]);
+
+        $response = $this->actingAs($this->user)->patch(route('admin.home-sections.toggle-status', $banner));
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('home_sections', [
+            'id' => $banner->id,
+            'is_active' => true,
+        ]);
+    }
+
     public function test_authenticated_user_can_create_about_section_with_points(): void
     {
         $file = UploadedFile::fake()->image('about.jpg');

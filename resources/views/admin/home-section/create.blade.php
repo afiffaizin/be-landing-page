@@ -16,7 +16,13 @@
     <a href="{{ route('admin.home-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
         Batalkan
     </a>
-    <button type="submit" form="home-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
+    <button type="button" onclick="submitWithAction('draft')" class="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+        </svg>
+        <span>Simpan sebagai Draft</span>
+    </button>
+    <button type="button" onclick="submitWithAction('publish')" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
         </svg>
@@ -36,6 +42,7 @@
 @section('content')
 <form id="home-section-form" action="{{ route('admin.home-sections.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
+    <input type="hidden" name="action" id="form-action" value="publish">
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
@@ -166,6 +173,33 @@
                 </div>
             </div>
 
+            <!-- Bottom Actions Bar -->
+            <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-xs text-slate-500">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Gunakan <strong>Simpan sebagai Draft</strong> jika banner belum ingin ditampilkan di landing page.</span>
+                </div>
+                <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+                    <a href="{{ route('admin.home-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+                        Batalkan
+                    </a>
+                    <button type="button" onclick="submitWithAction('draft')" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all cursor-pointer">
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                        </svg>
+                        <span>Simpan Draft</span>
+                    </button>
+                    <button type="button" onclick="submitWithAction('publish')" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Publikasikan</span>
+                    </button>
+                </div>
+            </div>
+
         </div>
 
         <!-- KOLOM KANAN (4 Kolom): Media & Visibilitas -->
@@ -244,21 +278,35 @@
                 <div class="flex items-center justify-between py-2">
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-slate-800">Status Aktif</span>
+                            <span class="text-xs font-bold text-slate-800">Status Banner</span>
                             <span id="status-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
                         </div>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Tampilkan section ini di landing page publik.</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah banner ini langsung tampil atau draft.</p>
                     </div>
                     <!-- Switch Toggle -->
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox"
                                name="is_active"
+                               id="is_active_toggle"
                                value="1"
                                checked
                                onchange="toggleStatusBadge(this)"
                                class="sr-only peer">
                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                     </label>
+                </div>
+
+                <!-- Info Sistem: Hanya 1 banner aktif -->
+                <div class="pt-3 border-t border-gray-100">
+                    <div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-xl flex items-start gap-2.5 text-xs text-emerald-800">
+                        <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <span class="font-bold block text-emerald-900">Kebijakan 1 Banner Aktif</span>
+                            <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 banner utama yang aktif. Saat banner ini dipublikasikan, banner lama yang sedang aktif otomatis dijadikan <strong>Draft</strong>.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Metadata info -->
@@ -301,7 +349,37 @@
         }
     });
 
-    // Sync Quill ke Textarea pada submit
+    // Form submit handler dengan aksi draft atau publish
+    function submitWithAction(action) {
+        document.getElementById('form-action').value = action;
+        const toggle = document.getElementById('is_active_toggle');
+        if (action === 'draft') {
+            if (toggle) toggle.checked = false;
+            const badge = document.getElementById('status-badge');
+            if (badge) {
+                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
+                badge.innerText = 'Draft';
+            }
+        } else if (action === 'publish') {
+            if (toggle) toggle.checked = true;
+            const badge = document.getElementById('status-badge');
+            if (badge) {
+                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
+                badge.innerText = 'Aktif';
+            }
+        }
+
+        // Sync Quill editor ke textarea
+        const descriptionInput = document.getElementById('description');
+        descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+
+        const form = document.getElementById('home-section-form');
+        if (form.reportValidity()) {
+            form.submit();
+        }
+    }
+
+    // Default form submit fallback
     document.getElementById('home-section-form').onsubmit = function() {
         const descriptionInput = document.getElementById('description');
         descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
@@ -310,12 +388,15 @@
     // Live update toggle badge
     function toggleStatusBadge(elem) {
         const badge = document.getElementById('status-badge');
+        const formAction = document.getElementById('form-action');
         if (elem.checked) {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
             badge.innerText = 'Aktif';
+            if (formAction) formAction.value = 'publish';
         } else {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
             badge.innerText = 'Draft';
+            if (formAction) formAction.value = 'draft';
         }
     }
 

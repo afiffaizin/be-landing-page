@@ -62,7 +62,21 @@ class HomeSectionController extends Controller
             'is_active' => ['nullable'],
         ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $action = $request->input('action');
+        if ($action === 'draft') {
+            $isActive = false;
+        } elseif ($action === 'publish') {
+            $isActive = true;
+        } else {
+            $isActive = $request->boolean('is_active');
+        }
+
+        $validated['is_active'] = $isActive;
+
+        // Hanya 1 banner yang aktif: jika banner baru ini aktif, nonaktifkan (draft-kan) semua banner lainnya
+        if ($isActive) {
+            HomeSection::where('is_active', true)->update(['is_active' => false]);
+        }
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('home-sections', 'public');
@@ -70,8 +84,12 @@ class HomeSectionController extends Controller
 
         HomeSection::create($validated);
 
+        $message = $isActive
+            ? 'Banner Beranda berhasil dipublikasikan (banner aktif sebelumnya otomatis diubah menjadi draft)!'
+            : 'Banner Beranda berhasil disimpan sebagai draft!';
+
         return redirect()->route('admin.home-sections.index')
-            ->with('success', 'Banner Beranda (Home Section) berhasil ditambahkan!');
+            ->with('success', $message);
     }
 
     /**
@@ -99,7 +117,23 @@ class HomeSectionController extends Controller
             'remove_image' => ['nullable', 'boolean'],
         ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $action = $request->input('action');
+        if ($action === 'draft') {
+            $isActive = false;
+        } elseif ($action === 'publish') {
+            $isActive = true;
+        } else {
+            $isActive = $request->boolean('is_active');
+        }
+
+        $validated['is_active'] = $isActive;
+
+        // Hanya 1 banner yang aktif: jika banner ini aktif, nonaktifkan banner lainnya
+        if ($isActive) {
+            HomeSection::where('id', '!=', $homeSection->id)
+                ->where('is_active', true)
+                ->update(['is_active' => false]);
+        }
 
         if ($request->boolean('remove_image')) {
             if ($homeSection->image && Storage::disk('public')->exists($homeSection->image)) {
@@ -118,8 +152,12 @@ class HomeSectionController extends Controller
         unset($validated['remove_image']);
         $homeSection->update($validated);
 
+        $message = $isActive
+            ? 'Banner Beranda berhasil diperbarui dan dipublikasikan (banner lain otomatis menjadi draft)!'
+            : 'Banner Beranda berhasil disimpan sebagai draft!';
+
         return redirect()->route('admin.home-sections.index')
-            ->with('success', 'Banner Beranda (Home Section) berhasil diperbarui!');
+            ->with('success', $message);
     }
 
     /**
@@ -142,11 +180,22 @@ class HomeSectionController extends Controller
      */
     public function toggleStatus(HomeSection $homeSection): RedirectResponse
     {
+        $newStatus = !$homeSection->is_active;
+
+        // Hanya 1 banner yang aktif: jika diaktifkan, nonaktifkan banner lainnya
+        if ($newStatus) {
+            HomeSection::where('id', '!=', $homeSection->id)
+                ->where('is_active', true)
+                ->update(['is_active' => false]);
+        }
+
         $homeSection->update([
-            'is_active' => !$homeSection->is_active,
+            'is_active' => $newStatus,
         ]);
 
-        $statusText = $homeSection->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        $statusText = $newStatus 
+            ? 'diaktifkan sebagai banner utama (banner lain otomatis dinonaktifkan)' 
+            : 'diubah menjadi draft';
 
         return back()->with('success', "Status banner berhasil {$statusText}.");
     }

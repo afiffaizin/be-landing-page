@@ -13,23 +13,31 @@
 @section('page_title', 'Kelola About Section (Tentang Program)')
 
 @section('header_actions')
-    <a href="{{ route('admin.about-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors">
-        Batalkan
-    </a>
-    <button type="submit" form="about-section-form" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span>Simpan Perubahan</span>
-    </button>
+    <div class="hidden sm:flex items-center gap-2.5">
+        <a href="{{ route('admin.about-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors shrink-0">
+            Batalkan
+        </a>
+        <button type="button" onclick="submitWithAction('draft')" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer shrink-0">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+            </svg>
+            <span>Simpan Draft</span>
+        </button>
+        <button type="button" onclick="submitWithAction('publish')" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer shrink-0">
+            <svg class="w-4 h-4 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span>Publikasikan</span>
+        </button>
+    </div>
 @endsection
 
 @section('page_headline', 'Edit Konten About Section')
 @section('page_subtitle', 'Kelola informasi pengantar, visi misi singkat, daftar poin keunggulan, serta tautan aksi dokumentasi.')
 @section('status_badge')
-    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200/60">
-        <span class="w-2 h-2 rounded-full bg-slate-500"></span>
-        Status Section: Mode Edit Aktif
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $aboutSection->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-slate-100 text-slate-700 border border-slate-200/60' }}">
+        <span class="w-2 h-2 rounded-full {{ $aboutSection->is_active ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
+        Status: {{ $aboutSection->is_active ? 'Aktif di Landing Page' : 'Draft (Nonaktif)' }}
     </span>
 @endsection
 
@@ -37,6 +45,7 @@
 <form id="about-section-form" action="{{ route('admin.about-sections.update', $aboutSection) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
+    <input type="hidden" name="action" id="form-action" value="{{ $aboutSection->is_active ? 'publish' : 'draft' }}">
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
@@ -288,17 +297,31 @@
                                 {{ $aboutSection->is_active ? 'Aktif' : 'Draft' }}
                             </span>
                         </div>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Tampilkan section ini di landing page publik.</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah section ini langsung tampil atau draft.</p>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox"
                                name="is_active"
+                               id="is_active_toggle"
                                value="1"
                                {{ old('is_active', $aboutSection->is_active) ? 'checked' : '' }}
                                onchange="toggleStatusBadge(this)"
                                class="sr-only peer">
                         <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                     </label>
+                </div>
+
+                <!-- Info Sistem: Hanya 1 section aktif -->
+                <div class="pt-3 border-t border-gray-100">
+                    <div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-xl flex items-start gap-2.5 text-xs text-emerald-800">
+                        <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <span class="font-bold block text-emerald-900">Kebijakan 1 Section Aktif</span>
+                            <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 about section yang aktif di landing page. Saat section ini dipublikasikan, section aktif lainnya otomatis menjadi <strong>Draft</strong>.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Metadata info -->
@@ -322,6 +345,27 @@
         </div>
 
     </div>
+
+    <!-- Tombol Aksi Khusus Layar Kecil (Mobile / Di Bawah Konten) -->
+    <div class="sm:hidden mt-6 bg-white rounded-2xl border border-gray-200/80 shadow-xs p-4 space-y-3">
+        <div class="flex items-center gap-2.5">
+            <button type="button" onclick="submitWithAction('draft')" class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs transition-all cursor-pointer">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                </svg>
+                <span>Simpan Draft</span>
+            </button>
+            <button type="button" onclick="submitWithAction('publish')" class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
+                <svg class="w-4 h-4 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Publikasikan</span>
+            </button>
+        </div>
+        <a href="{{ route('admin.about-sections.index') }}" class="w-full inline-flex items-center justify-center py-2.5 px-4 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
+            Batalkan & Kembali
+        </a>
+    </div>
 </form>
 @endsection
 
@@ -340,6 +384,35 @@
         }
     });
 
+    // Form submit handler dengan aksi draft atau publish
+    function submitWithAction(action) {
+        document.getElementById('form-action').value = action;
+        const toggle = document.getElementById('is_active_toggle');
+        if (action === 'draft') {
+            if (toggle) toggle.checked = false;
+            const badge = document.getElementById('status-badge');
+            if (badge) {
+                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-700';
+                badge.innerText = 'Draft';
+            }
+        } else if (action === 'publish') {
+            if (toggle) toggle.checked = true;
+            const badge = document.getElementById('status-badge');
+            if (badge) {
+                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
+                badge.innerText = 'Aktif';
+            }
+        }
+
+        const descriptionInput = document.getElementById('description');
+        descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+
+        const form = document.getElementById('about-section-form');
+        if (form.reportValidity()) {
+            form.submit();
+        }
+    }
+
     document.getElementById('about-section-form').onsubmit = function() {
         const descriptionInput = document.getElementById('description');
         descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
@@ -347,12 +420,15 @@
 
     function toggleStatusBadge(elem) {
         const badge = document.getElementById('status-badge');
+        const formAction = document.getElementById('form-action');
         if (elem.checked) {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
             badge.innerText = 'Aktif';
+            if (formAction) formAction.value = 'publish';
         } else {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-700';
             badge.innerText = 'Draft';
+            if (formAction) formAction.value = 'draft';
         }
     }
 

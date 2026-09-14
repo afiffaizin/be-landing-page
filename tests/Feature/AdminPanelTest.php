@@ -179,6 +179,67 @@ class AdminPanelTest extends TestCase
         ]);
     }
 
+    public function test_authenticated_user_can_create_about_section_as_draft(): void
+    {
+        $response = $this->actingAs($this->user)->post(route('admin.about-sections.store'), [
+            'title' => 'About Section Draft',
+            'description' => '<p>Deskripsi draft about section.</p>',
+            'action' => 'draft',
+        ]);
+
+        $response->assertRedirect(route('admin.about-sections.index'))
+                 ->assertSessionHas('success', 'About Section berhasil disimpan sebagai draft!');
+
+        $this->assertDatabaseHas('about_sections', [
+            'title' => 'About Section Draft',
+            'is_active' => false,
+        ]);
+    }
+
+    public function test_authenticated_user_can_create_active_about_section_and_deactivate_others(): void
+    {
+        $oldSection = AboutSection::create([
+            'title' => 'About Section Lama Aktif',
+            'description' => 'Deskripsi section lama',
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($this->user)->post(route('admin.about-sections.store'), [
+            'title' => 'About Section Baru Pengganti',
+            'description' => '<p>Deskripsi section baru</p>',
+            'action' => 'publish',
+        ]);
+
+        $response->assertRedirect(route('admin.about-sections.index'));
+
+        $this->assertDatabaseHas('about_sections', [
+            'title' => 'About Section Baru Pengganti',
+            'is_active' => true,
+        ]);
+
+        $this->assertDatabaseHas('about_sections', [
+            'id' => $oldSection->id,
+            'is_active' => false,
+        ]);
+    }
+
+    public function test_authenticated_user_can_toggle_about_section_status(): void
+    {
+        $section = AboutSection::create([
+            'title' => 'About Toggle Test',
+            'description' => 'Deskripsi toggle',
+            'is_active' => false,
+        ]);
+
+        $response = $this->actingAs($this->user)->patch(route('admin.about-sections.toggle-status', $section));
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('about_sections', [
+            'id' => $section->id,
+            'is_active' => true,
+        ]);
+    }
+
     public function test_frontend_api_returns_active_home_sections(): void
     {
         HomeSection::create([

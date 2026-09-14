@@ -62,7 +62,21 @@ class AboutSectionController extends Controller
             'is_active' => ['nullable'],
         ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $action = $request->input('action');
+        if ($action === 'draft') {
+            $isActive = false;
+        } elseif ($action === 'publish') {
+            $isActive = true;
+        } else {
+            $isActive = $request->boolean('is_active');
+        }
+
+        $validated['is_active'] = $isActive;
+
+        // Hanya 1 about section yang aktif: jika section ini aktif, nonaktifkan (draft-kan) section lainnya
+        if ($isActive) {
+            AboutSection::where('is_active', true)->update(['is_active' => false]);
+        }
 
         // Filter and format points array
         $points = [];
@@ -87,8 +101,12 @@ class AboutSectionController extends Controller
 
         AboutSection::create($validated);
 
+        $message = $isActive
+            ? 'About Section berhasil dipublikasikan (section aktif sebelumnya otomatis diubah menjadi draft)!'
+            : 'About Section berhasil disimpan sebagai draft!';
+
         return redirect()->route('admin.about-sections.index')
-            ->with('success', 'About Section berhasil ditambahkan!');
+            ->with('success', $message);
     }
 
     /**
@@ -116,7 +134,23 @@ class AboutSectionController extends Controller
             'remove_image' => ['nullable', 'boolean'],
         ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $action = $request->input('action');
+        if ($action === 'draft') {
+            $isActive = false;
+        } elseif ($action === 'publish') {
+            $isActive = true;
+        } else {
+            $isActive = $request->boolean('is_active');
+        }
+
+        $validated['is_active'] = $isActive;
+
+        // Hanya 1 about section yang aktif: jika section ini aktif, nonaktifkan section lainnya
+        if ($isActive) {
+            AboutSection::where('id', '!=', $aboutSection->id)
+                ->where('is_active', true)
+                ->update(['is_active' => false]);
+        }
 
         // Filter and format points array
         $points = [];
@@ -152,8 +186,12 @@ class AboutSectionController extends Controller
         unset($validated['remove_image']);
         $aboutSection->update($validated);
 
+        $message = $isActive
+            ? 'About Section berhasil diperbarui dan dipublikasikan (section lain otomatis menjadi draft)!'
+            : 'About Section berhasil disimpan sebagai draft!';
+
         return redirect()->route('admin.about-sections.index')
-            ->with('success', 'About Section berhasil diperbarui!');
+            ->with('success', $message);
     }
 
     /**
@@ -176,11 +214,22 @@ class AboutSectionController extends Controller
      */
     public function toggleStatus(AboutSection $aboutSection): RedirectResponse
     {
+        $newStatus = !$aboutSection->is_active;
+
+        // Hanya 1 about section yang aktif: jika diaktifkan, nonaktifkan section lainnya
+        if ($newStatus) {
+            AboutSection::where('id', '!=', $aboutSection->id)
+                ->where('is_active', true)
+                ->update(['is_active' => false]);
+        }
+
         $aboutSection->update([
-            'is_active' => !$aboutSection->is_active,
+            'is_active' => $newStatus,
         ]);
 
-        $statusText = $aboutSection->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        $statusText = $newStatus 
+            ? 'diaktifkan sebagai section utama (section lain otomatis dinonaktifkan)' 
+            : 'diubah menjadi draft';
 
         return back()->with('success', "Status about section berhasil {$statusText}.");
     }

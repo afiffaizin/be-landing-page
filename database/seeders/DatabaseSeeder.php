@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user for Filament
+        // Create admin user for Admin Portal
         User::updateOrCreate(
             ['email' => 'admin@admin.com'],
             [

@@ -178,20 +178,20 @@
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col min-w-0 md:h-screen md:overflow-y-auto">
         <!-- Top App Header -->
-        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div>
                 <!-- Breadcrumbs -->
                 <nav class="flex items-center gap-1.5 text-xs font-medium text-slate-400 mb-1">
                     @yield('breadcrumbs')
                 </nav>
                 <!-- Page Title -->
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight">
+                <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
                     @yield('page_title', 'Dashboard')
                 </h1>
             </div>
 
             <!-- Top Action Buttons Slot -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
                 @yield('header_actions')
             </div>
         </header>

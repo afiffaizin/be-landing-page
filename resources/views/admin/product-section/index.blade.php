@@ -34,33 +34,46 @@
     <div class="space-y-5">
 
         <!-- Search & Filter Bar -->
-        <div
-            class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <form action="{{ route('admin.product-sections.index') }}" method="GET" class="flex flex-1 items-center gap-3">
-                <div class="relative flex-1 max-w-md">
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="Cari judul atau isi deskripsi..."
-                        class="w-full pl-10 pr-4 py-2 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+        <div class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs">
+            <form action="{{ route('admin.product-sections.index') }}" method="GET" class="flex flex-col sm:flex-row items-center gap-3 w-full">
+                <div class="relative flex-1 w-full">
+                    <input type="text"
+                           name="search"
+                           value="{{ request('search') }}"
+                           placeholder="Cari judul atau isi deskripsi..."
+                           class="w-full pl-10 pr-4 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
                 </div>
 
-                <select name="status" onchange="this.form.submit()"
-                    class="py-2 px-3 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
-                    <option value="">Semua Status</option>
-                    <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Hanya Aktif (Publikasi)
-                    </option>
-                    <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Hanya Draft</option>
-                </select>
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
+                    <select name="status" onchange="this.form.submit()" class="w-full sm:w-auto py-2.5 px-3 pr-8 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 cursor-pointer">
+                        <option value="">Semua Status</option>
+                        <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Hanya Aktif</option>
+                        <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Hanya Draft</option>
+                    </select>
 
-                @if (request('search') || request('status'))
-                    <a href="{{ route('admin.product-sections.index') }}"
-                        class="text-xs text-emerald-600 hover:text-emerald-700 underline font-medium">Reset</a>
-                @endif
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button type="submit" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-sm transition-all">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <span>Cari</span>
+                        </button>
+
+                        @if(request('search') || request('status'))
+                            <a href="{{ route('admin.product-sections.index') }}" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl transition-all" title="Reset Filter">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span>Reset</span>
+                            </a>
+                        @endif
+                    </div>
+                </div>
             </form>
         </div>
 

@@ -21,17 +21,12 @@
     <!-- Subtle Background Ambient Accents -->
     <div class="absolute -top-32 -left-32 w-96 h-96 bg-emerald-100/60 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-emerald-100/50 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-50/40 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-emerald-50/40 rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="w-full max-w-md relative z-10">
         <!-- Logo & Header -->
         <div class="text-center mb-8">
-            <div class="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 items-center justify-center text-white shadow-md shadow-emerald-500/25 mb-4">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19.5c-4.478 0-8-3.582-8-7.5 0-3.918 3.522-7.5 8-7.5s8 3.582 8 7.5c0 1.5-.5 2.9-1.4 4.1L20 21l-3.5-1.2c-1.3.5-2.8.7-4.5.7zM9 10c0 1.657 1.343 3 3 3s3-1.343 3-3"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 14.5c1.5 2 3.5 3 5 3s3.5-1 5-3"></path>
-                </svg>
-            </div>
+            <img src="{{ asset('images/logo.png') }}" alt="Eco-Enzyme Logo" class="w-14 h-14 rounded-2xl shadow-md shadow-emerald-500/25 mb-4 object-cover">
             <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Eco-Enzyme Admin Portal</h1>
             <div class="flex items-center justify-center gap-2 mt-1.5">
                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">CMS Studio v2.4</span>
@@ -114,7 +109,7 @@
                 </div>
 
                 <button type="submit"
-                        class="w-full py-3 px-4 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 active:from-emerald-800 active:to-emerald-900 text-white font-semibold text-sm rounded-xl shadow-sm shadow-emerald-500/25 hover:shadow-md hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        class="w-full py-3 px-4 bg-linear-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 active:from-emerald-800 active:to-emerald-900 text-white font-semibold text-sm rounded-xl shadow-sm shadow-emerald-500/25 hover:shadow-md hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer">
                     <span>Masuk ke Dashboard</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>

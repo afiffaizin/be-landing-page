@@ -4,32 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
-class AboutSection extends Model
+class AboutSectionCard extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'about_section_id',
         'title',
-        'description',
         'image',
-        'points',
-        'is_active',
+        'description',
+        'order',
     ];
 
     protected $casts = [
-        'points' => 'array',
-        'is_active' => 'boolean',
+        'order' => 'integer',
     ];
 
     /**
-     * Get the cards associated with this about section.
+     * Get the about section that owns this card.
      */
-    public function cards(): HasMany
+    public function aboutSection(): BelongsTo
     {
-        return $this->hasMany(AboutSectionCard::class)->orderBy('order');
+        return $this->belongsTo(AboutSection::class);
     }
 
     /**

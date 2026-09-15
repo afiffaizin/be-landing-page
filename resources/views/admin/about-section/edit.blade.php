@@ -33,7 +33,7 @@
 @endsection
 
 @section('page_headline', 'Edit Konten About Section')
-@section('page_subtitle', 'Kelola informasi pengantar, visi misi singkat, daftar poin keunggulan, serta tautan aksi dokumentasi.')
+@section('page_subtitle', 'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (cards) kegiatan.')
 @section('status_badge')
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $aboutSection->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-slate-100 text-slate-700 border border-slate-200/60' }}">
         <span class="w-2 h-2 rounded-full {{ $aboutSection->is_active ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
@@ -49,7 +49,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        <!-- KOLOM KIRI (8 Kolom): Konten Utama & Poin-Poin Program -->
+        <!-- KOLOM KIRI (8 Kolom): Konten Utama & Daftar Cards -->
         <div class="lg:col-span-8 space-y-6">
 
             <!-- CARD 1: Konten Utama & Deskripsi -->
@@ -61,8 +61,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Konten Utama & Deskripsi</h3>
-                        <p class="text-xs text-slate-500">Kelola judul dan narasi deskripsi section tentang program.</p>
+                        <h3 class="text-base font-bold text-slate-900">Konten Utama Section</h3>
+                        <p class="text-xs text-slate-500">Kelola judul utama dan narasi deskripsi section tentang program.</p>
                     </div>
                 </div>
 
@@ -103,180 +103,193 @@
                 </div>
             </div>
 
-            <!-- CARD 2: Poin-Poin Program (Pilar Keunggulan) -->
+            <!-- CARD 2: Daftar Cards Program / Fitur (Multiple) -->
             <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                 <div class="flex items-center justify-between pb-5 border-b border-gray-100 mb-5">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Poin-Poin Program (Pilar Keunggulan)</h3>
-                            <p class="text-xs text-slate-500">Daftar poin kegiatan atau pilar kegiatan pengabdian yang ditampilkan di landing page.</p>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-base font-bold text-slate-900">Cards Program / Fitur</h3>
+                                <span id="card-count-badge" class="px-2 py-0.5 text-[11px] font-bold bg-emerald-100 text-emerald-800 rounded-full">{{ $aboutSection->cards->count() }} Cards</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Setiap card berisi judul, gambar, dan deskripsi. Anda dapat menambahkan multiple card.</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 text-xs font-medium">
-                        <button type="button" onclick="collapseAllPoints()" class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
+                        <button type="button" onclick="collapseAllCards()" class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
                         <span class="text-slate-300">|</span>
-                        <button type="button" onclick="expandAllPoints()" class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
+                        <button type="button" onclick="expandAllCards()" class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
                     </div>
                 </div>
 
-                <!-- Points Container (Repeater) -->
-                <div id="points-container" class="space-y-4">
-                    @php
-                        $points = old('points', $aboutSection->points ?? []);
-                        if (empty($points)) {
-                            $points = [
-                                ['number' => 1, 'title' => 'Pemberdayaan Masyarakat', 'description' => 'Mendorong kemandirian masyarakat melalui pelatihan, pendampingan, dan pemanfaatan potensi lokal.']
-                            ];
-                        }
-                    @endphp
+                <!-- Cards Container (Repeater) -->
+                <div id="cards-container" class="space-y-4">
+                    @forelse($aboutSection->cards as $idx => $card)
+                        <div class="card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="{{ $idx }}">
+                            <input type="hidden" name="cards[{{ $idx }}][id]" value="{{ $card->id }}">
+                            <input type="hidden" name="cards[{{ $idx }}][remove_image]" value="0" class="card-remove-image-flag">
 
-                    @foreach($points as $idx => $point)
-                        <div class="point-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all" data-index="{{ $idx }}">
-                            <!-- Header -->
-                            <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="togglePointAccordion(this)">
+                            <!-- Card Item Header -->
+                            <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleCardAccordion(this)">
                                 <div class="flex items-center gap-2.5">
-                                    <span class="text-slate-400 font-mono text-xs cursor-grab">⋮⋮</span>
-                                    <span class="point-header-title text-xs font-bold text-slate-800">
-                                        {{ $point['number'] ?? ($idx + 1) }}. {{ $point['title'] ?? 'Poin Baru' }}
-                                    </span>
+                                    <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">{{ $idx + 1 }}</span>
+                                    <span class="card-header-title text-xs font-bold text-slate-800">{{ $card->title ?: 'Card ' . ($idx + 1) }}</span>
                                 </div>
                                 <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                                    <button type="button" onclick="removePointItem(this)" title="Hapus Poin" class="p-1 text-slate-400 hover:text-rose-600 rounded">
+                                    <button type="button" onclick="removeCardItem(this)" title="Hapus Card" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
                                     </button>
-                                    <button type="button" onclick="togglePointAccordion(this.parentElement)" class="p-1 text-slate-400 hover:text-slate-700">
-                                        <svg class="w-4 h-4 accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <button type="button" onclick="toggleCardAccordion(this.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
+                                        <svg class="w-4 h-4 card-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Body -->
-                            <div class="point-body p-4 space-y-3.5 bg-white">
-                                <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                                    <div>
-                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Nomor <span class="text-rose-500">*</span></label>
-                                        <input type="number"
-                                               name="points[{{ $idx }}][number]"
-                                               value="{{ $point['number'] ?? ($idx + 1) }}"
-                                               required
-                                               class="point-number-input w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
-                                    </div>
-                                    <div class="md:col-span-3">
-                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Judul Poin <span class="text-rose-500">*</span></label>
-                                        <input type="text"
-                                               name="points[{{ $idx }}][title]"
-                                               value="{{ $point['title'] ?? '' }}"
-                                               required
-                                               placeholder="Contoh: Pemberdayaan Masyarakat"
-                                               oninput="updatePointTitle(this)"
-                                               class="point-title-input w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                            <!-- Card Item Body -->
+                            <div class="card-body p-4 space-y-4 bg-white">
+                                <!-- Judul Card -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                        Judul Card <span class="text-rose-500">*</span>
+                                    </label>
+                                    <input type="text"
+                                           name="cards[{{ $idx }}][title]"
+                                           value="{{ old("cards.{$idx}.title", $card->title) }}"
+                                           required
+                                           placeholder="Contoh: Pemberdayaan Masyarakat"
+                                           oninput="updateCardHeaderTitle(this)"
+                                           class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                </div>
+
+                                <!-- Gambar Card Upload -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                        Gambar Card (Opsional)
+                                    </label>
+                                    <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
+                                         onclick="this.querySelector('.card-image-input').click()">
+                                        <input type="file"
+                                               name="cards[{{ $idx }}][image]"
+                                               accept="image/png,image/jpeg,image/jpg,image/webp"
+                                               onchange="handleCardImagePreview(this)"
+                                               class="card-image-input hidden">
+
+                                        <!-- Preview Image -->
+                                        <div class="card-preview-wrapper {{ $card->image ? '' : 'hidden' }} mb-2">
+                                            <img src="{{ $card->image_url ?: '#' }}" alt="Preview" class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
+                                            <button type="button" onclick="event.stopPropagation(); removeCardSelectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
+                                                Hapus / Ganti Gambar
+                                            </button>
+                                        </div>
+
+                                        <!-- Dropzone Placeholder Content -->
+                                        <div class="card-dropzone-content {{ $card->image ? 'hidden' : '' }}">
+                                            <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            <p class="text-xs font-medium text-slate-700">
+                                                Klik atau seret gambar untuk mengganti/menambah
+                                            </p>
+                                            <p class="text-[10px] text-slate-400 mt-0.5">
+                                                Format: PNG, JPG, WEBP • Maks 2MB
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- Deskripsi Card -->
                                 <div>
-                                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Deskripsi Poin <span class="text-rose-500">*</span></label>
-                                    <textarea name="points[{{ $idx }}][description]"
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                        Deskripsi Card <span class="text-rose-500">*</span>
+                                    </label>
+                                    <textarea name="cards[{{ $idx }}][description]"
                                               rows="3"
                                               required
-                                              placeholder="Jelaskan kegiatan atau sasaran dari poin ini..."
-                                              class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ $point['description'] ?? '' }}</textarea>
+                                              placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                              class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old("cards.{$idx}.description", $card->description) }}</textarea>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="0">
+                            <input type="hidden" name="cards[0][remove_image]" value="0" class="card-remove-image-flag">
+                            <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleCardAccordion(this)">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">1</span>
+                                    <span class="card-header-title text-xs font-bold text-slate-800">Card 1</span>
+                                </div>
+                                <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                                    <button type="button" onclick="removeCardItem(this)" title="Hapus Card" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                    <button type="button" onclick="toggleCardAccordion(this.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
+                                        <svg class="w-4 h-4 card-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-4 space-y-4 bg-white">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Card <span class="text-rose-500">*</span></label>
+                                    <input type="text" name="cards[0][title]" required placeholder="Contoh: Pemberdayaan Masyarakat" oninput="updateCardHeaderTitle(this)" class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Gambar Card (Opsional)</label>
+                                    <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30" onclick="this.querySelector('.card-image-input').click()">
+                                        <input type="file" name="cards[0][image]" accept="image/png,image/jpeg,image/jpg,image/webp" onchange="handleCardImagePreview(this)" class="card-image-input hidden">
+                                        <div class="card-preview-wrapper hidden mb-2">
+                                            <img src="#" alt="Preview" class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
+                                            <button type="button" onclick="event.stopPropagation(); removeCardSelectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">Hapus / Ganti Gambar</button>
+                                        </div>
+                                        <div class="card-dropzone-content">
+                                            <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk card ini</p>
+                                            <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi Card <span class="text-rose-500">*</span></label>
+                                    <textarea name="cards[0][description]" rows="3" required placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..." class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
 
                 <!-- Add Button -->
                 <button type="button"
-                        onclick="addPointItem()"
-                        class="mt-4 w-full py-3 border border-dashed border-emerald-200 hover:border-slate-400 hover:bg-slate-50 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        onclick="addNewCardItem()"
+                        class="mt-5 w-full py-3 border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/30 hover:bg-emerald-50/80 rounded-xl text-xs font-bold text-emerald-800 hover:text-emerald-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
+                    <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                     </svg>
-                    <span>Tambah Poin Baru</span>
+                    <span>Tambah Card Baru</span>
                 </button>
             </div>
 
         </div>
 
-        <!-- KOLOM KANAN (4 Kolom): Media & Visibilitas -->
+        <!-- KOLOM KANAN (4 Kolom): Status & Aksi -->
         <div class="lg:col-span-4 space-y-6">
 
-            <!-- CARD 3: Media Dokumentasi -->
+            <!-- CARD 3: Pengaturan Visibilitas & Aksi -->
             <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                 <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
-                    <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-bold text-slate-900">Media Dokumentasi</h3>
-                        <p class="text-xs text-slate-500">Unggah gambar dokumentasi kegiatan untuk section ini.</p>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Gambar Utama</label>
-                    <div id="dropzone"
-                         onclick="document.getElementById('image-input').click()"
-                         class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 rounded-2xl p-6 text-center cursor-pointer transition-all bg-emerald-50/30 hover:bg-emerald-50/60">
-                        <input type="file"
-                               id="image-input"
-                               name="image"
-                               accept="image/png,image/jpeg,image/jpg,image/webp"
-                               onchange="handleImagePreview(this)"
-                               class="hidden">
-
-                        <!-- Preview Container -->
-                        <div id="image-preview-wrapper" class="{{ $aboutSection->image ? '' : 'hidden' }} mb-3">
-                            <img id="image-preview"
-                                 src="{{ $aboutSection->image ? asset('storage/' . $aboutSection->image) : '#' }}"
-                                 alt="Preview"
-                                 class="w-full h-36 object-cover rounded-xl border border-slate-200 shadow-xs mb-2">
-                            <div class="flex items-center justify-center gap-4 text-xs">
-                                <span class="text-emerald-700 font-semibold underline">Ganti Gambar</span>
-                                @if($aboutSection->image)
-                                    <label onclick="event.stopPropagation()" class="flex items-center gap-1.5 text-rose-600 hover:text-rose-800 font-semibold cursor-pointer">
-                                        <input type="checkbox" name="remove_image" value="1" class="rounded border-slate-300 text-rose-600">
-                                        <span>Hapus Gambar</span>
-                                    </label>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Dropzone Icon & Text -->
-                        <div id="dropzone-content" class="{{ $aboutSection->image ? 'hidden' : '' }}">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                </svg>
-                            </div>
-                            <p class="text-xs font-bold text-slate-800">
-                                Tarik & lepas file atau <span class="text-emerald-700 font-semibold underline">Jelajahi</span>
-                            </p>
-                            <p class="text-[11px] text-slate-400 mt-1">
-                                Format: PNG, JPG, WEBP • Maksimal 2MB
-                            </p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">
-                                Rekomendasi rasio: 4:3 atau 16:9
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CARD 4: Visibilitas -->
-            <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-4">
-                <div class="flex items-center gap-3 pb-5 border-b border-slate-100">
                     <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -284,128 +297,107 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Visibilitas</h3>
-                        <p class="text-xs text-slate-500">Pengaturan status publikasi section.</p>
+                        <h3 class="text-base font-bold text-slate-900">Visibilitas Section</h3>
+                        <p class="text-xs text-slate-500">Tentukan apakah section ini aktif di landing page.</p>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between py-2">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-slate-800">Status Aktif</span>
-                            <span id="status-badge" class="px-2 py-0.5 rounded text-[10px] font-bold {{ $aboutSection->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700' }}">
-                                {{ $aboutSection->is_active ? 'Aktif' : 'Draft' }}
-                            </span>
-                        </div>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah section ini langsung tampil atau draft.</p>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox"
-                               name="is_active"
-                               id="is_active_toggle"
-                               value="1"
-                               {{ old('is_active', $aboutSection->is_active) ? 'checked' : '' }}
-                               onchange="toggleStatusBadge(this)"
-                               class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
-                    </label>
-                </div>
-
-                <!-- Info Sistem: Hanya 1 section aktif -->
-                <div class="pt-3 border-t border-gray-100">
-                    <div class="p-3 bg-emerald-50/70 border border-emerald-100 rounded-xl flex items-start gap-2.5 text-xs text-emerald-800">
-                        <svg class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl border border-slate-200/60">
                         <div>
-                            <span class="font-bold block text-emerald-900">Kebijakan 1 Section Aktif</span>
-                            <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 about section yang aktif di landing page. Saat section ini dipublikasikan, section aktif lainnya otomatis menjadi <strong>Draft</strong>.</p>
+                            <p class="text-xs font-bold text-slate-800">Status Aktif</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Tampilkan section ini di landing page</p>
                         </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $aboutSection->is_active) ? 'checked' : '' }} class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                        </label>
                     </div>
-                </div>
 
-                <!-- Metadata info -->
-                <div class="pt-4 border-t border-slate-100 space-y-2 text-xs">
-                    <div class="flex justify-between text-slate-500">
-                        <span>Terakhir Diperbarui:</span>
-                        <span class="text-slate-600">{{ $aboutSection->updated_at->diffForHumans() }}</span>
-                    </div>
-                    <div class="flex justify-between items-center text-slate-500 pt-1">
-                        <span>Status Publikasi:</span>
-                        <a href="{{ url('/api/v1/about') }}" target="_blank" title="Klik untuk melihat data JSON di tab baru" class="inline-flex items-center gap-1 font-semibold text-slate-900 hover:text-emerald-600 hover:underline transition-colors">
-                            <span>Tersedia via API Publik</span>
-                            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        <span class="font-semibold text-slate-600">Catatan:</span> Hanya satu About Section yang dapat aktif di landing page. Jika diaktifkan, section aktif lainnya akan otomatis diubah menjadi draft.
+                    </p>
+
+                    <div class="pt-2 flex flex-col gap-2">
+                        <button type="button" onclick="submitWithAction('publish')" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                        </a>
+                            <span>Simpan & Publikasikan</span>
+                        </button>
+                        <button type="button" onclick="submitWithAction('draft')" class="w-full py-2.5 bg-white hover:bg-gray-50 text-slate-700 text-xs font-bold rounded-xl border border-gray-200 transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                            </svg>
+                            <span>Simpan Sebagai Draft</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <!-- CARD 4: Panduan & Tips -->
+            <div class="bg-gradient-to-br from-emerald-50/50 to-teal-50/30 rounded-2xl border border-emerald-100 p-6">
+                <div class="flex items-center gap-2.5 mb-3 text-emerald-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h4 class="text-xs font-bold uppercase tracking-wider">Tips Format Card</h4>
+                </div>
+                <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
+                    <li>Gunakan judul card yang singkat dan padat (2-4 kata).</li>
+                    <li>Sertakan gambar berkualitas untuk mempercantik tampilan kartu di landing page.</li>
+                    <li>Deskripsi card idealnya 1-2 kalimat fokus pada manfaat kegiatan.</li>
+                </ul>
+            </div>
+
         </div>
 
-    </div>
-
-    <!-- Tombol Aksi Khusus Layar Kecil (Mobile / Di Bawah Konten) -->
-    <div class="sm:hidden mt-6 bg-white rounded-2xl border border-gray-200/80 shadow-xs p-4 space-y-3">
-        <div class="flex items-center gap-2.5">
-            <button type="button" onclick="submitWithAction('draft')" class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs transition-all cursor-pointer">
-                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-                </svg>
-                <span>Simpan Draft</span>
-            </button>
-            <button type="button" onclick="submitWithAction('publish')" class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span>Publikasikan</span>
-            </button>
-        </div>
-        <a href="{{ route('admin.about-sections.index') }}" class="w-full inline-flex items-center justify-center py-2.5 px-4 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
-            Batalkan & Kembali
-        </a>
     </div>
 </form>
 @endsection
 
 @push('scripts')
 <script>
-    const quill = new Quill('#editor-container', {
-        theme: 'snow',
-        placeholder: 'Tulis latar belakang dan tujuan program secara lengkap...',
-        modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'header': 2 }, { 'header': 3 }],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['link', 'clean']
-            ]
+    let quill;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Quill WYSIWYG editor
+        quill = new Quill('#editor-container', {
+            theme: 'snow',
+            placeholder: 'Tulis latar belakang, visi, atau penjelasan rinci tentang program...',
+            modules: {
+                toolbar: [
+                    [{ 'header': [2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'clean']
+                ]
+            }
+        });
+
+        quill.on('text-change', function () {
+            document.getElementById('description').value = quill.root.innerHTML;
+        });
+
+        // Set initial counter
+        const titleInput = document.getElementById('title');
+        if (titleInput) {
+            document.getElementById('title-counter').innerText = titleInput.value.length + ' / 255 Karakter';
         }
     });
 
-    // Form submit handler dengan aksi draft atau publish
     function submitWithAction(action) {
         document.getElementById('form-action').value = action;
-        const toggle = document.getElementById('is_active_toggle');
-        if (action === 'draft') {
-            if (toggle) toggle.checked = false;
-            const badge = document.getElementById('status-badge');
-            if (badge) {
-                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-700';
-                badge.innerText = 'Draft';
-            }
-        } else if (action === 'publish') {
-            if (toggle) toggle.checked = true;
-            const badge = document.getElementById('status-badge');
-            if (badge) {
-                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                badge.innerText = 'Aktif';
-            }
+        const isActiveCheckbox = document.getElementById('is_active');
+        if (isActiveCheckbox) {
+            isActiveCheckbox.checked = (action === 'publish');
         }
 
-        const descriptionInput = document.getElementById('description');
-        descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+        // Sync Quill HTML content to textarea
+        if (quill) {
+            const html = quill.root.innerHTML;
+            document.getElementById('description').value = (html === '<p><br></p>') ? '' : html;
+        }
 
         const form = document.getElementById('about-section-form');
         if (form.reportValidity()) {
@@ -413,156 +405,225 @@
         }
     }
 
-    document.getElementById('about-section-form').onsubmit = function() {
-        const descriptionInput = document.getElementById('description');
-        descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
-    };
+    // ─── Cards Repeater Scripts ──────────────────────────────────────────
+    let cardIndexCounter = {{ count($aboutSection->cards) > 0 ? count($aboutSection->cards) + 1 : 2 }};
 
-    function toggleStatusBadge(elem) {
-        const badge = document.getElementById('status-badge');
-        const formAction = document.getElementById('form-action');
-        if (elem.checked) {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-            badge.innerText = 'Aktif';
-            if (formAction) formAction.value = 'publish';
+    function updateCardBadgeCount() {
+        const count = document.querySelectorAll('#cards-container .card-item').length;
+        document.getElementById('card-count-badge').innerText = count + (count === 1 ? ' Card' : ' Cards');
+    }
+
+    function reindexCards() {
+        const items = document.querySelectorAll('#cards-container .card-item');
+        items.forEach((item, idx) => {
+            const badge = item.querySelector('.card-badge-num');
+            if (badge) badge.innerText = idx + 1;
+
+            const headerTitle = item.querySelector('.card-header-title');
+            const titleInput = item.querySelector('.card-title-input');
+            if (headerTitle) {
+                const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'Card ' + (idx + 1);
+                headerTitle.innerText = val;
+            }
+        });
+        updateCardBadgeCount();
+    }
+
+    function updateCardHeaderTitle(input) {
+        const item = input.closest('.card-item');
+        const headerTitle = item.querySelector('.card-header-title');
+        const idx = Array.from(document.querySelectorAll('#cards-container .card-item')).indexOf(item) + 1;
+        if (headerTitle) {
+            headerTitle.innerText = input.value.trim() ? input.value.trim() : 'Card ' + idx;
+        }
+    }
+
+    function toggleCardAccordion(trigger) {
+        const item = trigger.closest('.card-item');
+        const body = item.querySelector('.card-body');
+        const icon = item.querySelector('.card-accordion-icon');
+
+        if (body.classList.contains('hidden')) {
+            body.classList.remove('hidden');
+            if (icon) icon.classList.remove('-rotate-90');
         } else {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-700';
-            badge.innerText = 'Draft';
-            if (formAction) formAction.value = 'draft';
+            body.classList.add('hidden');
+            if (icon) icon.classList.add('-rotate-90');
         }
     }
 
-    function handleImagePreview(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('image-preview').src = e.target.result;
-                document.getElementById('image-preview-wrapper').classList.remove('hidden');
-                document.getElementById('dropzone-content').classList.add('hidden');
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
+    function collapseAllCards() {
+        document.querySelectorAll('#cards-container .card-item').forEach(item => {
+            item.querySelector('.card-body').classList.add('hidden');
+            const icon = item.querySelector('.card-accordion-icon');
+            if (icon) icon.classList.add('-rotate-90');
+        });
     }
 
-    function removeSelectedImage() {
-        const input = document.getElementById('image-input');
-        input.value = '';
-        document.getElementById('image-preview').src = '#';
-        document.getElementById('image-preview-wrapper').classList.add('hidden');
-        document.getElementById('dropzone-content').classList.remove('hidden');
+    function expandAllCards() {
+        document.querySelectorAll('#cards-container .card-item').forEach(item => {
+            item.querySelector('.card-body').classList.remove('hidden');
+            const icon = item.querySelector('.card-accordion-icon');
+            if (icon) icon.classList.remove('-rotate-90');
+        });
     }
 
-    let pointCount = {{ count($points) }};
+    function addNewCardItem() {
+        const container = document.getElementById('cards-container');
+        const currentCount = container.querySelectorAll('.card-item').length;
+        const newNum = currentCount + 1;
+        const index = cardIndexCounter++;
 
-    function addPointItem() {
-        const container = document.getElementById('points-container');
-        const nextIndex = pointCount++;
-        const nextNum = container.children.length + 1;
-
-        const html = `
-            <div class="point-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all" data-index="${nextIndex}">
-                <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="togglePointAccordion(this)">
+        const cardHtml = `
+            <div class="card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="${index}">
+                <input type="hidden" name="cards[${index}][remove_image]" value="0" class="card-remove-image-flag">
+                <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleCardAccordion(this)">
                     <div class="flex items-center gap-2.5">
-                        <span class="text-slate-400 font-mono text-xs cursor-grab">⋮⋮</span>
-                        <span class="point-header-title text-xs font-bold text-slate-800">${nextNum}. Poin Baru</span>
+                        <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">${newNum}</span>
+                        <span class="card-header-title text-xs font-bold text-slate-800">Card ${newNum}</span>
                     </div>
                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                        <button type="button" onclick="removePointItem(this)" title="Hapus Poin" class="p-1 text-slate-400 hover:text-rose-600 rounded">
+                        <button type="button" onclick="removeCardItem(this)" title="Hapus Card" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
                         </button>
-                        <button type="button" onclick="togglePointAccordion(this.parentElement)" class="p-1 text-slate-400 hover:text-slate-700">
-                            <svg class="w-4 h-4 accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button type="button" onclick="toggleCardAccordion(this.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
+                            <svg class="w-4 h-4 card-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                     </div>
                 </div>
-                <div class="point-body p-4 space-y-3.5 bg-white">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                        <div>
-                            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Nomor <span class="text-rose-500">*</span></label>
-                            <input type="number"
-                                   name="points[${nextIndex}][number]"
-                                   value="${nextNum}"
-                                   required
-                                   class="point-number-input w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
-                        </div>
-                        <div class="md:col-span-3">
-                            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Judul Poin <span class="text-rose-500">*</span></label>
-                            <input type="text"
-                                   name="points[${nextIndex}][title]"
-                                   required
-                                   placeholder="Contoh: Penerapan IPTEK"
-                                   oninput="updatePointTitle(this)"
-                                   class="point-title-input w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                <div class="card-body p-4 space-y-4 bg-white">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">
+                            Judul Card <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text"
+                               name="cards[${index}][title]"
+                               required
+                               placeholder="Contoh: Pemberdayaan Masyarakat"
+                               oninput="updateCardHeaderTitle(this)"
+                               class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">
+                            Gambar Card (Opsional)
+                        </label>
+                        <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
+                             onclick="this.querySelector('.card-image-input').click()">
+                            <input type="file"
+                                   name="cards[${index}][image]"
+                                   accept="image/png,image/jpeg,image/jpg,image/webp"
+                                   onchange="handleCardImagePreview(this)"
+                                   class="card-image-input hidden">
+                            <div class="card-preview-wrapper hidden mb-2">
+                                <img src="#" alt="Preview" class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
+                                <button type="button" onclick="event.stopPropagation(); removeCardSelectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
+                                    Hapus / Ganti Gambar
+                                </button>
+                            </div>
+                            <div class="card-dropzone-content">
+                                <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk card ini</p>
+                                <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
+                            </div>
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Deskripsi Poin <span class="text-rose-500">*</span></label>
-                        <textarea name="points[${nextIndex}][description]"
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">
+                            Deskripsi Card <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea name="cards[${index}][description]"
                                   rows="3"
                                   required
-                                  placeholder="Jelaskan kegiatan atau sasaran dari poin ini..."
-                                  class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
+                                  placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                  class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                     </div>
                 </div>
             </div>
         `;
-        container.insertAdjacentHTML('beforeend', html);
+
+        container.insertAdjacentHTML('beforeend', cardHtml);
+        reindexCards();
+
+        // Scroll smoothly to newly added card
+        const newCard = container.lastElementChild;
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function removePointItem(btn) {
-        const item = btn.closest('.point-item');
-        item.remove();
-        renumberPoints();
-    }
-
-    function updatePointTitle(input) {
-        const item = input.closest('.point-item');
-        const numInput = item.querySelector('.point-number-input');
-        const headerTitle = item.querySelector('.point-header-title');
-        const num = numInput.value || '';
-        const title = input.value || 'Poin Baru';
-        headerTitle.innerText = `${num ? num + '. ' : ''}${title}`;
-    }
-
-    function renumberPoints() {
-        const container = document.getElementById('points-container');
-        const items = container.querySelectorAll('.point-item');
-        items.forEach((item, index) => {
-            const num = index + 1;
-            const numInput = item.querySelector('.point-number-input');
-            const titleInput = item.querySelector('.point-title-input');
-            const headerTitle = item.querySelector('.point-header-title');
-            if (numInput) numInput.value = num;
-            const title = titleInput ? titleInput.value || 'Poin Baru' : 'Poin Baru';
-            if (headerTitle) headerTitle.innerText = `${num}. ${title}`;
-        });
-    }
-
-    function togglePointAccordion(headerElem) {
-        const item = headerElem.closest('.point-item');
-        const body = item.querySelector('.point-body');
-        const icon = item.querySelector('.accordion-icon');
-        if (body.classList.contains('hidden')) {
-            body.classList.remove('hidden');
-            icon.classList.remove('-rotate-90');
-        } else {
-            body.classList.add('hidden');
-            icon.classList.add('-rotate-90');
+    function removeCardItem(btn) {
+        const container = document.getElementById('cards-container');
+        const items = container.querySelectorAll('.card-item');
+        if (items.length <= 1) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Perhatian',
+                text: 'Minimal harus ada 1 card di dalam About Section.',
+                confirmButtonColor: '#10b981',
+                confirmButtonText: 'Mengerti'
+            });
+            return;
         }
+
+        const item = btn.closest('.card-item');
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            item.remove();
+            reindexCards();
+        }, 150);
     }
 
-    function collapseAllPoints() {
-        document.querySelectorAll('#points-container .point-body').forEach(el => el.classList.add('hidden'));
-        document.querySelectorAll('#points-container .accordion-icon').forEach(el => el.classList.add('-rotate-90'));
+    // ─── Image Preview Handlers ──────────────────────────────────────────
+    function handleCardImagePreview(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        if (file.size > 2 * 1024 * 1024) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ukuran File Terlalu Besar',
+                text: 'Maksimal ukuran gambar card adalah 2MB.',
+                confirmButtonColor: '#e11d48'
+            });
+            input.value = '';
+            return;
+        }
+
+        const dropzone = input.closest('.card-image-dropzone');
+        const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
+        const previewImg = dropzone.querySelector('.card-preview-img');
+        const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
+        const removeFlag = dropzone.closest('.card-item').querySelector('.card-remove-image-flag');
+
+        if (removeFlag) removeFlag.value = '0';
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewImg.src = e.target.result;
+            previewWrapper.classList.remove('hidden');
+            dropzoneContent.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
     }
 
-    function expandAllPoints() {
-        document.querySelectorAll('#points-container .point-body').forEach(el => el.classList.remove('hidden'));
-        document.querySelectorAll('#points-container .accordion-icon').forEach(el => el.classList.remove('-rotate-90'));
+    function removeCardSelectedImage(btn) {
+        const dropzone = btn.closest('.card-image-dropzone');
+        const input = dropzone.querySelector('.card-image-input');
+        const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
+        const previewImg = dropzone.querySelector('.card-preview-img');
+        const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
+        const removeFlag = dropzone.closest('.card-item').querySelector('.card-remove-image-flag');
+
+        if (removeFlag) removeFlag.value = '1';
+        input.value = '';
+        previewImg.src = '#';
+        previewWrapper.classList.add('hidden');
+        dropzoneContent.classList.remove('hidden');
     }
 </script>
 @endpush

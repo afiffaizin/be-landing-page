@@ -166,6 +166,18 @@
                                        class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                             </div>
 
+                            <!-- Deskripsi Card -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                    Deskripsi Card <span class="text-rose-500">*</span>
+                                </label>
+                                <textarea name="cards[0][description]"
+                                          rows="3"
+                                          required
+                                          placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                          class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old('cards.0.description') }}</textarea>
+                            </div>
+
                             <!-- Gambar Card Upload -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
@@ -267,21 +279,6 @@
                         </button>
                     </div>
                 </div>
-            </div>
-
-            <!-- CARD 4: Panduan & Tips -->
-            <div class="bg-gradient-to-br from-emerald-50/50 to-teal-50/30 rounded-2xl border border-emerald-100 p-6">
-                <div class="flex items-center gap-2.5 mb-3 text-emerald-800">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <h4 class="text-xs font-bold uppercase tracking-wider">Tips Format Card</h4>
-                </div>
-                <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
-                    <li>Gunakan judul card yang singkat dan padat (2-4 kata).</li>
-                    <li>Sertakan gambar berkualitas untuk mempercantik tampilan kartu di landing page.</li>
-                    <li>Deskripsi card idealnya 1-2 kalimat fokus pada manfaat kegiatan.</li>
-                </ul>
             </div>
 
         </div>

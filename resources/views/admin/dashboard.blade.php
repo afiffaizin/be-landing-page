@@ -21,12 +21,7 @@
 
 @section('page_headline', 'Selamat Datang di Eco-Enzyme Admin')
 @section('page_subtitle', 'Kelola seluruh modul konten landing page publik Anda secara terpusat.')
-@section('status_badge')
-    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        Sistem Berjalan Normal
-    </span>
-@endsection
+
 
 @section('content')
 <div class="space-y-6">

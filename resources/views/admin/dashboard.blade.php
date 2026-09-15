@@ -123,7 +123,7 @@
                     <div class="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100 flex items-center justify-between hover:bg-gray-50 transition-colors">
                         <div class="flex items-center gap-3 truncate max-w-sm">
                             @if($home->image)
-                                <img src="{{ Storage::disk('public')->url($home->image) }}" class="w-10 h-10 rounded-lg object-cover border border-gray-200" alt="thumbnail">
+                                <img src="{{ asset('storage/' . $home->image) }}" class="w-10 h-10 rounded-lg object-cover border border-gray-200" alt="thumbnail">
                             @else
                                 <div class="w-10 h-10 rounded-lg bg-gray-200 text-slate-400 flex items-center justify-center">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +180,7 @@
                     <div class="p-3.5 rounded-xl bg-gray-50/70 border border-gray-100 flex items-center justify-between hover:bg-gray-50 transition-colors">
                         <div class="flex items-center gap-3 truncate max-w-sm">
                             @if($about->image)
-                                <img src="{{ Storage::disk('public')->url($about->image) }}" class="w-10 h-10 rounded-lg object-cover border border-gray-200" alt="thumbnail">
+                                <img src="{{ asset('storage/' . $about->image) }}" class="w-10 h-10 rounded-lg object-cover border border-gray-200" alt="thumbnail">
                             @else
                                 <div class="w-10 h-10 rounded-lg bg-gray-200 text-slate-400 flex items-center justify-center">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

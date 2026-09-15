@@ -147,6 +147,19 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>
+
+                    <a href="{{ route('admin.product-sections.index') }}"
+                       class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.product-sections.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 {{ request()->routeIs('admin.product-sections.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                            <span>Product Section</span>
+                        </div>
+                        @if(request()->routeIs('admin.product-sections.*'))
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        @endif
+                    </a>
                 </div>
             </div>
         </nav>

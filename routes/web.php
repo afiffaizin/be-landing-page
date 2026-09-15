@@ -43,4 +43,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::patch('/about-sections/{aboutSection}/toggle-status', [AboutSectionController::class, 'toggleStatus'])
         ->name('about-sections.toggle-status');
     Route::resource('about-sections', AboutSectionController::class)->except(['show']);
+
+    // Product Section Management
+    Route::patch('/product-sections/{productSection}/toggle-status', [\App\Http\Controllers\Admin\ProductSectionController::class, 'toggleStatus'])
+        ->name('product-sections.toggle-status');
+    Route::resource('product-sections', \App\Http\Controllers\Admin\ProductSectionController::class)->except(['show']);
 });

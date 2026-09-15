@@ -1,20 +1,20 @@
 @extends('layouts.admin')
 
-@section('title', 'Buat About Section Baru')
+@section('title', 'Buat Product Section Baru')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.about-sections.index') }}" class="text-slate-500 hover:text-slate-900">About Section</a>
+    <a href="{{ route('admin.product-sections.index') }}" class="text-slate-500 hover:text-slate-900">Product Section</a>
     <span>/</span>
     <span class="text-slate-800">Create</span>
 @endsection
 
-@section('page_title', 'Kelola About Section (Tentang Program)')
+@section('page_title', 'Kelola Product Section (Tentang Program)')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
-        <a href="{{ route('admin.about-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors shrink-0">
+        <a href="{{ route('admin.product-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors shrink-0">
             Batalkan
         </a>
         <button type="button" onclick="submitWithAction('draft')" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer shrink-0">
@@ -32,8 +32,8 @@
     </div>
 @endsection
 
-@section('page_headline', 'Create About Section')
-@section('page_subtitle', 'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (cards) kegiatan.')
+@section('page_headline', 'Create Product Section')
+@section('page_subtitle', 'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (products) kegiatan.')
 @section('status_badge')
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
         <span class="w-2 h-2 rounded-full bg-amber-500"></span>
@@ -42,16 +42,16 @@
 @endsection
 
 @section('content')
-<form id="about-section-form" action="{{ route('admin.about-sections.store') }}" method="POST" enctype="multipart/form-data">
+<form id="product-section-form" action="{{ route('admin.product-sections.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="action" id="form-action" value="publish">
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        <!-- KOLOM KIRI (8 Kolom): Konten Utama & Daftar Cards -->
+        <!-- KOLOM KIRI (8 Kolom): Konten Utama & Daftar products -->
         <div class="lg:col-span-8 space-y-6">
 
-            <!-- CARD 1: Konten Utama & Deskripsi -->
+            <!-- product 1: Konten Utama & Deskripsi -->
             <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                 <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
                     <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
@@ -102,7 +102,7 @@
                 </div>
             </div>
 
-            <!-- CARD 2: Daftar Cards Program / Fitur (Multiple) -->
+            <!-- product 2: Daftar Products / Fitur (Multiple) -->
             <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                 <div class="flex items-center justify-between pb-5 border-b border-gray-100 mb-5">
                     <div class="flex items-center gap-3">
@@ -113,99 +113,112 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-2">
-                                <h3 class="text-base font-bold text-slate-900">Cards Program / Fitur</h3>
-                                <span id="card-count-badge" class="px-2 py-0.5 text-[11px] font-bold bg-emerald-100 text-emerald-800 rounded-full">1 Card</span>
+                                <h3 class="text-base font-bold text-slate-900">Products / Fitur</h3>
+                                <span id="product-count-badge" class="px-2 py-0.5 text-[11px] font-bold bg-emerald-100 text-emerald-800 rounded-full">1 product</span>
                             </div>
-                            <p class="text-xs text-slate-500">Setiap card berisi judul, gambar, dan deskripsi. Anda dapat menambahkan multiple card.</p>
+                            <p class="text-xs text-slate-500">Setiap product berisi judul, gambar, dan deskripsi. Anda dapat menambahkan multiple product.</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3 text-xs font-medium">
-                        <button type="button" onclick="collapseAllCards()" class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
+                        <button type="button" onclick="collapseAllproducts()" class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
                         <span class="text-slate-300">|</span>
-                        <button type="button" onclick="expandAllCards()" class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
+                        <button type="button" onclick="expandAllproducts()" class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
                     </div>
                 </div>
 
-                <!-- Cards Container (Repeater) -->
-                <div id="cards-container" class="space-y-4">
-                    <!-- Default Initial Card -->
-                    <div class="card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="0">
-                        <!-- Card Item Header -->
-                        <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleCardAccordion(this)">
+                <!-- products Container (Repeater) -->
+                <div id="products-container" class="space-y-4">
+                    <!-- Default Initial product -->
+                    <div class="product-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="0">
+                        <!-- product Item Header -->
+                        <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleproductAccordion(this)">
                             <div class="flex items-center gap-2.5">
-                                <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">1</span>
-                                <span class="card-header-title text-xs font-bold text-slate-800">Card 1</span>
+                                <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">1</span>
+                                <span class="product-header-title text-xs font-bold text-slate-800">product 1</span>
                             </div>
                             <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                                <button type="button" onclick="removeCardItem(this)" title="Hapus Card" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                                <button type="button" onclick="removeproductItem(this)" title="Hapus product" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="toggleCardAccordion(this.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
-                                    <svg class="w-4 h-4 card-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <button type="button" onclick="toggleproductAccordion(this.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
+                                    <svg class="w-4 h-4 product-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                     </svg>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Card Item Body -->
-                        <div class="card-body p-4 space-y-4 bg-white">
-                            <!-- Judul Card -->
+                        <!-- product Item Body -->
+                        <div class="product-body p-4 space-y-4 bg-white">
+                            <!-- Judul product -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                    Judul Card <span class="text-rose-500">*</span>
+                                    Judul product <span class="text-rose-500">*</span>
                                 </label>
                                 <input type="text"
-                                       name="cards[0][title]"
-                                       value="{{ old('cards.0.title') }}"
+                                       name="products[0][name]"
+                                       value="{{ old('products.0.name') }}"
                                        required
                                        placeholder="Contoh: Pemberdayaan Masyarakat"
-                                       oninput="updateCardHeaderTitle(this)"
-                                       class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                       oninput="updateproductHeaderTitle(this)"
+                                       class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                             </div>
 
-                            <!-- Deskripsi Card -->
+                            <!-- Harga product -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                    Deskripsi Card <span class="text-rose-500">*</span>
+                                    Harga product <span class="text-rose-500">*</span>
                                 </label>
-                                <textarea name="cards[0][description]"
+                                <input type="text"
+                                       name="products[0][price]"
+                                       value="{{ old('products.0.price') }}"
+                                       required
+                                       placeholder="Contoh: Rp 50.000 / bulan"
+                                       class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                            </div>
+
+                            <!-- Deskripsi product -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                    Deskripsi product <span class="text-rose-500">*</span>
+                                </label>
+                                <textarea name="products[0][description]"
                                           rows="3"
                                           required
-                                          placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
-                                          class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old('cards.0.description') }}</textarea>
+                                          placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada product ini..."
+                                          class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old('products.0.description') }}</textarea>
                             </div>
 
-                            <!-- Gambar Card Upload -->
+                            <!-- Gambar product Upload -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                    Gambar Card (Opsional)
+                                    Gambar product (Opsional)
                                 </label>
-                                <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
-                                     onclick="this.querySelector('.card-image-input').click()">
+                                <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
+                                     onclick="this.querySelector('.product-image-input').click()">
                                     <input type="file"
-                                           name="cards[0][image]"
+                                           name="products[0][image]"
                                            accept="image/png,image/jpeg,image/jpg,image/webp"
-                                           onchange="handleCardImagePreview(this)"
-                                           class="card-image-input hidden">
+                                           onchange="handleproductImagePreview(this)"
+                                           class="product-image-input hidden">
 
                                     <!-- Preview Image -->
-                                    <div class="card-preview-wrapper hidden mb-2">
-                                        <img src="#" alt="Preview" class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
-                                        <button type="button" onclick="event.stopPropagation(); removeCardSelectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
+                                    <div class="product-preview-wrapper hidden mb-2">
+                                        <img src="#" alt="Preview" class="product-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
+                                        <button type="button" onclick="event.stopPropagation(); removeproductselectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
                                             Hapus / Ganti Gambar
                                         </button>
                                     </div>
 
                                     <!-- Dropzone Placeholder Content -->
-                                    <div class="card-dropzone-content">
+                                    <div class="product-dropzone-content">
                                         <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                         </svg>
                                         <p class="text-xs font-medium text-slate-700">
-                                            Klik atau seret gambar untuk card ini
+                                            Klik atau seret gambar untuk product ini
                                         </p>
                                         <p class="text-[10px] text-slate-400 mt-0.5">
                                             Format: PNG, JPG, WEBP • Maks 2MB
@@ -219,12 +232,12 @@
 
                 <!-- Add Button -->
                 <button type="button"
-                        onclick="addNewCardItem()"
+                        onclick="addNewproductItem()"
                         class="mt-5 w-full py-3 border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/30 hover:bg-emerald-50/80 rounded-xl text-xs font-bold text-emerald-800 hover:text-emerald-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
                     <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                     </svg>
-                    <span>Tambah Card Baru</span>
+                    <span>Tambah product Baru</span>
                 </button>
             </div>
 
@@ -274,7 +287,7 @@
                         </svg>
                         <div>
                             <span class="font-bold block text-emerald-900">Kebijakan 1 Section Aktif</span>
-                            <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 about section yang aktif. Saat section ini dipublikasikan, section lama yang sedang aktif otomatis dijadikan <strong>Draft</strong>.</p>
+                            <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 product section yang aktif. Saat section ini dipublikasikan, section lama yang sedang aktif otomatis dijadikan <strong>Draft</strong>.</p>
                         </div>
                     </div>
                 </div>
@@ -286,7 +299,7 @@
                     </div>
                     <div class="flex justify-between items-center text-slate-500 pt-1">
                         <span>Status Publikasi:</span>
-                        <a href="{{ url('/api/v1/about') }}" target="_blank" title="Klik untuk melihat data JSON di tab baru" class="inline-flex items-center gap-1 font-semibold text-slate-900 hover:text-emerald-600 hover:underline transition-colors">
+                        <a href="{{ url('/api/v1/products') }}" target="_blank" title="Klik untuk melihat data JSON di tab baru" class="inline-flex items-center gap-1 font-semibold text-slate-900 hover:text-emerald-600 hover:underline transition-colors">
                             <span>Tersedia via API Publik</span>
                             <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
@@ -355,7 +368,7 @@
             document.getElementById('description').value = (html === '<p><br></p>') ? '' : html;
         }
 
-        const form = document.getElementById('about-section-form');
+        const form = document.getElementById('product-section-form');
         if (form.reportValidity()) {
             form.submit();
         }
@@ -375,43 +388,43 @@
         }
     }
 
-    // ─── Cards Repeater Scripts ──────────────────────────────────────────
-    let cardIndexCounter = 1;
+    // ─── products Repeater Scripts ──────────────────────────────────────────
+    let productIndexCounter = 1;
 
-    function updateCardBadgeCount() {
-        const count = document.querySelectorAll('#cards-container .card-item').length;
-        document.getElementById('card-count-badge').innerText = count + (count === 1 ? ' Card' : ' Cards');
+    function updateproductBadgeCount() {
+        const count = document.querySelectorAll('#products-container .product-item').length;
+        document.getElementById('product-count-badge').innerText = count + (count === 1 ? ' product' : ' products');
     }
 
-    function reindexCards() {
-        const items = document.querySelectorAll('#cards-container .card-item');
+    function reindexproducts() {
+        const items = document.querySelectorAll('#products-container .product-item');
         items.forEach((item, idx) => {
-            const badge = item.querySelector('.card-badge-num');
+            const badge = item.querySelector('.product-badge-num');
             if (badge) badge.innerText = idx + 1;
 
-            const headerTitle = item.querySelector('.card-header-title');
-            const titleInput = item.querySelector('.card-title-input');
+            const headerTitle = item.querySelector('.product-header-title');
+            const titleInput = item.querySelector('.product-title-input');
             if (headerTitle) {
-                const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'Card ' + (idx + 1);
+                const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'product ' + (idx + 1);
                 headerTitle.innerText = val;
             }
         });
-        updateCardBadgeCount();
+        updateproductBadgeCount();
     }
 
-    function updateCardHeaderTitle(input) {
-        const item = input.closest('.card-item');
-        const headerTitle = item.querySelector('.card-header-title');
-        const idx = Array.from(document.querySelectorAll('#cards-container .card-item')).indexOf(item) + 1;
+    function updateproductHeaderTitle(input) {
+        const item = input.closest('.product-item');
+        const headerTitle = item.querySelector('.product-header-title');
+        const idx = Array.from(document.querySelectorAll('#products-container .product-item')).indexOf(item) + 1;
         if (headerTitle) {
-            headerTitle.innerText = input.value.trim() ? input.value.trim() : 'Card ' + idx;
+            headerTitle.innerText = input.value.trim() ? input.value.trim() : 'product ' + idx;
         }
     }
 
-    function toggleCardAccordion(trigger) {
-        const item = trigger.closest('.card-item');
-        const body = item.querySelector('.card-body');
-        const icon = item.querySelector('.card-accordion-icon');
+    function toggleproductAccordion(trigger) {
+        const item = trigger.closest('.product-item');
+        const body = item.querySelector('.product-body');
+        const icon = item.querySelector('.product-accordion-icon');
 
         if (body.classList.contains('hidden')) {
             body.classList.remove('hidden');
@@ -422,92 +435,102 @@
         }
     }
 
-    function collapseAllCards() {
-        document.querySelectorAll('#cards-container .card-item').forEach(item => {
-            item.querySelector('.card-body').classList.add('hidden');
-            const icon = item.querySelector('.card-accordion-icon');
+    function collapseAllproducts() {
+        document.querySelectorAll('#products-container .product-item').forEach(item => {
+            item.querySelector('.product-body').classList.add('hidden');
+            const icon = item.querySelector('.product-accordion-icon');
             if (icon) icon.classList.add('-rotate-90');
         });
     }
 
-    function expandAllCards() {
-        document.querySelectorAll('#cards-container .card-item').forEach(item => {
-            item.querySelector('.card-body').classList.remove('hidden');
-            const icon = item.querySelector('.card-accordion-icon');
+    function expandAllproducts() {
+        document.querySelectorAll('#products-container .product-item').forEach(item => {
+            item.querySelector('.product-body').classList.remove('hidden');
+            const icon = item.querySelector('.product-accordion-icon');
             if (icon) icon.classList.remove('-rotate-90');
         });
     }
 
-    function addNewCardItem() {
-        const container = document.getElementById('cards-container');
-        const currentCount = container.querySelectorAll('.card-item').length;
+    function addNewproductItem() {
+        const container = document.getElementById('products-container');
+        const currentCount = container.querySelectorAll('.product-item').length;
         const newNum = currentCount + 1;
-        const index = cardIndexCounter++;
+        const index = productIndexCounter++;
 
-        const cardHtml = `
-            <div class="card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="${index}">
-                <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleCardAccordion(this)">
+        const productHtml = `
+            <div class="product-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="${index}">
+                <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleproductAccordion(this)">
                     <div class="flex items-center gap-2.5">
-                        <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">${newNum}</span>
-                        <span class="card-header-title text-xs font-bold text-slate-800">Card ${newNum}</span>
+                        <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">${newNum}</span>
+                        <span class="product-header-title text-xs font-bold text-slate-800">product ${newNum}</span>
                     </div>
                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                        <button type="button" onclick="removeCardItem(this)" title="Hapus Card" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                        <button type="button" onclick="removeproductItem(this)" title="Hapus product" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
                         </button>
-                        <button type="button" onclick="toggleCardAccordion(this.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
-                            <svg class="w-4 h-4 card-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button type="button" onclick="toggleproductAccordion(this.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
+                            <svg class="w-4 h-4 product-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
                     </div>
                 </div>
-                <div class="card-body p-4 space-y-4 bg-white">
+                <div class="product-body p-4 space-y-4 bg-white">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Judul Card <span class="text-rose-500">*</span>
+                            Judul product <span class="text-rose-500">*</span>
                         </label>
                         <input type="text"
-                               name="cards[${index}][title]"
+                               name="products[][name]"
                                required
                                placeholder="Contoh: Pemberdayaan Masyarakat"
-                               oninput="updateCardHeaderTitle(this)"
-                               class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                               oninput="updateproductHeaderTitle(this)"
+                               class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Deskripsi Card <span class="text-rose-500">*</span>
+                            Harga product <span class="text-rose-500">*</span>
                         </label>
-                        <textarea name="cards[${index}][description]"
+                        <input type="text"
+                               name="products[${index}][price]"
+                               required
+                               placeholder="Contoh: Rp 50.000 / bulan"
+                               class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">
+                            Deskripsi product <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea name="products[${index}][description]"
                                   rows="3"
                                   required
-                                  placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                  placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada product ini..."
                                   class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Gambar Card (Opsional)
+                            Gambar product (Opsional)
                         </label>
-                        <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
-                             onclick="this.querySelector('.card-image-input').click()">
+                        <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
+                             onclick="this.querySelector('.product-image-input').click()">
                             <input type="file"
-                                   name="cards[${index}][image]"
+                                   name="products[${index}][image]"
                                    accept="image/png,image/jpeg,image/jpg,image/webp"
-                                   onchange="handleCardImagePreview(this)"
-                                   class="card-image-input hidden">
-                            <div class="card-preview-wrapper hidden mb-2">
-                                <img src="#" alt="Preview" class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
-                                <button type="button" onclick="event.stopPropagation(); removeCardSelectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
+                                   onchange="handleproductImagePreview(this)"
+                                   class="product-image-input hidden">
+                            <div class="product-preview-wrapper hidden mb-2">
+                                <img src="#" alt="Preview" class="product-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
+                                <button type="button" onclick="event.stopPropagation(); removeproductselectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
                                     Hapus / Ganti Gambar
                                 </button>
                             </div>
-                            <div class="card-dropzone-content">
+                            <div class="product-dropzone-content">
                                 <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
-                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk card ini</p>
+                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk product ini</p>
                                 <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
                             </div>
                         </div>
@@ -516,39 +539,39 @@
             </div>
         `;
 
-        container.insertAdjacentHTML('beforeend', cardHtml);
-        reindexCards();
+        container.insertAdjacentHTML('beforeend', productHtml);
+        reindexproducts();
 
-        // Scroll smoothly to newly added card
-        const newCard = container.lastElementChild;
-        newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Scroll smoothly to newly added product
+        const newproduct = container.lastElementChild;
+        newproduct.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    function removeCardItem(btn) {
-        const container = document.getElementById('cards-container');
-        const items = container.querySelectorAll('.card-item');
+    function removeproductItem(btn) {
+        const container = document.getElementById('products-container');
+        const items = container.querySelectorAll('.product-item');
         if (items.length <= 1) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Perhatian',
-                text: 'Minimal harus ada 1 card di dalam About Section.',
+                text: 'Minimal harus ada 1 product di dalam Product Section.',
                 confirmButtonColor: '#10b981',
                 confirmButtonText: 'Mengerti'
             });
             return;
         }
 
-        const item = btn.closest('.card-item');
+        const item = btn.closest('.product-item');
         item.style.opacity = '0';
         item.style.transform = 'scale(0.95)';
         setTimeout(() => {
             item.remove();
-            reindexCards();
+            reindexproducts();
         }, 150);
     }
 
     // ─── Image Preview Handlers ──────────────────────────────────────────
-    function handleCardImagePreview(input) {
+    function handleproductImagePreview(input) {
         const file = input.files[0];
         if (!file) return;
 
@@ -556,17 +579,17 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Ukuran File Terlalu Besar',
-                text: 'Maksimal ukuran gambar card adalah 2MB.',
+                text: 'Maksimal ukuran gambar product adalah 2MB.',
                 confirmButtonColor: '#e11d48'
             });
             input.value = '';
             return;
         }
 
-        const dropzone = input.closest('.card-image-dropzone');
-        const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
-        const previewImg = dropzone.querySelector('.card-preview-img');
-        const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
+        const dropzone = input.closest('.product-image-dropzone');
+        const previewWrapper = dropzone.querySelector('.product-preview-wrapper');
+        const previewImg = dropzone.querySelector('.product-preview-img');
+        const dropzoneContent = dropzone.querySelector('.product-dropzone-content');
 
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -577,12 +600,12 @@
         reader.readAsDataURL(file);
     }
 
-    function removeCardSelectedImage(btn) {
-        const dropzone = btn.closest('.card-image-dropzone');
-        const input = dropzone.querySelector('.card-image-input');
-        const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
-        const previewImg = dropzone.querySelector('.card-preview-img');
-        const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
+    function removeproductselectedImage(btn) {
+        const dropzone = btn.closest('.product-image-dropzone');
+        const input = dropzone.querySelector('.product-image-input');
+        const previewWrapper = dropzone.querySelector('.product-preview-wrapper');
+        const previewImg = dropzone.querySelector('.product-preview-img');
+        const dropzoneContent = dropzone.querySelector('.product-dropzone-content');
 
         input.value = '';
         previewImg.src = '#';

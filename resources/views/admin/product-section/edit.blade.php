@@ -37,7 +37,8 @@
 @endsection
 
 @section('page_headline', 'Edit Konten Product Section')
-@section('page_subtitle', 'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (products)
+@section('page_subtitle',
+    'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (products)
     kegiatan.')
 @section('status_badge')
     <span
@@ -126,9 +127,7 @@
                             <div>
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Products / Fitur</h3>
-                                    <span id="product-count-badge"
-                                        class="px-2 py-0.5 text-[11px] font-bold bg-emerald-100 text-emerald-800 rounded-full">{{ $productSection->products->count() }}
-                                        products</span>
+
                                 </div>
                                 <p class="text-xs text-slate-500">Setiap product berisi judul, gambar, dan deskripsi. Anda
                                     dapat menambahkan multiple product.</p>
@@ -313,7 +312,8 @@
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-700 mb-1">Gambar product
-                                            (Opsional)</label>
+                                            (Opsional)
+                                        </label>
                                         <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
                                             onclick="this.querySelector('.product-image-input').click()">
                                             <input type="file" name="products[0][image]"
@@ -422,7 +422,8 @@
                                 <span class="font-bold block text-emerald-900">Kebijakan 1 Section Aktif</span>
                                 <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 product section
                                     yang aktif. Jika section ini diaktifkan, section lain otomatis dijadikan
-                                    <strong>Draft</strong>.</p>
+                                    <strong>Draft</strong>.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -452,6 +453,33 @@
             </div>
 
         </div>
+
+        <!-- Tombol Aksi Khusus Layar Kecil (Mobile / Di Bawah Konten) -->
+        <div class="sm:hidden mt-6 bg-white rounded-2xl border border-gray-200/80 shadow-xs p-4 space-y-3">
+            <div class="flex items-center gap-2.5">
+                <button type="button" onclick="submitWithAction('draft')"
+                    class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs transition-all cursor-pointer">
+                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
+                        </path>
+                    </svg>
+                    <span>Simpan Draft</span>
+                </button>
+                <button type="button" onclick="submitWithAction('publish')"
+                    class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Publikasikan</span>
+                </button>
+            </div>
+            <a href="{{ route('admin.product-sections.index') }}"
+                class="w-full inline-flex items-center justify-center py-2.5 px-4 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
+                Batalkan & Kembali
+            </a>
+        </div>
+
     </form>
 @endsection
 

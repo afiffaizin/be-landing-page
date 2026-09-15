@@ -102,8 +102,8 @@ class AboutSectionController extends Controller
         AboutSection::create($validated);
 
         $message = $isActive
-            ? 'About Section berhasil dipublikasikan (section aktif sebelumnya otomatis diubah menjadi draft)!'
-            : 'About Section berhasil disimpan sebagai draft!';
+            ? 'About section berhasil dipublikasikan.'
+            : 'About section berhasil disimpan sebagai draft.';
 
         return redirect()->route('admin.about-sections.index')
             ->with('success', $message);
@@ -187,8 +187,8 @@ class AboutSectionController extends Controller
         $aboutSection->update($validated);
 
         $message = $isActive
-            ? 'About Section berhasil diperbarui dan dipublikasikan (section lain otomatis menjadi draft)!'
-            : 'About Section berhasil disimpan sebagai draft!';
+            ? 'About section berhasil diperbarui.'
+            : 'About section berhasil disimpan sebagai draft.';
 
         return redirect()->route('admin.about-sections.index')
             ->with('success', $message);
@@ -206,7 +206,7 @@ class AboutSectionController extends Controller
         $aboutSection->delete();
 
         return redirect()->route('admin.about-sections.index')
-            ->with('success', 'About Section berhasil dihapus!');
+            ->with('success', 'About section berhasil dihapus.');
     }
 
     /**
@@ -227,10 +227,10 @@ class AboutSectionController extends Controller
             'is_active' => $newStatus,
         ]);
 
-        $statusText = $newStatus 
-            ? 'diaktifkan sebagai section utama (section lain otomatis dinonaktifkan)' 
-            : 'diubah menjadi draft';
+        $message = $newStatus 
+            ? 'About section berhasil diaktifkan.' 
+            : 'About section berhasil dinonaktifkan.';
 
-        return back()->with('success', "Status about section berhasil {$statusText}.");
+        return back()->with('success', $message);
     }
 }

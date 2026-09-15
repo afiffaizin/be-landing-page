@@ -85,8 +85,8 @@ class HomeSectionController extends Controller
         HomeSection::create($validated);
 
         $message = $isActive
-            ? 'Banner Beranda berhasil dipublikasikan (banner aktif sebelumnya otomatis diubah menjadi draft)!'
-            : 'Banner Beranda berhasil disimpan sebagai draft!';
+            ? 'Banner berhasil dipublikasikan.'
+            : 'Banner berhasil disimpan sebagai draft.';
 
         return redirect()->route('admin.home-sections.index')
             ->with('success', $message);
@@ -153,8 +153,8 @@ class HomeSectionController extends Controller
         $homeSection->update($validated);
 
         $message = $isActive
-            ? 'Banner Beranda berhasil diperbarui dan dipublikasikan (banner lain otomatis menjadi draft)!'
-            : 'Banner Beranda berhasil disimpan sebagai draft!';
+            ? 'Banner berhasil diperbarui.'
+            : 'Banner berhasil disimpan sebagai draft.';
 
         return redirect()->route('admin.home-sections.index')
             ->with('success', $message);
@@ -172,7 +172,7 @@ class HomeSectionController extends Controller
         $homeSection->delete();
 
         return redirect()->route('admin.home-sections.index')
-            ->with('success', 'Banner Beranda berhasil dihapus!');
+            ->with('success', 'Banner berhasil dihapus.');
     }
 
     /**
@@ -193,10 +193,10 @@ class HomeSectionController extends Controller
             'is_active' => $newStatus,
         ]);
 
-        $statusText = $newStatus 
-            ? 'diaktifkan sebagai banner utama (banner lain otomatis dinonaktifkan)' 
-            : 'diubah menjadi draft';
+        $message = $newStatus
+            ? 'Banner berhasil diaktifkan.'
+            : 'Banner berhasil dinonaktifkan.';
 
-        return back()->with('success', "Status banner berhasil {$statusText}.");
+        return back()->with('success', $message);
     }
 }

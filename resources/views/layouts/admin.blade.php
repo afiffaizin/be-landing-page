@@ -15,6 +15,10 @@
     <!-- Quill.js WYSIWYG Editor CSS -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
 
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="{{ asset('css/sweetalert-custom.css') }}?v=3" rel="stylesheet">
+
     <!-- Scripts & Styles via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -61,6 +65,7 @@
         .ql-editor {
             min-height: 140px;
         }
+
     </style>
     @stack('styles')
 </head>
@@ -204,39 +209,7 @@
         </div>
         @endif
 
-        <!-- Flash Messages -->
         <main class="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
-            @if(session('success'))
-                <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between shadow-xs">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-sm font-medium">{{ session('success') }}</span>
-                    </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-between shadow-xs">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-sm font-medium">{{ session('error') }}</span>
-                    </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-            @endif
 
             @if($errors->any())
                 <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 shadow-xs">
@@ -260,6 +233,94 @@
 
     <!-- Quill.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // ─── SweetAlert2 Flash Messages (Toast) ──────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
+            const isMobile = window.innerWidth < 640;
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: isMobile ? 'top' : 'top-end',
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                showClass: {
+                    popup: 'swal2-show',
+                    backdrop: 'swal2-backdrop-show'
+                },
+                hideClass: {
+                    popup: 'swal2-hide',
+                    backdrop: 'swal2-backdrop-hide'
+                },
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+            @if(session('success'))
+                Toast.fire({
+                    iconHtml: `
+                        <div class="swal-toast-icon-wrapper swal-toast-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                            </svg>
+                        </div>
+                    `,
+                    iconColor: 'transparent',
+                    title: @json(session('success'))
+                });
+            @endif
+
+            @if(session('error'))
+                Toast.fire({
+                    customClass: {
+                        popup: 'swal-toast-error'
+                    },
+                    iconHtml: `
+                        <div class="swal-toast-icon-wrapper swal-toast-error">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </div>
+                    `,
+                    iconColor: 'transparent',
+                    title: @json(session('error'))
+                });
+            @endif
+        });
+
+        // ─── SweetAlert2 Delete Confirmation ─────────────────────────────
+        function confirmDelete(formElement) {
+            Swal.fire({
+                iconHtml: `
+                    <div class="swal-delete-icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                        </svg>
+                    </div>
+                `,
+                title: 'Hapus data?',
+                html: '<p class="swal-delete-text">Data yang dihapus tidak dapat dikembalikan.</p>',
+                iconColor: 'transparent',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                focusCancel: true,
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    formElement.submit();
+                }
+            });
+        }
+    </script>
+
     @stack('scripts')
 </body>
 </html>

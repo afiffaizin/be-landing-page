@@ -14,7 +14,8 @@ class AboutSectionController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $aboutSections = AboutSection::where('is_active', true)
+        $aboutSections = AboutSection::with('cards')
+            ->where('is_active', true)
             ->latest()
             ->get();
 
@@ -26,6 +27,8 @@ class AboutSectionController extends Controller
      */
     public function show(AboutSection $aboutSection): AboutSectionResource
     {
+        $aboutSection->load('cards');
+
         return new AboutSectionResource($aboutSection);
     }
 }

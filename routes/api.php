@@ -28,4 +28,14 @@ Route::prefix('v1')->group(function () {
     // About Section
     Route::get('about', [AboutSectionController::class, 'index']);
     Route::get('about/{aboutSection}', [AboutSectionController::class, 'show']);
+
+    // Product Section
+    Route::get('products', [\App\Http\Controllers\Api\V1\ProductSectionController::class, 'index']);
+    Route::get('products/{productSection}', [\App\Http\Controllers\Api\V1\ProductSectionController::class, 'show']);
+    
+    // Cara Pesan (How To Order)
+    Route::get('how-to-orders', [\App\Http\Controllers\Api\V1\HowToOrderController::class, 'index']);
+
+    // Testimonial
+    Route::get('testimonials', [\App\Http\Controllers\Api\V1\TestimonialController::class, 'index']);
 });

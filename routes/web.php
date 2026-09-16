@@ -53,4 +53,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::patch('/how-to-orders/{howToOrder}/toggle-status', [\App\Http\Controllers\Admin\HowToOrderSectionController::class, 'toggleStatus'])
         ->name('how-to-orders.toggle-status');
     Route::resource('how-to-orders', \App\Http\Controllers\Admin\HowToOrderSectionController::class)->except(['show']);
+
+    // Testimonial Management
+    Route::patch('/testimonial-sections/{testimonialSection}/toggle-status', [\App\Http\Controllers\Admin\TestimonialSectionController::class, 'toggleStatus'])
+        ->name('testimonial-sections.toggle-status');
+    Route::resource('testimonial-sections', \App\Http\Controllers\Admin\TestimonialSectionController::class)->except(['show']);
 });

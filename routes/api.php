@@ -35,4 +35,7 @@ Route::prefix('v1')->group(function () {
     
     // Cara Pesan (How To Order)
     Route::get('how-to-orders', [\App\Http\Controllers\Api\V1\HowToOrderController::class, 'index']);
+
+    // Testimonial
+    Route::get('testimonials', [\App\Http\Controllers\Api\V1\TestimonialController::class, 'index']);
 });

@@ -130,7 +130,7 @@
 
                 <!-- Repeater Langkah (Steps) -->
                 <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
-                    <div class="border-b border-gray-100 bg-gray-50/50 px-5 py-4 flex items-center justify-between">
+                    <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,6 +144,13 @@
                                 <p class="text-[11px] text-slate-500 mt-0.5">Urutan ditentukan dari atas ke bawah</p>
                             </div>
                         </div>
+                        <div class="flex items-center gap-3 text-xs font-medium">
+                            <button type="button" onclick="collapseAllSteps()"
+                                class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
+                            <span class="text-slate-300">|</span>
+                            <button type="button" onclick="expandAllSteps()"
+                                class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
+                        </div>
                     </div>
 
                     <div class="p-5">
@@ -155,34 +162,37 @@
                             @if (count($oldSteps) > 0)
                                 @foreach ($oldSteps as $idx => $step)
                                     <!-- Step Item -->
-                                    <div class="step-item group relative bg-gray-50/50 border border-gray-200 rounded-xl p-4 transition-all hover:border-emerald-300 hover:shadow-xs"
+                                    <div class="step-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs"
                                         data-index="{{ $idx }}">
-                                        <!-- Drag handle & Remove -->
-                                        <div class="absolute -left-2.5 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-move bg-white border border-gray-200 text-gray-400 p-1 rounded shadow-sm">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
-                                            </svg>
-                                        </div>
-
-                                        <div class="flex items-start justify-between mb-3">
-                                            <div class="flex items-center gap-2">
-                                                <span class="step-number w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold">
-                                                    {{ $idx + 1 }}
-                                                </span>
-                                                <h4 class="text-xs font-bold text-slate-700">Langkah Pemesanan</h4>
+                                        <!-- Step Item Header -->
+                                        <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer"
+                                            onclick="toggleStepAccordion(this)">
+                                            <div class="flex items-center gap-2.5">
+                                                <span class="step-number w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">{{ $idx + 1 }}</span>
+                                                <span class="step-header-title text-xs font-bold text-slate-800">{{ $step['title'] ?? 'Langkah Baru' }}</span>
                                             </div>
-                                            <button type="button" onclick="removeStep(this)"
-                                                class="text-rose-400 hover:text-rose-600 hover:bg-rose-50 p-1 rounded-md transition-colors"
-                                                title="Hapus Langkah">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg>
-                                            </button>
+                                            <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                                                <button type="button" onclick="removeStep(this)" title="Hapus Langkah"
+                                                    class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                                <button type="button" onclick="toggleStepAccordion(this.parentElement.parentElement)"
+                                                    class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
+                                                    <svg class="w-4 h-4 step-accordion-icon transform transition-transform"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 9l-7 7-7-7"></path>
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
 
-                                        <div class="space-y-4">
+                                        <!-- Step Item Body -->
+                                        <div class="step-body p-4 space-y-4 bg-white">
                                             <!-- Judul Step -->
                                             <div>
                                                 <label class="block text-xs font-semibold text-slate-700 mb-1">
@@ -191,7 +201,8 @@
                                                 <input type="text" name="steps[{{ $idx }}][title]"
                                                     value="{{ $step['title'] ?? '' }}" required maxlength="255"
                                                     placeholder="Contoh: Hubungi Admin"
-                                                    class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                                    oninput="updateStepHeaderTitle(this)"
+                                                    class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                             </div>
 
                                             <!-- Deskripsi Step -->
@@ -201,7 +212,7 @@
                                                 </label>
                                                 <textarea name="steps[{{ $idx }}][description]" rows="2" required
                                                     placeholder="Jelaskan detail yang perlu dilakukan pada langkah ini..."
-                                                    class="w-full px-3.5 py-2 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ $step['description'] ?? '' }}</textarea>
+                                                    class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ $step['description'] ?? '' }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -426,7 +437,6 @@
 
         function removeStep(button) {
             const item = button.closest('.step-item');
-            item.style.opacity = '0';
             item.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 item.remove();
@@ -434,31 +444,82 @@
             }, 200);
         }
 
+        function toggleStepAccordion(headerElem) {
+            const item = headerElem.closest('.step-item');
+            const body = item.querySelector('.step-body');
+            const icon = item.querySelector('.step-accordion-icon');
+            
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                body.style.display = 'none';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function collapseAllSteps() {
+            document.querySelectorAll('.step-item').forEach(item => {
+                const body = item.querySelector('.step-body');
+                const icon = item.querySelector('.step-accordion-icon');
+                if (body && icon) {
+                    body.style.display = 'none';
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        }
+
+        function expandAllSteps() {
+            document.querySelectorAll('.step-item').forEach(item => {
+                const body = item.querySelector('.step-body');
+                const icon = item.querySelector('.step-accordion-icon');
+                if (body && icon) {
+                    body.style.display = 'block';
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+
+        function updateStepHeaderTitle(input) {
+            const item = input.closest('.step-item');
+            if (item) {
+                const headerTitle = item.querySelector('.step-header-title');
+                if (headerTitle) {
+                    headerTitle.textContent = input.value || 'Langkah Baru';
+                }
+            }
+        }
+
         addStepBtn.addEventListener('click', () => {
             const template = `
-                <div class="step-item group relative bg-gray-50/50 border border-gray-200 rounded-xl p-4 transition-all hover:border-emerald-300 hover:shadow-xs" data-index="${stepIndex}" style="opacity:0; transform:translateY(10px);">
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex items-center gap-2">
-                            <span class="step-number w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold">
-                                #
-                            </span>
-                            <h4 class="text-xs font-bold text-slate-700">Langkah Pemesanan</h4>
+                <div class="step-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="${stepIndex}" style="opacity:0; transform:translateY(10px);">
+                    <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleStepAccordion(this)">
+                        <div class="flex items-center gap-2.5">
+                            <span class="step-number w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">#</span>
+                            <span class="step-header-title text-xs font-bold text-slate-800">Langkah Baru</span>
                         </div>
-                        <button type="button" onclick="removeStep(this)" class="text-rose-400 hover:text-rose-600 hover:bg-rose-50 p-1 rounded-md transition-colors" title="Hapus Langkah">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </button>
+                        <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                            <button type="button" onclick="removeStep(this)" title="Hapus Langkah" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                            <button type="button" onclick="toggleStepAccordion(this.parentElement.parentElement)" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors">
+                                <svg class="w-4 h-4 step-accordion-icon transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="space-y-4">
+                    <div class="step-body p-4 space-y-4 bg-white">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Langkah <span class="text-rose-500">*</span></label>
-                            <input type="text" name="steps[${stepIndex}][title]" required maxlength="255" placeholder="Contoh: Hubungi Admin" class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                            <input type="text" name="steps[${stepIndex}][title]" required maxlength="255" placeholder="Contoh: Hubungi Admin" oninput="updateStepHeaderTitle(this)" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi Langkah <span class="text-rose-500">*</span></label>
-                            <textarea name="steps[${stepIndex}][description]" rows="2" required placeholder="Jelaskan detail yang perlu dilakukan pada langkah ini..." class="w-full px-3.5 py-2 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
+                            <textarea name="steps[${stepIndex}][description]" rows="2" required placeholder="Jelaskan detail yang perlu dilakukan pada langkah ini..." class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                         </div>
                     </div>
                 </div>

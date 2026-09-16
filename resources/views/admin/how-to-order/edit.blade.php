@@ -12,6 +12,29 @@
 
 @section('page_title', 'Edit Section Cara Pesan')
 
+@section('header_actions')
+    <div class="hidden sm:flex items-center gap-2.5">
+        <a href="{{ route('admin.how-to-orders.index') }}"
+            class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors shrink-0">
+            Batalkan
+        </a>
+        <button type="button" onclick="submitWithAction('draft')"
+            class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer shrink-0">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+            </svg>
+            <span>Perbarui & Simpan Draft</span>
+        </button>
+        <button type="button" onclick="submitWithAction('publish')"
+            class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span>Perbarui & Publikasikan</span>
+        </button>
+    </div>
+@endsection
 @section('page_headline', 'Edit How To Order Section')
 @section('page_subtitle', 'Perbarui informasi judul, deskripsi, CTA, serta langkah-langkah pemesanan.')
 @section('status_badge')
@@ -123,14 +146,6 @@
                                 <p class="text-[11px] text-slate-500 mt-0.5">Urutan ditentukan dari atas ke bawah</p>
                             </div>
                         </div>
-                        <button type="button" id="add-step-btn"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-emerald-200 text-emerald-600 hover:bg-emerald-50 text-[11px] font-bold rounded-lg shadow-sm transition-colors">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
-                                </path>
-                            </svg>
-                            Tambah Langkah
-                        </button>
                     </div>
 
                     <div class="p-5">
@@ -212,9 +227,19 @@
                                 </svg>
                             </div>
                             <h4 class="text-sm font-bold text-slate-700">Belum Ada Langkah</h4>
-                            <p class="text-[11px] text-slate-500 mt-1 max-w-xs mx-auto">Klik tombol "Tambah Langkah" di atas
+                            <p class="text-[11px] text-slate-500 mt-1 max-w-xs mx-auto">Klik tombol "Tambah Langkah" di bawah
                                 untuk mulai menambahkan panduan pemesanan.</p>
                         </div>
+                        
+                        <!-- Add Button -->
+                        <button type="button" id="add-step-btn"
+                            class="mt-5 w-full py-3 border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/30 hover:bg-emerald-50/80 rounded-xl text-xs font-bold text-emerald-800 hover:text-emerald-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
+                            <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
+                                </path>
+                            </svg>
+                            <span>Tambah Langkah Baru</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -293,26 +318,6 @@
                                 </svg>
                             </a>
                         </div>
-                    </div>
-
-                    <div class="pt-5 border-t border-gray-100 space-y-3">
-                        <button type="button" onclick="submitWithAction('publish')"
-                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Perbarui & Publikasikan
-                        </button>
-                        <button type="button" onclick="submitWithAction('draft')"
-                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-slate-700 text-sm font-semibold rounded-xl transition-colors">
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
-                                </path>
-                            </svg>
-                            Perbarui & Simpan Draft
-                        </button>
                     </div>
                 </div>
             </div>

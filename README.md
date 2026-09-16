@@ -1,58 +1,420 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 Pengabdian Dosen — Landing Page CMS & API Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> Sistem backend **Content Management System (CMS)** dan **RESTful API** untuk landing page, dibangun sebagai bagian dari proyek **Pengabdian Dosen**. Aplikasi ini menyediakan Admin Panel berbasis web untuk mengelola konten landing page secara dinamis, serta API publik yang dapat dikonsumsi oleh frontend (mobile/web).
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Daftar Isi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Fitur Utama](#-fitur-utama)
+- [Tech Stack](#-tech-stack)
+- [Arsitektur Sistem](#-arsitektur-sistem)
+- [Prasyarat](#-prasyarat)
+- [Instalasi & Setup](#-instalasi--setup)
+- [Menjalankan Aplikasi](#-menjalankan-aplikasi)
+- [Struktur Proyek](#-struktur-proyek)
+- [API Endpoints](#-api-endpoints)
+- [Admin Panel](#-admin-panel)
+- [Database Schema](#-database-schema)
+- [Testing](#-testing)
+- [Deployment](#-deployment)
+- [Lisensi](#-lisensi)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## ✨ Fitur Utama
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 🛠️ Admin Panel (Web)
+- **Dashboard** — Ringkasan statistik konten (total section, section aktif, dll.)
+- **Home Section** — Kelola hero/banner landing page (judul, deskripsi, gambar, tombol CTA)
+- **About Section** — Kelola halaman tentang beserta poin-poin dan kartu informasi
+- **Product Section** — Kelola katalog produk dengan gambar, harga, dan integrasi WhatsApp
+- **How to Order** — Kelola langkah-langkah cara pemesanan
+- **Testimonial** — Kelola testimoni pelanggan beserta statistik
+- **Toggle Status** — Aktifkan/nonaktifkan section tanpa menghapus data
+- **Rich Text Editor** — Editor teks kaya untuk deskripsi konten
+- **Image Upload** — Upload dan manajemen gambar untuk setiap section
+- **Authentication** — Sistem login/logout untuk admin
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🔌 RESTful API (v1)
+- Endpoint publik (tanpa autentikasi) untuk dikonsumsi frontend
+- Response dalam format JSON dengan API Resource
+- Hanya menampilkan section yang aktif (`is_active = true`)
+- Versioned API (`/api/v1/...`)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 🧰 Tech Stack
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Backend
+| Teknologi | Versi | Kegunaan |
+|-----------|-------|----------|
+| **PHP** | ^8.3 | Bahasa pemrograman utama |
+| **Laravel** | ^13.17 | Framework backend utama |
+| **Laravel Sanctum** | ^4.0 | API token authentication |
+| **Laravel Tinker** | ^3.0 | REPL interaktif untuk debugging |
+| **PostgreSQL** | - | Database relasional utama |
 
-```bash
-composer require laravel/boost --dev
+### Frontend (Admin Panel)
+| Teknologi | Versi | Kegunaan |
+|-----------|-------|----------|
+| **Blade Templates** | - | Template engine Laravel untuk UI admin |
+| **Tailwind CSS** | ^4.0 | Utility-first CSS framework |
+| **Vite** | ^8.0 | Build tool & dev server untuk asset |
+| **Instrument Sans** | - | Font utama via Bunny Fonts |
 
-php artisan boost:install
+### Development Tools
+| Teknologi | Versi | Kegunaan |
+|-----------|-------|----------|
+| **Composer** | - | PHP dependency manager |
+| **NPM** | - | Node.js package manager |
+| **Laravel Pint** | ^1.27 | PHP code style fixer (PSR-12) |
+| **Laravel Pail** | ^1.2.5 | Real-time log viewer |
+| **PHPUnit** | ^12.5 | Testing framework |
+| **Faker** | ^1.23 | Dummy data generator untuk testing/seeder |
+| **Mockery** | ^1.6 | Mocking framework untuk unit test |
+
+---
+
+## 🏗️ Arsitektur Sistem
+
+```
+┌─────────────────────────────────────────────────┐
+│              Frontend (Mobile/Web)               │
+│         (Mengkonsumsi RESTful API)               │
+└──────────────────────┬──────────────────────────┘
+                       │ HTTP GET (JSON)
+                       ▼
+┌─────────────────────────────────────────────────┐
+│              RESTful API (v1)                    │
+│   /api/v1/home, /api/v1/about, /api/v1/products │
+│   /api/v1/how-to-orders, /api/v1/testimonials   │
+│              (Publik, Read-Only)                 │
+└──────────────────────┬──────────────────────────┘
+                       │
+┌──────────────────────┴──────────────────────────┐
+│              Laravel Application                 │
+│  ┌─────────┐  ┌──────────┐  ┌────────────────┐  │
+│  │ Models  │  │ Resources│  │  Controllers   │  │
+│  │ (ORM)   │  │ (JSON)   │  │ (Admin + API)  │  │
+│  └────┬────┘  └──────────┘  └────────────────┘  │
+│       │                                          │
+│  ┌────▼──────────────────────────────────────┐   │
+│  │        Admin Panel (Blade + Tailwind)     │   │
+│  │    /admin/dashboard, /admin/home-sections │   │
+│  │    CRUD + Toggle Status + Image Upload    │   │
+│  └───────────────────────────────────────────┘   │
+└──────────────────────┬──────────────────────────┘
+                       │
+              ┌────────▼────────┐
+              │   PostgreSQL    │
+              │   Database      │
+              └─────────────────┘
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 📌 Prasyarat
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Pastikan software berikut sudah terinstall di sistem Anda:
 
-## Code of Conduct
+| Software | Versi Minimum | Link Download |
+|----------|---------------|---------------|
+| **PHP** | 8.3+ | [php.net](https://www.php.net/downloads) |
+| **Composer** | 2.x | [getcomposer.org](https://getcomposer.org/download/) |
+| **Node.js** | 18+ | [nodejs.org](https://nodejs.org/) |
+| **NPM** | 9+ | (termasuk dalam Node.js) |
+| **PostgreSQL** | 14+ | [postgresql.org](https://www.postgresql.org/download/) |
+| **Git** | 2.x | [git-scm.com](https://git-scm.com/downloads) |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Ekstensi PHP yang Diperlukan
 
-## Security Vulnerabilities
+```
+php-pgsql, php-mbstring, php-xml, php-curl, php-zip, php-gd, php-bcmath
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🚀 Instalasi & Setup
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/afiffaizin/be-landing-page.git
+cd be-landing-page
+```
+
+### 2. Install Dependency PHP
+
+```bash
+composer install
+```
+
+### 3. Install Dependency Node.js
+
+```bash
+npm install
+```
+
+### 4. Konfigurasi Environment
+
+```bash
+# Salin file environment
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+```
+
+### 5. Konfigurasi Database
+
+Edit file `.env` dan sesuaikan konfigurasi database PostgreSQL:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=pengabdian_dosen
+DB_USERNAME=postgres
+DB_PASSWORD=your_password_here
+```
+
+> **📝 Catatan:** Pastikan database `pengabdian_dosen` sudah dibuat di PostgreSQL sebelum menjalankan migrasi.
+
+```sql
+-- Buat database di psql
+CREATE DATABASE pengabdian_dosen;
+```
+
+### 6. Jalankan Migrasi Database
+
+```bash
+php artisan migrate
+```
+
+### 7. Jalankan Seeder (Data Awal)
+
+```bash
+php artisan db:seed
+```
+
+Seeder akan membuat:
+- **Admin user** — `admin@admin.com` / `password`
+- **Home Section** — Data contoh untuk hero section
+- **About Section** — Data contoh untuk halaman tentang
+
+### 8. Buat Symbolic Link untuk Storage
+
+```bash
+php artisan storage:link
+```
+
+> Ini diperlukan agar file yang diupload (gambar, dll.) dapat diakses secara publik melalui URL.
+
+### 9. Build Asset Frontend
+
+```bash
+# Untuk production
+npm run build
+
+# ATAU untuk development (dengan hot-reload)
+npm run dev
+```
+
+---
+
+## ▶️ Menjalankan Aplikasi
+
+### Development Mode
+
+Jalankan kedua perintah ini di terminal terpisah:
+
+```bash
+# Terminal 1 — Laravel development server
+php artisan serve
+
+# Terminal 2 — Vite dev server (hot-reload untuk CSS/JS)
+npm run dev
+```
+
+Atau gunakan **composer script** bawaan:
+
+```bash
+composer dev
+```
+
+Aplikasi akan berjalan di:
+- **Admin Panel**: [http://localhost:8000/admin](http://localhost:8000/admin)
+- **API Base URL**: [http://localhost:8000/api/v1](http://localhost:8000/api/v1)
+
+### Login Admin
+
+| Field | Value |
+|-------|-------|
+| **Email** | `admin@admin.com` |
+| **Password** | `password` |
+
+---
+
+
+## 🔌 API Endpoints
+
+Semua endpoint API bersifat **publik** (tidak memerlukan autentikasi) dan **read-only** (GET).
+
+**Base URL:** `http://localhost:8000/api/v1`
+
+### Home Section
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| `GET` | `/v1/home` | Daftar semua home section aktif |
+| `GET` | `/v1/home/{id}` | Detail satu home section |
+
+### About Section
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| `GET` | `/v1/about` | Daftar semua about section aktif (termasuk kartu) |
+| `GET` | `/v1/about/{id}` | Detail satu about section |
+
+### Product Section
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| `GET` | `/v1/products` | Daftar semua product section aktif beserta produknya |
+| `GET` | `/v1/products/{id}` | Detail satu product section |
+
+### How to Order
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| `GET` | `/v1/how-to-orders` | Daftar cara pemesanan beserta langkah-langkahnya |
+
+### Testimonial
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| `GET` | `/v1/testimonials` | Daftar testimonial beserta statistik |
+
+### Contoh Response
+
+```json
+// GET /api/v1/home
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Judul Hero Section",
+      "description": "Deskripsi landing page...",
+      "image_url": "http://localhost:8000/storage/home-sections/image.jpg",
+      "button_one_text": "Pesan Sekarang",
+      "button_one_link": "https://wa.me/628xxx",
+      "button_two_text": "Pelajari Lebih Lanjut",
+      "button_two_link": "#about",
+      "is_active": true
+    }
+  ]
+}
+```
+
+---
+
+## 🖥️ Admin Panel
+
+Admin panel dapat diakses melalui `/admin` setelah login. Fitur-fitur yang tersedia:
+
+| Menu | Route | Deskripsi |
+|------|-------|-----------|
+| **Dashboard** | `/admin/dashboard` | Ringkasan statistik konten |
+| **Home Sections** | `/admin/home-sections` | CRUD hero/banner landing page |
+| **About Sections** | `/admin/about-sections` | CRUD halaman tentang + kartu |
+| **Product Sections** | `/admin/product-sections` | CRUD produk + integrasi WhatsApp |
+| **How to Order** | `/admin/how-to-orders` | CRUD langkah cara pemesanan |
+| **Testimonials** | `/admin/testimonial-sections` | CRUD testimoni + statistik |
+
+### Fitur CRUD
+Setiap section mendukung operasi:
+- ➕ **Create** — Tambah section baru dengan form lengkap
+- 📝 **Edit** — Ubah konten dan gambar section
+- 🗑️ **Delete** — Hapus section beserta relasi
+- 🔄 **Toggle Status** — Aktifkan/nonaktifkan section via PATCH request
+
+---
+
+## 🧪 Testing
+
+### Menjalankan Test
+
+```bash
+# Semua test
+php artisan test
+
+# Atau menggunakan PHPUnit langsung
+./vendor/bin/phpunit
+
+# Test dengan coverage
+php artisan test --coverage
+
+# Test suite tertentu
+php artisan test --testsuite=Feature
+php artisan test --testsuite=Unit
+```
+
+### Konfigurasi Testing
+
+Testing menggunakan konfigurasi terpisah yang didefinisikan di [`phpunit.xml`](phpunit.xml):
+- Environment: `testing`
+- Cache: `array` (in-memory)
+- Session: `array`
+- Mail: `array`
+- Queue: `sync`
+
+---
+
+## 🚢 Deployment
+
+### Production Build
+
+```bash
+# Install dependencies (tanpa dev)
+composer install --no-dev --optimize-autoloader
+
+# Build frontend assets
+npm run build
+
+# Cache konfigurasi Laravel
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Jalankan migrasi
+php artisan migrate --force
+```
+
+### Environment Production
+
+Pastikan mengubah variabel berikut di `.env`:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-domain.com
+
+DB_CONNECTION=pgsql
+DB_HOST=your-db-host
+DB_DATABASE=your-database
+DB_USERNAME=your-username
+DB_PASSWORD=your-secure-password
+```
+
+---
+
+## 📄 Lisensi
+
+Proyek ini menggunakan lisensi [MIT](https://opensource.org/licenses/MIT).
+
+---
+
+<p align="center">
+  Dibangun dengan ❤️ menggunakan <a href="https://laravel.com">Laravel</a> untuk proyek <strong>Pengabdian Dosen</strong>
+</p>

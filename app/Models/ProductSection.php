@@ -13,6 +13,7 @@ class ProductSection extends Model
     protected $fillable = [
         'title',
         'description',
+        'whatsapp_number',
         'is_active',
     ];
 

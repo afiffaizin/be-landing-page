@@ -18,6 +18,7 @@ class ProductSectionResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'whatsapp_number' => $this->whatsapp_number,
             'is_active' => $this->is_active,
             'products' => ProductResource::collection($this->whenLoaded('products')),
             'created_at' => $this->created_at,

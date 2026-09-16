@@ -55,6 +55,7 @@ class ProductSectionController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'whatsapp_number' => ['nullable', 'string', 'max:50'],
             'is_active' => ['nullable'],
             'products' => ['nullable', 'array'],
             'products.*.name' => ['nullable', 'string', 'max:255'],
@@ -83,6 +84,7 @@ class ProductSectionController extends Controller
         $productSection = ProductSection::create([
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
+            'whatsapp_number' => $validated['whatsapp_number'] ?? null,
             'is_active' => $isActive,
         ]);
 
@@ -139,6 +141,7 @@ class ProductSectionController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'whatsapp_number' => ['nullable', 'string', 'max:50'],
             'is_active' => ['nullable'],
             'products' => ['nullable', 'array'],
             'products.*.id' => ['nullable', 'integer'],
@@ -170,6 +173,7 @@ class ProductSectionController extends Controller
         $productSection->update([
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
+            'whatsapp_number' => $validated['whatsapp_number'] ?? null,
             'is_active' => $isActive,
         ]);
 

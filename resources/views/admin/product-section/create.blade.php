@@ -37,7 +37,8 @@
 @endsection
 
 @section('page_headline', 'Create Product Section')
-@section('page_subtitle', 'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (products)
+@section('page_subtitle',
+    'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (products)
     kegiatan.')
 @section('status_badge')
     <span
@@ -91,6 +92,22 @@
                                 class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                             <p class="text-[11px] text-slate-400 mt-1.5">
                                 Gunakan judul yang jelas dan mencerminkan esensi program.
+                            </p>
+                        </div>
+
+                        <!-- Nomor WhatsApp Field -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="whatsapp_number" class="block text-xs font-bold text-slate-700">
+                                    Nomor WhatsApp
+                                </label>
+                            </div>
+                            <input type="text" id="whatsapp_number" name="whatsapp_number"
+                                value="{{ old('whatsapp_number') }}" placeholder="Contoh: 6281234567890"
+                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                            <p class="text-[11px] text-slate-400 mt-1.5">
+                                Masukkan nomor WhatsApp lengkap dengan kode negara (contoh: 628...). Berlaku untuk semua
+                                produk di section ini.
                             </p>
                         </div>
 
@@ -191,7 +208,6 @@
                                         required placeholder="Contoh: Rp 50.000 / bulan"
                                         class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                 </div>
-
                                 <!-- Deskripsi product -->
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">

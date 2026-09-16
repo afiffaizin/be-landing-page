@@ -99,6 +99,23 @@
                             </p>
                         </div>
 
+                        <!-- Nomor WhatsApp Field -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="whatsapp_number" class="block text-xs font-bold text-slate-700">
+                                    Nomor WhatsApp
+                                </label>
+                            </div>
+                            <input type="text" id="whatsapp_number" name="whatsapp_number"
+                                value="{{ old('whatsapp_number', $productSection->whatsapp_number) }}"
+                                placeholder="Contoh: 6281234567890"
+                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                            <p class="text-[11px] text-slate-400 mt-1.5">
+                                Masukkan nomor WhatsApp lengkap dengan kode negara (contoh: 628...). Berlaku untuk semua
+                                produk di section ini.
+                            </p>
+                        </div>
+
                         <!-- Deskripsi Rich Editor -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-2">
@@ -207,6 +224,16 @@
                                             class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                     </div>
 
+                                    <!-- Deskripsi product -->
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                            Deskripsi product <span class="text-rose-500">*</span>
+                                        </label>
+                                        <textarea name="products[{{ $idx }}][description]" rows="3" required
+                                            placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada product ini..."
+                                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old("products.{$idx}.description", $product->description) }}</textarea>
+                                    </div>
+
                                     <!-- Gambar product Upload -->
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-700 mb-1">
@@ -248,16 +275,6 @@
                                                 </p>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <!-- Deskripsi product -->
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Deskripsi product <span class="text-rose-500">*</span>
-                                        </label>
-                                        <textarea name="products[{{ $idx }}][description]" rows="3" required
-                                            placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada product ini..."
-                                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old("products.{$idx}.description", $product->description) }}</textarea>
                                     </div>
                                 </div>
                             </div>

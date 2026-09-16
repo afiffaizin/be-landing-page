@@ -93,11 +93,7 @@
                             <label class="block text-xs font-bold text-slate-700 mb-2">
                                 Deskripsi (Opsional)
                             </label>
-                            <div class="rounded-xl overflow-hidden border border-gray-200 bg-white">
-                                <div id="description-editor" class="h-32 text-sm"></div>
-                            </div>
-                            <input type="hidden" name="description" id="description"
-                                value="{{ old('description', $howToOrder->description) }}">
+                            <x-form.rich-editor name="description" :value="old('description', $howToOrder->description)" placeholder="Tuliskan deskripsi singkat di sini..." />
                             <p class="text-[11px] text-slate-400 mt-1.5">
                                 Berikan pengantar singkat mengenai cara pemesanan (opsional).
                             </p>
@@ -364,29 +360,11 @@
 
 @push('scripts')
     <script>
-        // ─── QUILL EDITOR INIT ──────────────────────────────────────────
-        const quill = new Quill('#description-editor', {
-            theme: 'snow',
-            placeholder: 'Tuliskan deskripsi singkat di sini...',
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline'],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    ['clean']
-                ]
-            }
-        });
 
-        // Set old value to quill
-        const oldDesc = document.getElementById('description').value;
-        if (oldDesc) {
-            quill.clipboard.dangerouslyPasteHTML(oldDesc);
-        }
 
         // ─── FORM SUBMIT ────────────────────────────────────────────────
         function submitWithAction(action) {
             document.getElementById('formAction').value = action;
-            document.getElementById('description').value = quill.root.innerHTML;
             
             const toggle = document.getElementById('is_active_toggle');
             const badge = document.getElementById('status-badge');

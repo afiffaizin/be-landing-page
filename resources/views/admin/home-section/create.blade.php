@@ -93,10 +93,7 @@
                         <label class="block text-xs font-bold text-slate-700 mb-2">
                             Deskripsi <span class="text-rose-500">*</span>
                         </label>
-                        <!-- Quill Editor Container -->
-                        <div id="editor-container" class="bg-white">{!! old('description') !!}</div>
-                        <!-- Hidden textarea to store Quill HTML -->
-                        <textarea id="description" name="description" class="hidden" required>{{ old('description') }}</textarea>
+                        <x-form.rich-editor name="description" :value="old('description')" placeholder="Tulis deskripsi pengantar yang informatif dan menarik..." />
                         <p class="text-[11px] text-slate-400 mt-1.5">
                             Tulis narasi pengantar yang informatif dan menarik untuk pengunjung landing page.
                         </p>
@@ -331,19 +328,7 @@
 
 @push('scripts')
 <script>
-    // Inisialisasi Quill Editor
-    const quill = new Quill('#editor-container', {
-        theme: 'snow',
-        placeholder: 'Tulis deskripsi pengantar yang informatif dan menarik...',
-        modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'header': 2 }, { 'header': 3 }],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ['link', 'clean']
-            ]
-        }
-    });
+
 
     // Form submit handler dengan aksi draft atau publish
     function submitWithAction(action) {
@@ -365,9 +350,7 @@
             }
         }
 
-        // Sync Quill editor ke textarea
-        const descriptionInput = document.getElementById('description');
-        descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+
 
         const form = document.getElementById('home-section-form');
         if (form.reportValidity()) {
@@ -375,11 +358,7 @@
         }
     }
 
-    // Default form submit fallback
-    document.getElementById('home-section-form').onsubmit = function() {
-        const descriptionInput = document.getElementById('description');
-        descriptionInput.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
-    };
+
 
     // Live update toggle badge
     function toggleStatusBadge(elem) {

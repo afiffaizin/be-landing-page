@@ -100,8 +100,7 @@
                             <label class="block text-xs font-bold text-slate-700 mb-2">
                                 Deskripsi <span class="text-rose-500">*</span>
                             </label>
-                            <div id="editor-container" class="bg-white">{!! old('description') !!}</div>
-                            <textarea id="description" name="description" class="hidden" required>{{ old('description') }}</textarea>
+                            <x-form.rich-editor name="description" :value="old('description')" placeholder="Tulis latar belakang, visi, atau penjelasan rinci tentang program..." />
                             <p class="text-[11px] text-slate-400 mt-1.5">
                                 Tulis latar belakang dan tujuan program secara lengkap.
                             </p>
@@ -360,32 +359,7 @@
 
 @push('scripts')
     <script>
-        let quill;
-
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Quill WYSIWYG editor
-            quill = new Quill('#editor-container', {
-                theme: 'snow',
-                placeholder: 'Tulis latar belakang, visi, atau penjelasan rinci tentang program...',
-                modules: {
-                    toolbar: [
-                        [{
-                            'header': [2, 3, false]
-                        }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{
-                            'list': 'ordered'
-                        }, {
-                            'list': 'bullet'
-                        }],
-                        ['link', 'clean']
-                    ]
-                }
-            });
-
-            quill.on('text-change', function() {
-                document.getElementById('description').value = quill.root.innerHTML;
-            });
 
             // Set initial counter
             const titleInput = document.getElementById('title');
@@ -410,11 +384,6 @@
                     badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
                     badge.innerText = 'Aktif';
                 }
-            }
-
-            if (quill) {
-                const html = quill.root.innerHTML;
-                document.getElementById('description').value = (html === '<p><br></p>') ? '' : html;
             }
 
             const form = document.getElementById('about-section-form');

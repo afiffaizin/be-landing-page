@@ -32,4 +32,7 @@ Route::prefix('v1')->group(function () {
     // Product Section
     Route::get('products', [\App\Http\Controllers\Api\V1\ProductSectionController::class, 'index']);
     Route::get('products/{productSection}', [\App\Http\Controllers\Api\V1\ProductSectionController::class, 'show']);
+    
+    // Cara Pesan (How To Order)
+    Route::get('how-to-orders', [\App\Http\Controllers\Api\V1\HowToOrderController::class, 'index']);
 });

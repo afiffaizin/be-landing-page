@@ -48,4 +48,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::patch('/product-sections/{productSection}/toggle-status', [\App\Http\Controllers\Admin\ProductSectionController::class, 'toggleStatus'])
         ->name('product-sections.toggle-status');
     Route::resource('product-sections', \App\Http\Controllers\Admin\ProductSectionController::class)->except(['show']);
+
+    // How To Order Management
+    Route::patch('/how-to-orders/{howToOrder}/toggle-status', [\App\Http\Controllers\Admin\HowToOrderSectionController::class, 'toggleStatus'])
+        ->name('how-to-orders.toggle-status');
+    Route::resource('how-to-orders', \App\Http\Controllers\Admin\HowToOrderSectionController::class)->except(['show']);
 });

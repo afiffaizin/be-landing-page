@@ -25,6 +25,8 @@ class AboutSectionCard extends Model
         'steps' => 'integer',
     ];
 
+    protected $touches = ['aboutSection'];
+
     /**
      * Get the about section that owns this card.
      */
@@ -38,7 +40,7 @@ class AboutSectionCard extends Model
      */
     public function getImageUrlAttribute(): ?string
     {
-        if (!$this->image) {
+        if (! $this->image) {
             return null;
         }
 
@@ -50,7 +52,7 @@ class AboutSectionCard extends Model
      */
     public function getIconImageUrlAttribute(): ?string
     {
-        if (!$this->icon_image) {
+        if (! $this->icon_image) {
             return null;
         }
 

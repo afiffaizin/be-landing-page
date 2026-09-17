@@ -22,7 +22,7 @@ class AboutSectionController extends Controller
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
         }
 
         if ($request->filled('status')) {
@@ -77,7 +77,10 @@ class AboutSectionController extends Controller
 
         // Hanya 1 about section yang aktif: jika section ini aktif, nonaktifkan section lainnya
         if ($isActive) {
-            AboutSection::where('is_active', true)->update(['is_active' => false]);
+            AboutSection::where('is_active', true)->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
         }
 
         /** @var AboutSection $aboutSection */
@@ -109,7 +112,7 @@ class AboutSectionController extends Controller
                     }
 
                     $aboutSection->cards()->create([
-                        'title' => $cardTitle ?: 'Card ' . $step,
+                        'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
                         'icon_name' => $iconName ?: null,
@@ -174,7 +177,10 @@ class AboutSectionController extends Controller
         if ($isActive) {
             AboutSection::where('id', '!=', $aboutSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $aboutSection->update([
@@ -191,13 +197,13 @@ class AboutSectionController extends Controller
         if (is_array($submittedCards)) {
             $step = 1;
             foreach ($submittedCards as $index => $cardData) {
-                $cardId = !empty($cardData['id']) ? (int) $cardData['id'] : null;
+                $cardId = ! empty($cardData['id']) ? (int) $cardData['id'] : null;
                 $cardTitle = trim($cardData['title'] ?? '');
                 $cardDesc = trim($cardData['description'] ?? '');
                 $hasImage = $request->hasFile("cards.{$index}.image");
-                $removeImage = !empty($cardData['remove_image']);
+                $removeImage = ! empty($cardData['remove_image']);
                 $hasIconImage = $request->hasFile("cards.{$index}.icon_image");
-                $removeIconImage = !empty($cardData['remove_icon_image']);
+                $removeIconImage = ! empty($cardData['remove_icon_image']);
                 $iconName = trim($cardData['icon_name'] ?? '');
 
                 if ($cardId && $existingCards->has($cardId)) {
@@ -237,7 +243,7 @@ class AboutSectionController extends Controller
                     }
 
                     $card->update([
-                        'title' => $cardTitle ?: 'Card ' . $step,
+                        'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
                         'icon_name' => $iconName ?: null,
@@ -259,7 +265,7 @@ class AboutSectionController extends Controller
                     }
 
                     $newCard = $aboutSection->cards()->create([
-                        'title' => $cardTitle ?: 'Card ' . $step,
+                        'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
                         'icon_name' => $iconName ?: null,
@@ -275,7 +281,7 @@ class AboutSectionController extends Controller
 
         // Hapus card yang dibuang oleh user di form
         foreach ($existingCards as $existingId => $existingCard) {
-            if (!in_array($existingId, $keptCardIds)) {
+            if (! in_array($existingId, $keptCardIds)) {
                 if ($existingCard->image && Storage::disk('public')->exists($existingCard->image)) {
                     Storage::disk('public')->delete($existingCard->image);
                 }
@@ -285,6 +291,8 @@ class AboutSectionController extends Controller
                 $existingCard->delete();
             }
         }
+
+        $aboutSection->touch();
 
         $message = $isActive
             ? 'About section berhasil diperbarui.'
@@ -325,21 +333,25 @@ class AboutSectionController extends Controller
      */
     public function toggleStatus(AboutSection $aboutSection): RedirectResponse
     {
-        $newStatus = !$aboutSection->is_active;
+        $newStatus = ! $aboutSection->is_active;
 
         // Hanya 1 about section yang aktif: jika diaktifkan, nonaktifkan section lainnya
         if ($newStatus) {
             AboutSection::where('id', '!=', $aboutSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $aboutSection->update([
             'is_active' => $newStatus,
         ]);
+        $aboutSection->touch();
 
-        $message = $newStatus 
-            ? 'About section berhasil diaktifkan.' 
+        $message = $newStatus
+            ? 'About section berhasil diaktifkan.'
             : 'About section berhasil dinonaktifkan.';
 
         return back()->with('success', $message);

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HowToOrderSection;
-use App\Models\HowToOrderStep;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -18,7 +17,7 @@ class HowToOrderSectionController extends Controller
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
         }
 
         if ($request->filled('status')) {
@@ -65,7 +64,10 @@ class HowToOrderSectionController extends Controller
         $validated['is_active'] = $isActive;
 
         if ($isActive) {
-            HowToOrderSection::where('is_active', true)->update(['is_active' => false]);
+            HowToOrderSection::where('is_active', true)->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
         }
 
         $section = HowToOrderSection::create([
@@ -84,7 +86,7 @@ class HowToOrderSectionController extends Controller
 
                 if ($stepTitle !== '' || $stepDesc !== '') {
                     $section->steps()->create([
-                        'title' => $stepTitle ?: 'Langkah ' . $order,
+                        'title' => $stepTitle ?: 'Langkah '.$order,
                         'description' => $stepDesc,
                         'step_order' => $order,
                     ]);
@@ -94,12 +96,14 @@ class HowToOrderSectionController extends Controller
         }
 
         $message = $isActive ? 'Section Cara Pesan berhasil dipublikasikan.' : 'Section Cara Pesan berhasil disimpan sebagai draft.';
+
         return redirect()->route('admin.how-to-orders.index')->with('success', $message);
     }
 
     public function edit(HowToOrderSection $howToOrder): View
     {
         $howToOrder->load('steps');
+
         return view('admin.how-to-order.edit', compact('howToOrder'));
     }
 
@@ -129,7 +133,10 @@ class HowToOrderSectionController extends Controller
         if ($isActive) {
             HowToOrderSection::where('id', '!=', $howToOrder->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $howToOrder->update([
@@ -147,14 +154,14 @@ class HowToOrderSectionController extends Controller
         if (is_array($submittedSteps)) {
             $order = 1;
             foreach ($submittedSteps as $stepData) {
-                $stepId = !empty($stepData['id']) ? (int) $stepData['id'] : null;
+                $stepId = ! empty($stepData['id']) ? (int) $stepData['id'] : null;
                 $stepTitle = trim($stepData['title'] ?? '');
                 $stepDesc = trim($stepData['description'] ?? '');
 
                 if ($stepId && $existingSteps->has($stepId)) {
                     $step = $existingSteps->get($stepId);
                     $step->update([
-                        'title' => $stepTitle ?: 'Langkah ' . $order,
+                        'title' => $stepTitle ?: 'Langkah '.$order,
                         'description' => $stepDesc,
                         'step_order' => $order,
                     ]);
@@ -162,7 +169,7 @@ class HowToOrderSectionController extends Controller
                     $order++;
                 } elseif ($stepTitle !== '' || $stepDesc !== '') {
                     $newStep = $howToOrder->steps()->create([
-                        'title' => $stepTitle ?: 'Langkah ' . $order,
+                        'title' => $stepTitle ?: 'Langkah '.$order,
                         'description' => $stepDesc,
                         'step_order' => $order,
                     ]);
@@ -173,36 +180,45 @@ class HowToOrderSectionController extends Controller
         }
 
         foreach ($existingSteps as $existingId => $existingStep) {
-            if (!in_array($existingId, $keptStepIds)) {
+            if (! in_array($existingId, $keptStepIds)) {
                 $existingStep->delete();
             }
         }
 
+        $howToOrder->touch();
+
         $message = $isActive ? 'Section Cara Pesan berhasil diperbarui.' : 'Section Cara Pesan berhasil disimpan sebagai draft.';
+
         return redirect()->route('admin.how-to-orders.index')->with('success', $message);
     }
 
     public function destroy(HowToOrderSection $howToOrder): RedirectResponse
     {
         $howToOrder->delete();
+
         return redirect()->route('admin.how-to-orders.index')->with('success', 'Section Cara Pesan berhasil dihapus.');
     }
 
     public function toggleStatus(HowToOrderSection $howToOrder): RedirectResponse
     {
-        $newStatus = !$howToOrder->is_active;
+        $newStatus = ! $howToOrder->is_active;
 
         if ($newStatus) {
             HowToOrderSection::where('id', '!=', $howToOrder->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $howToOrder->update([
             'is_active' => $newStatus,
         ]);
+        $howToOrder->touch();
 
         $message = $newStatus ? 'Section Cara Pesan berhasil diaktifkan.' : 'Section Cara Pesan berhasil dinonaktifkan.';
+
         return back()->with('success', $message);
     }
 }

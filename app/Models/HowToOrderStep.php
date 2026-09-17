@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class HowToOrderStep extends Model
 {
@@ -16,7 +17,9 @@ class HowToOrderStep extends Model
         'step_order',
     ];
 
-    public function section(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    protected $touches = ['section'];
+
+    public function section(): BelongsTo
     {
         return $this->belongsTo(HowToOrderSection::class, 'how_to_order_section_id');
     }

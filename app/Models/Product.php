@@ -20,6 +20,8 @@ class Product extends Model
         'order',
     ];
 
+    protected $touches = ['productSection'];
+
     public function productSection(): BelongsTo
     {
         return $this->belongsTo(ProductSection::class);

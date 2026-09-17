@@ -43,11 +43,11 @@ class TestimonialSectionController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'is_active' => ['nullable'],
-            
+
             'statistics' => ['nullable', 'array'],
             'statistics.*.value' => ['nullable', 'string', 'max:255'],
             'statistics.*.description' => ['nullable', 'string'],
-            
+
             'testimonials' => ['nullable', 'array'],
             'testimonials.*.quote' => ['nullable', 'string'],
             'testimonials.*.name' => ['nullable', 'string', 'max:255'],
@@ -64,7 +64,10 @@ class TestimonialSectionController extends Controller
         }
 
         if ($isActive) {
-            TestimonialSection::where('is_active', true)->update(['is_active' => false]);
+            TestimonialSection::where('is_active', true)->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
         }
 
         $section = TestimonialSection::create([
@@ -103,12 +106,14 @@ class TestimonialSectionController extends Controller
         }
 
         $message = $isActive ? 'Testimonial Section berhasil dipublikasikan.' : 'Testimonial Section berhasil disimpan sebagai draft.';
+
         return redirect()->route('admin.testimonial-sections.index')->with('success', $message);
     }
 
     public function edit(TestimonialSection $testimonialSection): View
     {
         $testimonialSection->load(['statistics', 'testimonials']);
+
         return view('admin.testimonial-section.edit', compact('testimonialSection'));
     }
 
@@ -117,12 +122,12 @@ class TestimonialSectionController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'is_active' => ['nullable'],
-            
+
             'statistics' => ['nullable', 'array'],
             'statistics.*.id' => ['nullable', 'integer'],
             'statistics.*.value' => ['nullable', 'string', 'max:255'],
             'statistics.*.description' => ['nullable', 'string'],
-            
+
             'testimonials' => ['nullable', 'array'],
             'testimonials.*.id' => ['nullable', 'integer'],
             'testimonials.*.quote' => ['nullable', 'string'],
@@ -142,7 +147,10 @@ class TestimonialSectionController extends Controller
         if ($isActive) {
             TestimonialSection::where('id', '!=', $testimonialSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $testimonialSection->update([
@@ -157,7 +165,7 @@ class TestimonialSectionController extends Controller
 
         if (is_array($submittedStats)) {
             foreach ($submittedStats as $statData) {
-                $statId = !empty($statData['id']) ? (int) $statData['id'] : null;
+                $statId = ! empty($statData['id']) ? (int) $statData['id'] : null;
                 $val = trim($statData['value'] ?? '');
                 $desc = trim($statData['description'] ?? '');
 
@@ -179,7 +187,7 @@ class TestimonialSectionController extends Controller
         }
 
         foreach ($existingStats as $existingId => $existingStat) {
-            if (!in_array($existingId, $keptStatIds)) {
+            if (! in_array($existingId, $keptStatIds)) {
                 $existingStat->delete();
             }
         }
@@ -191,7 +199,7 @@ class TestimonialSectionController extends Controller
 
         if (is_array($submittedItems)) {
             foreach ($submittedItems as $itemData) {
-                $itemId = !empty($itemData['id']) ? (int) $itemData['id'] : null;
+                $itemId = ! empty($itemData['id']) ? (int) $itemData['id'] : null;
                 $quote = trim($itemData['quote'] ?? '');
                 $name = trim($itemData['name'] ?? '');
                 $subtitle = trim($itemData['subtitle'] ?? '');
@@ -216,36 +224,45 @@ class TestimonialSectionController extends Controller
         }
 
         foreach ($existingItems as $existingId => $existingItem) {
-            if (!in_array($existingId, $keptItemIds)) {
+            if (! in_array($existingId, $keptItemIds)) {
                 $existingItem->delete();
             }
         }
 
+        $testimonialSection->touch();
+
         $message = $isActive ? 'Testimonial Section berhasil diperbarui.' : 'Testimonial Section berhasil disimpan sebagai draft.';
+
         return redirect()->route('admin.testimonial-sections.index')->with('success', $message);
     }
 
     public function destroy(TestimonialSection $testimonialSection): RedirectResponse
     {
         $testimonialSection->delete();
+
         return redirect()->route('admin.testimonial-sections.index')->with('success', 'Testimonial Section berhasil dihapus.');
     }
 
     public function toggleStatus(TestimonialSection $testimonialSection): RedirectResponse
     {
-        $newStatus = !$testimonialSection->is_active;
+        $newStatus = ! $testimonialSection->is_active;
 
         if ($newStatus) {
             TestimonialSection::where('id', '!=', $testimonialSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $testimonialSection->update([
             'is_active' => $newStatus,
         ]);
+        $testimonialSection->touch();
 
         $message = $newStatus ? 'Testimonial Section berhasil diaktifkan.' : 'Testimonial Section berhasil dinonaktifkan.';
+
         return back()->with('success', $message);
     }
 }

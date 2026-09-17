@@ -14,6 +14,7 @@ class Product extends Model
         'product_section_id',
         'name',
         'description',
+        'benefit',
         'price',
         'image',
         'order',

@@ -60,6 +60,7 @@ class ProductSectionController extends Controller
             'products' => ['nullable', 'array'],
             'products.*.name' => ['nullable', 'string', 'max:255'],
             'products.*.description' => ['nullable', 'string'],
+            'products.*.benefit' => ['nullable', 'string', 'max:500'],
             'products.*.price' => ['nullable', 'string', 'max:255'],
             'products.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
@@ -94,10 +95,11 @@ class ProductSectionController extends Controller
             foreach ($request->input('products') as $index => $productData) {
                 $productName = trim($productData['name'] ?? '');
                 $productDesc = trim($productData['description'] ?? '');
+                $productBenefit = trim($productData['benefit'] ?? '');
                 $productPrice = trim($productData['price'] ?? '');
                 $hasImage = $request->hasFile("products.{$index}.image");
 
-                if ($productName !== '' || $productDesc !== '' || $productPrice !== '' || $hasImage) {
+                if ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productPrice !== '' || $hasImage) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("products.{$index}.image")->store('product-images', 'public');
@@ -106,6 +108,7 @@ class ProductSectionController extends Controller
                     $productSection->products()->create([
                         'name' => $productName ?: 'Product ' . $order,
                         'description' => $productDesc,
+                        'benefit' => $productBenefit ?: null,
                         'price' => $productPrice,
                         'image' => $imagePath,
                         'order' => $order,
@@ -147,6 +150,7 @@ class ProductSectionController extends Controller
             'products.*.id' => ['nullable', 'integer'],
             'products.*.name' => ['nullable', 'string', 'max:255'],
             'products.*.description' => ['nullable', 'string'],
+            'products.*.benefit' => ['nullable', 'string', 'max:500'],
             'products.*.price' => ['nullable', 'string', 'max:255'],
             'products.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'products.*.remove_image' => ['nullable', 'boolean'],
@@ -188,6 +192,7 @@ class ProductSectionController extends Controller
                 $productId = !empty($productData['id']) ? (int) $productData['id'] : null;
                 $productName = trim($productData['name'] ?? '');
                 $productDesc = trim($productData['description'] ?? '');
+                $productBenefit = trim($productData['benefit'] ?? '');
                 $productPrice = trim($productData['price'] ?? '');
                 $hasImage = $request->hasFile("products.{$index}.image");
                 $removeImage = !empty($productData['remove_image']);
@@ -214,6 +219,7 @@ class ProductSectionController extends Controller
                     $product->update([
                         'name' => $productName ?: 'Product ' . $order,
                         'description' => $productDesc,
+                        'benefit' => $productBenefit ?: null,
                         'price' => $productPrice,
                         'image' => $imagePath,
                         'order' => $order,
@@ -221,7 +227,7 @@ class ProductSectionController extends Controller
 
                     $keptProductIds[] = $productId;
                     $order++;
-                } elseif ($productName !== '' || $productDesc !== '' || $productPrice !== '' || $hasImage) {
+                } elseif ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productPrice !== '' || $hasImage) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("products.{$index}.image")->store('product-images', 'public');
@@ -230,6 +236,7 @@ class ProductSectionController extends Controller
                     $newProduct = $productSection->products()->create([
                         'name' => $productName ?: 'Product ' . $order,
                         'description' => $productDesc,
+                        'benefit' => $productBenefit ?: null,
                         'price' => $productPrice,
                         'image' => $imagePath,
                         'order' => $order,

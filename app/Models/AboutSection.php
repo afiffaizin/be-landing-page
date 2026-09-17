@@ -29,7 +29,7 @@ class AboutSection extends Model
      */
     public function cards(): HasMany
     {
-        return $this->hasMany(AboutSectionCard::class)->orderBy('order');
+        return $this->hasMany(AboutSectionCard::class)->orderBy('steps');
     }
 
     /**

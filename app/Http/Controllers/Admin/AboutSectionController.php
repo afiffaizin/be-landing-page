@@ -60,6 +60,8 @@ class AboutSectionController extends Controller
             'cards.*.title' => ['nullable', 'string', 'max:255'],
             'cards.*.description' => ['nullable', 'string'],
             'cards.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'cards.*.icon_name' => ['nullable', 'string', 'max:100'],
+            'cards.*.icon_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:512'],
         ]);
 
         $action = $request->input('action');
@@ -87,11 +89,13 @@ class AboutSectionController extends Controller
 
         // Simpan multiple cards
         if ($request->has('cards') && is_array($request->input('cards'))) {
-            $order = 1;
+            $step = 1;
             foreach ($request->input('cards') as $index => $cardData) {
                 $cardTitle = trim($cardData['title'] ?? '');
                 $cardDesc = trim($cardData['description'] ?? '');
                 $hasImage = $request->hasFile("cards.{$index}.image");
+                $hasIconImage = $request->hasFile("cards.{$index}.icon_image");
+                $iconName = trim($cardData['icon_name'] ?? '');
 
                 if ($cardTitle !== '' || $cardDesc !== '' || $hasImage) {
                     $imagePath = null;
@@ -99,13 +103,20 @@ class AboutSectionController extends Controller
                         $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
                     }
 
+                    $iconImagePath = null;
+                    if ($hasIconImage) {
+                        $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
+                    }
+
                     $aboutSection->cards()->create([
-                        'title' => $cardTitle ?: 'Card ' . $order,
+                        'title' => $cardTitle ?: 'Card ' . $step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
-                        'order' => $order,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
+                        'steps' => $step,
                     ]);
-                    $order++;
+                    $step++;
                 }
             }
         }
@@ -143,6 +154,9 @@ class AboutSectionController extends Controller
             'cards.*.description' => ['nullable', 'string'],
             'cards.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'cards.*.remove_image' => ['nullable', 'boolean'],
+            'cards.*.icon_name' => ['nullable', 'string', 'max:100'],
+            'cards.*.icon_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:512'],
+            'cards.*.remove_icon_image' => ['nullable', 'boolean'],
         ]);
 
         $action = $request->input('action');
@@ -175,19 +189,24 @@ class AboutSectionController extends Controller
         $keptCardIds = [];
 
         if (is_array($submittedCards)) {
-            $order = 1;
+            $step = 1;
             foreach ($submittedCards as $index => $cardData) {
                 $cardId = !empty($cardData['id']) ? (int) $cardData['id'] : null;
                 $cardTitle = trim($cardData['title'] ?? '');
                 $cardDesc = trim($cardData['description'] ?? '');
                 $hasImage = $request->hasFile("cards.{$index}.image");
                 $removeImage = !empty($cardData['remove_image']);
+                $hasIconImage = $request->hasFile("cards.{$index}.icon_image");
+                $removeIconImage = !empty($cardData['remove_icon_image']);
+                $iconName = trim($cardData['icon_name'] ?? '');
 
                 if ($cardId && $existingCards->has($cardId)) {
                     /** @var AboutSectionCard $card */
                     $card = $existingCards->get($cardId);
                     $imagePath = $card->image;
+                    $iconImagePath = $card->icon_image;
 
+                    // Handle card image
                     if ($removeImage && $imagePath) {
                         if (Storage::disk('public')->exists($imagePath)) {
                             Storage::disk('public')->delete($imagePath);
@@ -202,30 +221,54 @@ class AboutSectionController extends Controller
                         $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
                     }
 
+                    // Handle icon image
+                    if ($removeIconImage && $iconImagePath) {
+                        if (Storage::disk('public')->exists($iconImagePath)) {
+                            Storage::disk('public')->delete($iconImagePath);
+                        }
+                        $iconImagePath = null;
+                    }
+
+                    if ($hasIconImage) {
+                        if ($iconImagePath && Storage::disk('public')->exists($iconImagePath)) {
+                            Storage::disk('public')->delete($iconImagePath);
+                        }
+                        $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
+                    }
+
                     $card->update([
-                        'title' => $cardTitle ?: 'Card ' . $order,
+                        'title' => $cardTitle ?: 'Card ' . $step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
-                        'order' => $order,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
+                        'steps' => $step,
                     ]);
 
                     $keptCardIds[] = $cardId;
-                    $order++;
+                    $step++;
                 } elseif ($cardTitle !== '' || $cardDesc !== '' || $hasImage) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
                     }
 
+                    $iconImagePath = null;
+                    if ($hasIconImage) {
+                        $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
+                    }
+
                     $newCard = $aboutSection->cards()->create([
-                        'title' => $cardTitle ?: 'Card ' . $order,
+                        'title' => $cardTitle ?: 'Card ' . $step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
-                        'order' => $order,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
+                        'steps' => $step,
                     ]);
 
                     $keptCardIds[] = $newCard->id;
-                    $order++;
+                    $step++;
                 }
             }
         }
@@ -235,6 +278,9 @@ class AboutSectionController extends Controller
             if (!in_array($existingId, $keptCardIds)) {
                 if ($existingCard->image && Storage::disk('public')->exists($existingCard->image)) {
                     Storage::disk('public')->delete($existingCard->image);
+                }
+                if ($existingCard->icon_image && Storage::disk('public')->exists($existingCard->icon_image)) {
+                    Storage::disk('public')->delete($existingCard->icon_image);
                 }
                 $existingCard->delete();
             }
@@ -253,10 +299,13 @@ class AboutSectionController extends Controller
      */
     public function destroy(AboutSection $aboutSection): RedirectResponse
     {
-        // Hapus semua gambar card
+        // Hapus semua gambar card dan icon
         foreach ($aboutSection->cards as $card) {
             if ($card->image && Storage::disk('public')->exists($card->image)) {
                 Storage::disk('public')->delete($card->image);
+            }
+            if ($card->icon_image && Storage::disk('public')->exists($card->icon_image)) {
+                Storage::disk('public')->delete($card->icon_image);
             }
         }
 

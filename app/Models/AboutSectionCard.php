@@ -16,11 +16,13 @@ class AboutSectionCard extends Model
         'title',
         'image',
         'description',
-        'order',
+        'icon_name',
+        'icon_image',
+        'steps',
     ];
 
     protected $casts = [
-        'order' => 'integer',
+        'steps' => 'integer',
     ];
 
     /**
@@ -41,5 +43,17 @@ class AboutSectionCard extends Model
         }
 
         return Storage::disk('public')->url($this->image);
+    }
+
+    /**
+     * Get the full URL for the custom icon image.
+     */
+    public function getIconImageUrlAttribute(): ?string
+    {
+        if (!$this->icon_image) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->icon_image);
     }
 }

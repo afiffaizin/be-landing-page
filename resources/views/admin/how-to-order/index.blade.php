@@ -124,8 +124,9 @@
                                         </button>
                                     </form>
                                 </td>
-                                <td class="py-3.5 px-5 whitespace-nowrap text-slate-500 text-[11px]">
-                                    {{ $section->updated_at->format('d M Y, H:i') }}
+                                <td class="py-3.5 px-5 whitespace-nowrap text-slate-500 text-[11px]" title="{{ $section->updated_at->diffForHumans() }}">
+                                    <div class="font-medium text-slate-700">{{ $section->updated_at->translatedFormat('d M Y, H:i') }} WIB</div>
+                                    <div class="text-[10px] text-slate-400">{{ $section->updated_at->diffForHumans() }}</div>
                                 </td>
                                 <td class="py-3.5 px-5 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-1.5">

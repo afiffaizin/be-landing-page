@@ -307,9 +307,12 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-100 space-y-2 text-xs">
-                        <div class="flex justify-between text-slate-500">
+                        <div class="flex justify-between items-start text-slate-500">
                             <span>Terakhir Diperbarui:</span>
-                            <span class="text-slate-600">{{ $howToOrder->updated_at->format('d M Y, H:i') }}</span>
+                            <div class="text-right">
+                                <span class="text-slate-700 font-medium">{{ $howToOrder->updated_at->translatedFormat('d M Y, H:i') }} WIB</span>
+                                <span class="text-[11px] text-slate-400 block">({{ $howToOrder->updated_at->diffForHumans() }})</span>
+                            </div>
                         </div>
                         <div class="flex justify-between items-center text-slate-500 pt-1">
                             <span>Status Publikasi:</span>

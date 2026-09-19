@@ -24,19 +24,19 @@ class AboutSectionSeeder extends Seeder
                 'title' => 'Pemberdayaan Masyarakat',
                 'description' => 'Melaksanakan program pemberdayaan masyarakat melalui pelatihan, pendampingan, dan transfer teknologi tepat guna untuk meningkatkan kemandirian dan kesejahteraan.',
                 'image' => null,
-                'order' => 1,
+                'steps' => 1,
             ],
             [
                 'title' => 'Penerapan IPTEK',
                 'description' => 'Menerapkan hasil penelitian dan ilmu pengetahuan untuk menyelesaikan permasalahan nyata di masyarakat secara efektif dan berkelanjutan.',
                 'image' => null,
-                'order' => 2,
+                'steps' => 2,
             ],
             [
                 'title' => 'Kemitraan Berkelanjutan',
                 'description' => 'Membangun kemitraan jangka panjang dengan masyarakat, pemerintah daerah, dan pihak terkait untuk memastikan keberlanjutan program pengabdian.',
                 'image' => null,
-                'order' => 3,
+                'steps' => 3,
             ],
         ];
 

@@ -33,7 +33,7 @@ class TestimonialHubTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Testimonial Pelanggan');
-        $response->assertSee('+ Tambah Testimoni (Batch)');
+        $response->assertSee('Tambah Testimoni (Batch)');
     }
 
     public function test_admin_can_batch_store_testimonials(): void

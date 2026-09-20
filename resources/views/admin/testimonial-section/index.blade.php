@@ -16,7 +16,7 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>+ Tambah Testimoni (Batch)</span>
+        <span>Tambah Testimoni (Batch)</span>
     </button>
 @endsection
 
@@ -38,9 +38,10 @@
 
         <!-- Top Overview Card: Judul Section & Statistik Dampak -->
         <div
-            class="relative overflow-hidden bg-gradient-to-br from-emerald-900/5 via-white to-white p-5 sm:p-6 rounded-2xl border border-emerald-100 shadow-xs">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-                <div class="space-y-2">
+            class="relative overflow-hidden bg-gradient-to-br from-emerald-900/5 via-white to-white p-5 sm:p-6 rounded-2xl border border-emerald-100 shadow-xs space-y-4">
+            <!-- Header Row: Info Judul & Action Button -->
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-emerald-100/70">
+                <div class="space-y-1.5">
                     <div class="flex items-center gap-2">
                         <span
                             class="px-2.5 py-0.5 rounded-md text-[11px] font-bold tracking-wide uppercase bg-emerald-100 text-emerald-800">
@@ -48,26 +49,12 @@
                         </span>
                     </div>
                     <div>
-                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                            <span>"{{ $section->title }}"</span>
+                        <h2 class="text-xl font-bold text-slate-900 tracking-tight">
+                            "{{ $section->title }}"
                         </h2>
-                        <p class="text-xs text-slate-500 mt-1">
+                        <p class="text-xs text-slate-500 mt-0.5">
                             Judul utama section yang tampil pada slider ulasan landing page.
                         </p>
-                    </div>
-
-                    <!-- Statistics Pills -->
-                    <div class="pt-2 flex flex-wrap items-center gap-2">
-                        @forelse($section->statistics as $stat)
-                            <div
-                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-emerald-200/80 rounded-xl shadow-2xs">
-                                <span class="text-sm font-extrabold text-emerald-700">{{ $stat->value }}</span>
-                                <span class="text-xs text-slate-600 font-medium">{{ $stat->description }}</span>
-                            </div>
-                        @empty
-                            <span class="text-xs text-slate-400 italic">Belum ada angka statistik dampak yang
-                                ditambahkan.</span>
-                        @endforelse
                     </div>
                 </div>
 
@@ -83,6 +70,42 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Statistics Grid Section -->
+            <div class="space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-700">Angka Statistik & Dampak</span>
+                        <span
+                            class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                            {{ $section->statistics->count() }}
+                        </span>
+                    </div>
+                </div>
+
+                @if($section->statistics->isNotEmpty())
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2.5">
+                        @foreach($section->statistics as $stat)
+                            <div
+                                class="bg-white/95 border border-emerald-100 hover:border-emerald-300 rounded-xl p-3 shadow-2xs transition-all flex flex-col justify-center min-w-0 group hover:shadow-xs">
+                                <div class="text-sm sm:text-base font-black text-emerald-700 tracking-tight truncate"
+                                    title="{{ $stat->value }}">
+                                    {{ $stat->value }}
+                                </div>
+                                <div class="text-[11px] text-slate-600 font-medium line-clamp-2 mt-0.5 leading-snug break-all"
+                                    title="{{ $stat->description }}">
+                                    {{ $stat->description }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div
+                        class="py-4 px-3 text-center border border-dashed border-emerald-200/80 rounded-xl bg-white/50">
+                        <span class="text-xs text-slate-400 italic">Belum ada angka statistik dampak yang ditambahkan.</span>
+                    </div>
+                @endif
+            </div>
         </div>
 
         <!-- Search & Filter Bar -->
@@ -91,7 +114,7 @@
                 class="flex flex-col sm:flex-row items-center gap-3 w-full">
                 <div class="relative flex-1 w-full">
                     <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="Cari berdasarkan nama, jabatan, atau isi ulasan..."
+                        placeholder="Cari berdasarkan nama, lokasi, atau isi ulasan..."
                         class="w-full pl-10 pr-4 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -305,7 +328,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>+ Tambah Baris Testimoni Lagi</span>
+                        <span>Tambah Baris Testimoni Lagi</span>
                     </button>
                     <span id="batchCountBadge"
                         class="text-xs font-medium text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-lg">
@@ -379,8 +402,7 @@
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1.5">Lokasi (Kota / Wilayah) <span
                             class="text-slate-400 font-normal">(Opsional)</span></label>
-                    <input type="text" id="editItemLocation" name="location"
-                        placeholder="Contoh: Cilacap / Banyumas"
+                    <input type="text" id="editItemLocation" name="location" placeholder="Contoh: Cilacap / Banyumas"
                         class="w-full px-3.5 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                 </div>
 
@@ -467,11 +489,11 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 4v16m8-8H4"></path>
                                 </svg>
-                                <span>+ Tambah Angka</span>
+                                <span>Tambah Angka</span>
                             </button>
                         </div>
 
-                        <div id="statsRowsContainer" class="space-y-2.5">
+                        <div id="statsRowsContainer" class="max-h-64 overflow-y-auto pr-1 space-y-2.5">
                             @foreach ($section->statistics as $idx => $stat)
                                 <div
                                     class="stat-row p-3 bg-gray-50/80 border border-gray-200/80 rounded-xl flex items-center gap-3">

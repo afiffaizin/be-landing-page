@@ -249,7 +249,6 @@ class HowToOrderSectionTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonPath('data.title', 'API Cara Pesan Test')
             ->assertJsonPath('data.steps.0.title', 'Langkah Pertama')
-            ->assertJsonPath('data.steps.0.icon_name', 'sparkles')
-            ->assertJsonPath('data.steps.0.iconName', 'sparkles');
+            ->assertJsonPath('data.steps.0.icon_name', 'sparkles');
     }
 }

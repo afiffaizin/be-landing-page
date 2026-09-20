@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\HowToOrderSectionResource;
 use App\Models\HowToOrderSection;
-use Illuminate\Http\Request;
 
 class HowToOrderController extends Controller
 {
@@ -15,7 +14,7 @@ class HowToOrderController extends Controller
             ->where('is_active', true)
             ->first();
 
-        if (!$howToOrderSection) {
+        if (! $howToOrderSection) {
             return response()->json(['data' => null]);
         }
 

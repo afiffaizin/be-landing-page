@@ -46,7 +46,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('admin.how-to-orders.store') }}" method="POST" id="howToOrderForm">
+    <form action="{{ route('admin.how-to-orders.store') }}" method="POST" id="howToOrderForm" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="action" id="formAction" value="publish">
 
@@ -87,12 +87,19 @@
                             </p>
                         </div>
 
-                        <!-- Deskripsi Rich Editor -->
+                        <!-- Deskripsi -->
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-2">
-                                Deskripsi (Opsional)
-                            </label>
-                            <x-form.rich-editor name="description" :value="old('description')" placeholder="Tuliskan deskripsi singkat di sini..." />
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label for="description" class="block text-xs font-bold text-slate-700">
+                                    Deskripsi <span class="text-slate-400 font-normal">(Opsional)</span>
+                                </label>
+                            </div>
+                            <textarea id="description" name="description" rows="3"
+                                placeholder="Tuliskan pengantar singkat mengenai alur cara pemesanan di sini..."
+                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed min-h-[76px] max-h-36 resize-y">{{ old('description') }}</textarea>
+                            @error('description')
+                                <p class="text-xs text-rose-500 mt-1.5">{{ $message }}</p>
+                            @enderror
                             <p class="text-[11px] text-slate-400 mt-1.5">
                                 Berikan pengantar singkat mengenai cara pemesanan (opsional).
                             </p>
@@ -201,6 +208,17 @@
                                                     oninput="updateStepHeaderTitle(this)"
                                                     class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                             </div>
+
+                                            <!-- Icon Selection -->
+                                            <x-form.icon-picker
+                                                name="steps[{{ $idx }}][icon_name]"
+                                                :value="old('steps.' . $idx . '.icon_name', $step['icon_name'] ?? null)"
+                                                label="Icon Langkah (Pilih Lucide Icon atau Upload Custom)"
+                                                :with-upload="true"
+                                                upload-name="steps[{{ $idx }}][icon_image]"
+                                                :upload-value="isset($step['icon_image_url']) ? $step['icon_image_url'] : (isset($step['icon_image']) ? \Illuminate\Support\Facades\Storage::disk('public')->url($step['icon_image']) : null)"
+                                                remove-name="steps[{{ $idx }}][remove_icon_image]"
+                                            />
 
                                             <!-- Deskripsi Step -->
                                             <div>
@@ -499,6 +517,53 @@
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Langkah <span class="text-rose-500">*</span></label>
                             <input type="text" name="steps[${stepIndex}][title]" required maxlength="255" placeholder="Contoh: Hubungi Admin" oninput="updateStepHeaderTitle(this)" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                         </div>
+
+                        <!-- Icon Selection -->
+                        <div class="icon-picker-component">
+                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                Icon Langkah (Pilih Lucide Icon atau Upload Custom)
+                            </label>
+                            <input type="hidden" name="steps[${stepIndex}][icon_name]" class="icon-picker-input card-icon-name-input" value="">
+                            <input type="hidden" name="steps[${stepIndex}][remove_icon_image]" value="0" class="icon-remove-flag card-remove-icon-flag">
+                            <div class="flex items-start gap-3">
+                                <!-- Lucide Picker Button -->
+                                <div class="flex-1">
+                                    <button type="button" onclick="openIconPicker(this)" data-placeholder="Pilih Icon Lucide..."
+                                        class="icon-picker-trigger w-full flex items-center gap-2.5 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-600 hover:border-emerald-400 hover:bg-emerald-50/30 transition-all cursor-pointer">
+                                        <span class="icon-picker-preview w-5 h-5 text-slate-400 flex items-center justify-center shrink-0">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        </span>
+                                        <span class="icon-picker-label flex-1 text-left truncate text-slate-600">Pilih Icon Lucide...</span>
+                                        <span class="icon-picker-clear hidden text-rose-400 hover:text-rose-600 p-0.5 rounded transition-colors" onclick="event.stopPropagation(); clearSelectedIcon(this)" title="Hapus Icon">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        </span>
+                                    </button>
+                                </div>
+                                <!-- Upload Custom Icon -->
+                                <div class="flex-1">
+                                    <div class="icon-upload-zone border border-dashed border-gray-200 hover:border-emerald-400 rounded-xl px-3.5 py-2.5 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
+                                         onclick="this.querySelector('.card-icon-image-input, .icon-image-input').click()">
+                                        <input type="file" name="steps[${stepIndex}][icon_image]"
+                                               accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+                                               onchange="handleIconImagePreview(this)"
+                                               class="card-icon-image-input icon-image-input hidden">
+                                        <div class="icon-upload-preview hidden flex items-center gap-2">
+                                            <img src="#" alt="Icon Preview" class="icon-upload-preview-img w-6 h-6 object-contain rounded">
+                                            <span class="text-xs text-slate-700 font-medium truncate flex-1">Custom Icon</span>
+                                            <button type="button" onclick="event.stopPropagation(); removeIconImage(this)" class="text-rose-400 hover:text-rose-600 p-0.5 shrink-0" title="Hapus Custom Image">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                            </button>
+                                        </div>
+                                        <div class="icon-upload-placeholder flex items-center gap-2">
+                                            <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                            <span class="text-xs text-slate-500 truncate">Upload Custom</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-1">Pilih icon Lucide atau upload gambar custom (PNG, SVG, maks 512KB).</p>
+                        </div>
+
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi Langkah <span class="text-rose-500">*</span></label>
                             <textarea name="steps[${stepIndex}][description]" rows="2" required placeholder="Jelaskan detail yang perlu dilakukan pada langkah ini..." class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
@@ -518,5 +583,15 @@
             stepIndex++;
             updateStepNumbers();
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        });
     </script>
 @endpush
+
+@once('lucide-icon-picker-modal-instance')
+    <x-form.icon-picker-modal />
+@endonce

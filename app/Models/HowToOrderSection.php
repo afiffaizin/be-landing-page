@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class HowToOrderSection extends Model
 {
@@ -21,7 +22,7 @@ class HowToOrderSection extends Model
         'is_active' => 'boolean',
     ];
 
-    public function steps(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function steps(): HasMany
     {
         return $this->hasMany(HowToOrderStep::class)->orderBy('step_order');
     }

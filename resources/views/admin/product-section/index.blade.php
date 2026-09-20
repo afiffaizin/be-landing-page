@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Product Section')
+@section('title', 'Produk')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <span class="text-slate-800">Product Section</span>
+    <span class="text-slate-800">Produk</span>
 @endsection
 
-@section('page_title', 'Kelola Product Section')
+@section('page_title', 'Kelola Produk')
 
 @section('header_actions')
     <a href="{{ route('admin.product-sections.create') }}"
@@ -16,12 +16,12 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>Buat Product Section Baru</span>
+        <span>Buat Produk Baru</span>
     </a>
 @endsection
 
-@section('page_headline', 'Daftar Product Section')
-@section('page_subtitle', 'Kelola daftar katalog produk dan konten landing page section produk.')
+@section('page_headline', 'Daftar Katalog Produk')
+@section('page_subtitle', 'Kelola daftar katalog produk dan konten landing page.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
@@ -194,19 +194,19 @@
                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                     </div>
-                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Product Section</h4>
+                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Katalog Produk</h4>
                                     <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                                        Tambahkan Product Section pertama Anda untuk menjelaskan program pengabdian di landing
-                                        page.
-                                    </p>
-                                    <a href="{{ route('admin.product-sections.create') }}"
-                                        class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 4v16m8-8H4"></path>
-                                        </svg>
-                                        <span>Buat Product Section Baru</span>
-                                    </a>
+                                         Tambahkan produk pertama Anda untuk menampilkan produk di landing
+                                         page.
+                                     </p>
+                                     <a href="{{ route('admin.product-sections.create') }}"
+                                         class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
+                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                 d="M12 4v16m8-8H4"></path>
+                                         </svg>
+                                         <span>Buat Produk Baru</span>
+                                     </a>
                                 </td>
                             </tr>
                         @endforelse

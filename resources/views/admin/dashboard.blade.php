@@ -33,7 +33,7 @@
         <!-- Card 1: Home Section -->
         <div class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Home Sections</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Section Beranda</p>
                 <h3 class="text-2xl font-bold text-slate-900 mt-1">{{ $totalHome }}</h3>
                 <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -50,7 +50,7 @@
         <!-- Card 2: About Section -->
         <div class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs flex items-center justify-between">
             <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">About Sections</p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Section Tentang Kami</p>
                 <h3 class="text-2xl font-bold text-slate-900 mt-1">{{ $totalAbout }}</h3>
                 <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -109,7 +109,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h4 class="text-base font-bold text-slate-900">Modul Home Section</h4>
+                        <h4 class="text-base font-bold text-slate-900">Modul Beranda</h4>
                         <p class="text-xs text-slate-500">Banner utama, heading hero, narasi dan tombol aksi (CTA).</p>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h4 class="text-base font-bold text-slate-900">Modul About Section</h4>
+                        <h4 class="text-base font-bold text-slate-900">Modul Tentang Kami</h4>
                         <p class="text-xs text-slate-500">Deskripsi latar belakang, visi misi, dan poin pilar program.</p>
                     </div>
                 </div>

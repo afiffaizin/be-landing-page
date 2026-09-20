@@ -120,7 +120,7 @@ class RolePermissionTest extends TestCase
             ->assertDontSee(route('admin.testimonials.index'))
             ->assertDontSee(route('admin.contact-sections.index'))
             ->assertDontSee(route('admin.users.index'))
-            ->assertDontSee('Manajemen User');
+            ->assertDontSee('Manajemen Pengguna');
     }
 
     public function test_sidebar_shows_all_modules_and_pengaturan_for_super_admin(): void
@@ -129,12 +129,12 @@ class RolePermissionTest extends TestCase
 
         $response->assertStatus(200)
             ->assertSee('Pengaturan')
-            ->assertSee('Manajemen User')
-            ->assertSee('Home Section')
-            ->assertSee('About Section')
-            ->assertSee('Product Section')
+            ->assertSee('Manajemen Pengguna')
+            ->assertSee('Beranda')
+            ->assertSee('Tentang Kami')
+            ->assertSee('Produk')
             ->assertSee('Cara Pesan')
-            ->assertSee('Testimonial')
-            ->assertSee('Section Kontak');
+            ->assertSee('Testimoni')
+            ->assertSee('Kontak');
     }
 }

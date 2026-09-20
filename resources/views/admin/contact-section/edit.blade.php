@@ -5,7 +5,7 @@
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.contact-sections.index') }}" class="text-slate-500 hover:text-slate-900">Section Kontak</a>
+    <a href="{{ route('admin.contact-sections.index') }}" class="text-slate-500 hover:text-slate-900">Kontak</a>
     <span>/</span>
     <span class="text-slate-800">Edit</span>
 @endsection

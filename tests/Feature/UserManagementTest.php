@@ -60,7 +60,7 @@ class UserManagementTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->get(route('admin.users.index'));
 
         $response->assertStatus(200)
-            ->assertSee('Manajemen User')
+            ->assertSee('Manajemen Pengguna')
             ->assertSee($this->superAdmin->name)
             ->assertSee($this->admin->name);
     }
@@ -82,7 +82,7 @@ class UserManagementTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->get(route('admin.users.create'));
 
         $response->assertStatus(200)
-            ->assertSee('Tambah User Baru')
+            ->assertSee('Tambah Pengguna Baru')
             ->assertSee('Informasi Akun')
             ->assertSee('Permission Akses Modul');
     }
@@ -119,7 +119,7 @@ class UserManagementTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->get(route('admin.users.edit', $this->admin));
 
         $response->assertStatus(200)
-            ->assertSee('Edit User')
+            ->assertSee('Edit Pengguna')
             ->assertSee($this->admin->email);
     }
 

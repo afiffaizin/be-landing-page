@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit User - ' . $user->name)
+@section('title', 'Edit Pengguna - ' . $user->name)
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Pengaturan</a>
     <span>/</span>
-    <a href="{{ route('admin.users.index') }}" class="text-slate-500 hover:text-slate-900">Manajemen User</a>
+    <a href="{{ route('admin.users.index') }}" class="text-slate-500 hover:text-slate-900">Manajemen Pengguna</a>
     <span>/</span>
     <span class="text-slate-800">Edit</span>
 @endsection
 
-@section('page_title', 'Edit User: ' . $user->name)
+@section('page_title', 'Edit Pengguna: ' . $user->name)
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
@@ -90,12 +90,12 @@
 
                     @php
                         $permissionLabels = [
-                            'manage_home_sections' => ['Home Section', 'Kelola banner beranda'],
-                            'manage_about_sections' => ['About Section', 'Kelola bagian tentang'],
-                            'manage_product_sections' => ['Product Section', 'Kelola bagian produk'],
+                            'manage_home_sections' => ['Beranda', 'Kelola banner dan konten beranda'],
+                            'manage_about_sections' => ['Tentang Kami', 'Kelola bagian tentang program'],
+                            'manage_product_sections' => ['Produk', 'Kelola katalog produk'],
                             'manage_how_to_order' => ['Cara Pesan', 'Kelola langkah pemesanan'],
-                            'manage_testimonials' => ['Testimonial', 'Kelola testimoni pelanggan'],
-                            'manage_contact_sections' => ['Section Kontak', 'Kelola info kontak'],
+                            'manage_testimonials' => ['Testimoni', 'Kelola testimoni pelanggan'],
+                            'manage_contact_sections' => ['Kontak', 'Kelola info kontak'],
                         ];
                         $userPermissions = old('permissions', $user->getDirectPermissions()->pluck('name')->toArray());
                     @endphp

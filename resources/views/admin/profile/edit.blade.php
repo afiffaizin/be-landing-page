@@ -188,12 +188,12 @@
                 <div class="space-y-2">
                     @php
                         $permissionLabels = [
-                            'manage_home_sections' => 'Home Section',
-                            'manage_about_sections' => 'About Section',
-                            'manage_product_sections' => 'Product Section',
+                            'manage_home_sections' => 'Beranda',
+                            'manage_about_sections' => 'Tentang Kami',
+                            'manage_product_sections' => 'Produk',
                             'manage_how_to_order' => 'Cara Pesan',
-                            'manage_testimonials' => 'Testimonial',
-                            'manage_contact_sections' => 'Section Kontak',
+                            'manage_testimonials' => 'Testimoni',
+                            'manage_contact_sections' => 'Kontak',
                         ];
                     @endphp
                     @forelse($user->getAllPermissions() as $perm)

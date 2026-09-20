@@ -1,21 +1,21 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen User')
+@section('title', 'Manajemen Pengguna')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Pengaturan</a>
     <span>/</span>
-    <span class="text-slate-800">Manajemen User</span>
+    <span class="text-slate-800">Manajemen Pengguna</span>
 @endsection
 
-@section('page_title', 'Manajemen User')
+@section('page_title', 'Manajemen Pengguna')
 
 @section('header_actions')
     <a href="{{ route('admin.users.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>Tambah User</span>
+        <span>Tambah Pengguna</span>
     </a>
 @endsection
 
@@ -130,9 +130,19 @@
                                     </span>
                                 @else
                                     <div class="flex flex-wrap gap-1 max-w-xs">
+                                        @php
+                                            $labelMap = [
+                                                'manage_home_sections' => 'Beranda',
+                                                'manage_about_sections' => 'Tentang Kami',
+                                                'manage_product_sections' => 'Produk',
+                                                'manage_how_to_order' => 'Cara Pesan',
+                                                'manage_testimonials' => 'Testimoni',
+                                                'manage_contact_sections' => 'Kontak',
+                                            ];
+                                        @endphp
                                         @forelse($user->getDirectPermissions() as $perm)
                                             <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium text-[10px] border border-slate-200/80">
-                                                {{ str_replace('manage_', '', $perm->name) }}
+                                                {{ $labelMap[$perm->name] ?? $perm->name }}
                                             </span>
                                         @empty
                                             <span class="text-slate-400 text-[11px]">Belum ada permission</span>

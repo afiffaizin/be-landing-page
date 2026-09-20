@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah User Baru')
+@section('title', 'Tambah Pengguna Baru')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Pengaturan</a>
     <span>/</span>
-    <a href="{{ route('admin.users.index') }}" class="text-slate-500 hover:text-slate-900">Manajemen User</a>
+    <a href="{{ route('admin.users.index') }}" class="text-slate-500 hover:text-slate-900">Manajemen Pengguna</a>
     <span>/</span>
     <span class="text-slate-800">Tambah Baru</span>
 @endsection
 
-@section('page_title', 'Tambah User Baru')
+@section('page_title', 'Tambah Pengguna Baru')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
@@ -128,12 +128,12 @@
                 <div id="permissions-section" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @php
                         $permissionLabels = [
-                            'manage_home_sections' => ['Home Section', 'Kelola banner beranda'],
-                            'manage_about_sections' => ['About Section', 'Kelola bagian tentang'],
-                            'manage_product_sections' => ['Product Section', 'Kelola bagian produk'],
+                            'manage_home_sections' => ['Beranda', 'Kelola banner dan konten beranda'],
+                            'manage_about_sections' => ['Tentang Kami', 'Kelola bagian tentang program'],
+                            'manage_product_sections' => ['Produk', 'Kelola katalog produk'],
                             'manage_how_to_order' => ['Cara Pesan', 'Kelola langkah pemesanan'],
-                            'manage_testimonials' => ['Testimonial', 'Kelola testimoni pelanggan'],
-                            'manage_contact_sections' => ['Section Kontak', 'Kelola info kontak'],
+                            'manage_testimonials' => ['Testimoni', 'Kelola testimoni pelanggan'],
+                            'manage_contact_sections' => ['Kontak', 'Kelola info kontak'],
                         ];
                     @endphp
 
@@ -185,11 +185,11 @@
 
                 <div class="space-y-3">
                     @foreach($roles as $role)
-                        <label class="flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all {{ old('role', 'admin') === $role->name ? 'border-emerald-500 bg-emerald-50/50' : 'border-gray-200 bg-gray-50/50 hover:border-gray-300' }}">
+                        <label class="flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all {{ old('role') === $role->name ? 'border-emerald-500 bg-emerald-50/50' : 'border-gray-200 bg-gray-50/50 hover:border-gray-300' }}">
                             <input type="radio"
                                    name="role"
                                    value="{{ $role->name }}"
-                                   {{ old('role', 'admin') === $role->name ? 'checked' : '' }}
+                                   {{ old('role') === $role->name ? 'checked' : '' }}
                                    onchange="handleRoleChange(this.value)"
                                    class="mt-0.5 w-4 h-4 text-emerald-600 border-gray-300 focus:ring-emerald-500">
                             <div>

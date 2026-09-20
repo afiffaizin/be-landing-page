@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'About Section')
+@section('title', 'Tentang Kami')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <span class="text-slate-800">About Section</span>
+    <span class="text-slate-800">Tentang Kami</span>
 @endsection
 
-@section('page_title', 'Kelola About Section (Tentang Program)')
+@section('page_title', 'Kelola Tentang Kami')
 
 @section('header_actions')
     <a href="{{ route('admin.about-sections.create') }}"
@@ -16,12 +16,12 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>Buat About Section Baru</span>
+        <span>Buat Konten Baru</span>
     </a>
 @endsection
 
-@section('page_headline', 'Daftar About Section')
-@section('page_subtitle', 'Kelola Section About.')
+@section('page_headline', 'Daftar Konten Tentang Kami')
+@section('page_subtitle', 'Kelola section Tentang Kami.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
@@ -194,9 +194,9 @@
                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                     </div>
-                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada About Section</h4>
+                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Konten Tentang Kami</h4>
                                     <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                                        Tambahkan about section pertama Anda untuk menjelaskan program pengabdian di landing
+                                        Tambahkan konten tentang kami pertama Anda untuk menjelaskan program pengabdian di landing
                                         page.
                                     </p>
                                     <a href="{{ route('admin.about-sections.create') }}"
@@ -205,7 +205,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
-                                        <span>Buat About Section Baru</span>
+                                        <span>Buat Konten Baru</span>
                                     </a>
                                 </td>
                             </tr>

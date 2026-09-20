@@ -18,7 +18,7 @@ jobs:
       - name: Push to cPanel Remote via Password
         env:
           SSH_PASS: ${{ secrets.CPANEL_SSH_PASSWORD }}
-          CPANEL_REMOTE: "ssh://sanitas1@cipressa.id.rapidplex.com:64000/home/sanitas1/.local/apps/gitdeploy/repos/96399503.git"
+          CPANEL_REMOTE: "ssh://sanitas1@cipressa.id.rapidplex.com:64000/home/sanitas1/.local/apps/gitdeploy/repos/3cdc9b41.git"
         run: |
           # 1. Daftarkan host key server cPanel agar tidak terhenti konfirmasi fingerprint
           mkdir -p ~/.ssh

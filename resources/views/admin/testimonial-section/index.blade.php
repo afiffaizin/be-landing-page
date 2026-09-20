@@ -5,7 +5,7 @@
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900 transition-colors">Landing Page</a>
     <span>/</span>
-    <span class="text-slate-800 font-medium">Testimonial</span>
+    <span class="text-slate-800 font-medium">Testimoni</span>
 @endsection
 
 @section('page_title', 'Testimonial Pelanggan')

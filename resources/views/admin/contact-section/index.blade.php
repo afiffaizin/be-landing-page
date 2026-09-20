@@ -5,7 +5,7 @@
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <span class="text-slate-800">Section Kontak</span>
+    <span class="text-slate-800">Kontak</span>
 @endsection
 
 @section('page_title', 'Kelola Section Kontak')
@@ -20,7 +20,7 @@
     </a>
 @endsection
 
-@section('page_headline', 'Daftar Section Kontak')
+@section('page_headline', 'Daftar Kontak')
 @section('page_subtitle', 'Kelola data kontak, lokasi, email, whatsapp, dan channel komunikasi pada landing page.')
 
 @section('status_badge')
@@ -190,17 +190,17 @@
                                             </path>
                                         </svg>
                                     </div>
-                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Section Kontak</h4>
+                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Kontak</h4>
                                     <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                                        Buat section kontak baru untuk menampilkan nomor WhatsApp, email, dan lokasi pada landing page.
-                                    </p>
-                                    <a href="{{ route('admin.contact-sections.create') }}"
-                                        class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                                        </svg>
-                                        <span>Buat Section Kontak Baru</span>
-                                    </a>
+                                         Buat data kontak baru untuk menampilkan nomor WhatsApp, email, dan lokasi pada landing page.
+                                     </p>
+                                     <a href="{{ route('admin.contact-sections.create') }}"
+                                         class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer">
+                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                         </svg>
+                                         <span>Buat Kontak Baru</span>
+                                     </a>
                                 </td>
                             </tr>
                         @endforelse

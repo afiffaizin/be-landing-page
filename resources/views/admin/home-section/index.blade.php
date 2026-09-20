@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
-@section('title', 'Home Section')
+@section('title', 'Beranda')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <span class="text-slate-800">Home Section</span>
+    <span class="text-slate-800">Beranda</span>
 @endsection
 
-@section('page_title', 'Kelola Home Section (Banner Beranda)')
+@section('page_title', 'Kelola Beranda (Banner)')
 
 @section('header_actions')
     <a href="{{ route('admin.home-sections.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
@@ -179,15 +179,15 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
                                     </svg>
                                 </div>
-                                <h4 class="text-sm font-bold text-slate-800">Belum Ada Home Section</h4>
+                                <h4 class="text-sm font-bold text-slate-800">Belum Ada Banner Beranda</h4>
                                 <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                                    Tambahkan home section pertama Anda untuk ditampilkan di landing page publik.
+                                    Tambahkan banner beranda pertama Anda untuk ditampilkan di landing page publik.
                                 </p>
                                 <a href="{{ route('admin.home-sections.create') }}" class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                     </svg>
-                                    <span>Buat Home Section Baru</span>
+                                    <span>Buat Banner Baru</span>
                                 </a>
                             </td>
                         </tr>

@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Buat About Section Baru')
+@section('title', 'Buat Konten Baru - Tentang Kami')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.about-sections.index') }}" class="text-slate-500 hover:text-slate-900">About Section</a>
+    <a href="{{ route('admin.about-sections.index') }}" class="text-slate-500 hover:text-slate-900">Tentang Kami</a>
     <span>/</span>
-    <span class="text-slate-800">Create</span>
+    <span class="text-slate-800">Buat Baru</span>
 @endsection
 
-@section('page_title', 'Kelola About Section (Tentang Program)')
+@section('page_title', 'Kelola Tentang Kami')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
@@ -36,7 +36,7 @@
     </div>
 @endsection
 
-@section('page_headline', 'Create About Section')
+@section('page_headline', 'Buat Konten Tentang Kami')
 @section('page_subtitle',
     'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (cards)
     kegiatan.')

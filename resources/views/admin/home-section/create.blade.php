@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Buat Banner Baru - Home Section')
+@section('title', 'Buat Banner Baru - Beranda')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-slate-900">Home Section</a>
+    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-slate-900">Beranda</a>
     <span>/</span>
-    <span class="text-slate-800">Create</span>
+    <span class="text-slate-800">Buat Baru</span>
 @endsection
 
-@section('page_title', 'Buat Banner Baru (Home Section)')
+@section('page_title', 'Buat Banner Baru (Beranda)')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
@@ -32,7 +32,7 @@
     </div>
 @endsection
 
-@section('page_headline', 'Create Home Section')
+@section('page_headline', 'Buat Banner Beranda')
 @section('page_subtitle', 'Pastikan visual dan teks fokus karena ini hal pertama dilihat pengunjung.')
 @section('status_badge')
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">

@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Banner - Home Section')
+@section('title', 'Edit Banner - Beranda')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-slate-900">Home Section</a>
+    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-slate-900">Beranda</a>
     <span>/</span>
     <span class="text-slate-800">Edit</span>
 @endsection
 
-@section('page_title', 'Edit Banner (Home Section)')
+@section('page_title', 'Edit Banner (Beranda)')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
@@ -32,7 +32,7 @@
     </div>
 @endsection
 
-@section('page_headline', 'Edit Home Section')
+@section('page_headline', 'Edit Banner Beranda')
 @section('page_subtitle', 'Perbarui konten teks, tombol aksi, gambar banner, serta status publikasi banner.')
 @section('status_badge')
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $homeSection->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-gray-100 text-slate-700 border border-gray-200/60' }}">

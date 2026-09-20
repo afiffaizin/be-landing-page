@@ -8,6 +8,7 @@ use App\Models\HowToOrderSection;
 use App\Models\ProductSection;
 use App\Models\TestimonialSection;
 use App\Models\User;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
@@ -25,13 +26,17 @@ class AdminPanelTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::firstOrCreate(
+        $this->seed(RolePermissionSeeder::class);
+
+        $this->user = User::updateOrCreate(
             ['email' => 'admin@admin.com'],
             [
                 'name' => 'Admin',
                 'password' => Hash::make('password'),
+                'is_active' => true,
             ]
         );
+        $this->user->assignRole('super_admin');
 
         Storage::fake('public');
     }

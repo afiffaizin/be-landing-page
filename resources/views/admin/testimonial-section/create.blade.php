@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Buat Section Testimonial')
+@section('title', 'Buat Section Testimoni')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.testimonial-sections.index') }}" class="text-slate-500 hover:text-slate-900">Testimonial</a>
+    <a href="{{ route('admin.testimonial-sections.index') }}" class="text-slate-500 hover:text-slate-900">Testimoni</a>
     <span>/</span>
     <span class="text-slate-800">Buat Baru</span>
 @endsection
 
-@section('page_title', 'Buat Section Testimonial')
+@section('page_title', 'Buat Section Testimoni')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">

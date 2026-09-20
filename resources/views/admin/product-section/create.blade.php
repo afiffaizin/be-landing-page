@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Buat Product Section Baru')
+@section('title', 'Buat Produk Baru')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
     <span>/</span>
-    <a href="{{ route('admin.product-sections.index') }}" class="text-slate-500 hover:text-slate-900">Product Section</a>
+    <a href="{{ route('admin.product-sections.index') }}" class="text-slate-500 hover:text-slate-900">Produk</a>
     <span>/</span>
-    <span class="text-slate-800">Create</span>
+    <span class="text-slate-800">Buat Baru</span>
 @endsection
 
-@section('page_title', 'Kelola Product Section')
+@section('page_title', 'Kelola Produk')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
@@ -36,7 +36,7 @@
     </div>
 @endsection
 
-@section('page_headline', 'Create Product Section')
+@section('page_headline', 'Buat Section Produk')
 @section('page_subtitle', 'Kelola informasi judul, deskripsi utama, kontak WhatsApp, serta daftar katalog produk.')
 @section('status_badge')
     <span

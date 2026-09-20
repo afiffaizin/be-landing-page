@@ -16,14 +16,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user for Admin Portal
-        User::updateOrCreate(
-            ['email' => 'admin@admin.com'],
+        // Seed roles and permissions first
+        $this->call(RolePermissionSeeder::class);
+
+        // Create super admin user for Admin Portal
+        $admin = User::updateOrCreate(
+            ['email' => 'superadmin@admin.com'],
             [
                 'name' => 'Admin',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('admin123'),
+                'is_active' => true,
             ]
         );
+
+        $admin->assignRole('super_admin');
 
         // Seed landing page content
         $this->call([

@@ -22,7 +22,7 @@ class AboutSectionController extends Controller
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
         }
 
         if ($request->filled('status')) {
@@ -60,6 +60,8 @@ class AboutSectionController extends Controller
             'cards.*.title' => ['nullable', 'string', 'max:255'],
             'cards.*.description' => ['nullable', 'string'],
             'cards.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'cards.*.icon_name' => ['nullable', 'string', 'max:100'],
+            'cards.*.icon_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:512'],
         ]);
 
         $action = $request->input('action');
@@ -75,7 +77,10 @@ class AboutSectionController extends Controller
 
         // Hanya 1 about section yang aktif: jika section ini aktif, nonaktifkan section lainnya
         if ($isActive) {
-            AboutSection::where('is_active', true)->update(['is_active' => false]);
+            AboutSection::where('is_active', true)->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
         }
 
         /** @var AboutSection $aboutSection */
@@ -87,11 +92,13 @@ class AboutSectionController extends Controller
 
         // Simpan multiple cards
         if ($request->has('cards') && is_array($request->input('cards'))) {
-            $order = 1;
+            $step = 1;
             foreach ($request->input('cards') as $index => $cardData) {
                 $cardTitle = trim($cardData['title'] ?? '');
                 $cardDesc = trim($cardData['description'] ?? '');
                 $hasImage = $request->hasFile("cards.{$index}.image");
+                $hasIconImage = $request->hasFile("cards.{$index}.icon_image");
+                $iconName = trim($cardData['icon_name'] ?? '');
 
                 if ($cardTitle !== '' || $cardDesc !== '' || $hasImage) {
                     $imagePath = null;
@@ -99,13 +106,20 @@ class AboutSectionController extends Controller
                         $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
                     }
 
+                    $iconImagePath = null;
+                    if ($hasIconImage) {
+                        $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
+                    }
+
                     $aboutSection->cards()->create([
-                        'title' => $cardTitle ?: 'Card ' . $order,
+                        'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
-                        'order' => $order,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
+                        'steps' => $step,
                     ]);
-                    $order++;
+                    $step++;
                 }
             }
         }
@@ -143,6 +157,9 @@ class AboutSectionController extends Controller
             'cards.*.description' => ['nullable', 'string'],
             'cards.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'cards.*.remove_image' => ['nullable', 'boolean'],
+            'cards.*.icon_name' => ['nullable', 'string', 'max:100'],
+            'cards.*.icon_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:512'],
+            'cards.*.remove_icon_image' => ['nullable', 'boolean'],
         ]);
 
         $action = $request->input('action');
@@ -160,7 +177,10 @@ class AboutSectionController extends Controller
         if ($isActive) {
             AboutSection::where('id', '!=', $aboutSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $aboutSection->update([
@@ -175,19 +195,24 @@ class AboutSectionController extends Controller
         $keptCardIds = [];
 
         if (is_array($submittedCards)) {
-            $order = 1;
+            $step = 1;
             foreach ($submittedCards as $index => $cardData) {
-                $cardId = !empty($cardData['id']) ? (int) $cardData['id'] : null;
+                $cardId = ! empty($cardData['id']) ? (int) $cardData['id'] : null;
                 $cardTitle = trim($cardData['title'] ?? '');
                 $cardDesc = trim($cardData['description'] ?? '');
                 $hasImage = $request->hasFile("cards.{$index}.image");
-                $removeImage = !empty($cardData['remove_image']);
+                $removeImage = ! empty($cardData['remove_image']);
+                $hasIconImage = $request->hasFile("cards.{$index}.icon_image");
+                $removeIconImage = ! empty($cardData['remove_icon_image']);
+                $iconName = trim($cardData['icon_name'] ?? '');
 
                 if ($cardId && $existingCards->has($cardId)) {
                     /** @var AboutSectionCard $card */
                     $card = $existingCards->get($cardId);
                     $imagePath = $card->image;
+                    $iconImagePath = $card->icon_image;
 
+                    // Handle card image
                     if ($removeImage && $imagePath) {
                         if (Storage::disk('public')->exists($imagePath)) {
                             Storage::disk('public')->delete($imagePath);
@@ -202,43 +227,72 @@ class AboutSectionController extends Controller
                         $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
                     }
 
+                    // Handle icon image
+                    if ($removeIconImage && $iconImagePath) {
+                        if (Storage::disk('public')->exists($iconImagePath)) {
+                            Storage::disk('public')->delete($iconImagePath);
+                        }
+                        $iconImagePath = null;
+                    }
+
+                    if ($hasIconImage) {
+                        if ($iconImagePath && Storage::disk('public')->exists($iconImagePath)) {
+                            Storage::disk('public')->delete($iconImagePath);
+                        }
+                        $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
+                    }
+
                     $card->update([
-                        'title' => $cardTitle ?: 'Card ' . $order,
+                        'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
-                        'order' => $order,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
+                        'steps' => $step,
                     ]);
 
                     $keptCardIds[] = $cardId;
-                    $order++;
+                    $step++;
                 } elseif ($cardTitle !== '' || $cardDesc !== '' || $hasImage) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
                     }
 
+                    $iconImagePath = null;
+                    if ($hasIconImage) {
+                        $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
+                    }
+
                     $newCard = $aboutSection->cards()->create([
-                        'title' => $cardTitle ?: 'Card ' . $order,
+                        'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
                         'image' => $imagePath,
-                        'order' => $order,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
+                        'steps' => $step,
                     ]);
 
                     $keptCardIds[] = $newCard->id;
-                    $order++;
+                    $step++;
                 }
             }
         }
 
         // Hapus card yang dibuang oleh user di form
         foreach ($existingCards as $existingId => $existingCard) {
-            if (!in_array($existingId, $keptCardIds)) {
+            if (! in_array($existingId, $keptCardIds)) {
                 if ($existingCard->image && Storage::disk('public')->exists($existingCard->image)) {
                     Storage::disk('public')->delete($existingCard->image);
+                }
+                if ($existingCard->icon_image && Storage::disk('public')->exists($existingCard->icon_image)) {
+                    Storage::disk('public')->delete($existingCard->icon_image);
                 }
                 $existingCard->delete();
             }
         }
+
+        $aboutSection->touch();
 
         $message = $isActive
             ? 'About section berhasil diperbarui.'
@@ -253,10 +307,13 @@ class AboutSectionController extends Controller
      */
     public function destroy(AboutSection $aboutSection): RedirectResponse
     {
-        // Hapus semua gambar card
+        // Hapus semua gambar card dan icon
         foreach ($aboutSection->cards as $card) {
             if ($card->image && Storage::disk('public')->exists($card->image)) {
                 Storage::disk('public')->delete($card->image);
+            }
+            if ($card->icon_image && Storage::disk('public')->exists($card->icon_image)) {
+                Storage::disk('public')->delete($card->icon_image);
             }
         }
 
@@ -276,21 +333,25 @@ class AboutSectionController extends Controller
      */
     public function toggleStatus(AboutSection $aboutSection): RedirectResponse
     {
-        $newStatus = !$aboutSection->is_active;
+        $newStatus = ! $aboutSection->is_active;
 
         // Hanya 1 about section yang aktif: jika diaktifkan, nonaktifkan section lainnya
         if ($newStatus) {
             AboutSection::where('id', '!=', $aboutSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $aboutSection->update([
             'is_active' => $newStatus,
         ]);
+        $aboutSection->touch();
 
-        $message = $newStatus 
-            ? 'About section berhasil diaktifkan.' 
+        $message = $newStatus
+            ? 'About section berhasil diaktifkan.'
             : 'About section berhasil dinonaktifkan.';
 
         return back()->with('success', $message);

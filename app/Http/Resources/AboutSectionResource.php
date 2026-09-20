@@ -25,7 +25,9 @@ class AboutSectionResource extends JsonResource
                     'title' => $card->title,
                     'image_url' => $card->image_url,
                     'description' => $card->description,
-                    'order' => $card->order,
+                    'iconName' => $card->icon_name,
+                    'iconImage' => $card->icon_image_url,
+                    'steps' => $card->steps,
                 ];
             })->values()->all() : [],
             'points' => collect($this->points)->map(function ($point) {

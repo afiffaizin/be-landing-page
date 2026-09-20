@@ -49,7 +49,7 @@
 @endsection
 
 @section('content')
-    <form id="about-section-form" action="{{ route('admin.about-sections.store') }}" method="POST"
+    <form action="{{ route('admin.about-sections.store') }}" method="POST" id="about-section-form"
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="action" id="form-action" value="publish">
@@ -83,8 +83,7 @@
                                 <label for="title" class="block text-xs font-bold text-slate-700">
                                     Judul <span class="text-rose-500">*</span>
                                 </label>
-                                <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255
-                                    Karakter</span>
+                                <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255 Karakter</span>
                             </div>
                             <input type="text" id="title" name="title" value="{{ old('title') }}" required
                                 maxlength="255" placeholder="Contoh: Tentang Program Pengabdian"
@@ -123,7 +122,7 @@
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Cards Program</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap card berisi judul, gambar, dan deskripsi.</p>
+                                <p class="text-xs text-slate-500">Setiap card berisi judul, icon, gambar, dan deskripsi.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -181,15 +180,15 @@
                                         class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                 </div>
 
-                                <!-- Deskripsi Card -->
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                        Deskripsi Card <span class="text-rose-500">*</span>
-                                    </label>
-                                    <textarea name="cards[0][description]" rows="3" required
-                                        placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
-                                        class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old('cards.0.description') }}</textarea>
-                                </div>
+                                <!-- Icon Selection -->
+                                <x-form.icon-picker
+                                    name="cards[0][icon_name]"
+                                    :value="old('cards.0.icon_name')"
+                                    label="Icon Card (Opsional)"
+                                    :with-upload="true"
+                                    upload-name="cards[0][icon_image]"
+                                    remove-name="cards[0][remove_icon_image]"
+                                />
 
                                 <!-- Gambar Card Upload -->
                                 <div>
@@ -229,6 +228,16 @@
                                             </p>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Deskripsi Card -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">
+                                        Deskripsi Card <span class="text-rose-500">*</span>
+                                    </label>
+                                    <textarea name="cards[0][description]" rows="3" required
+                                        placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                        class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old('cards.0.description') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -304,9 +313,12 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-100 space-y-2 text-xs">
-                        <div class="flex justify-between text-slate-500">
+                        <div class="flex justify-between items-start text-slate-500">
                             <span>Terakhir Diperbarui:</span>
-                            <span class="text-slate-600">Belum ada histori</span>
+                            <div class="text-right">
+                                <span class="text-slate-700 font-medium">{{ now()->translatedFormat('d M Y, H:i') }} WIB</span>
+                                <span class="text-[11px] text-emerald-600 font-medium block">Saat disimpan (Baru)</span>
+                            </div>
                         </div>
                         <div class="flex justify-between items-center text-slate-500 pt-1">
                             <span>Status Publikasi:</span>
@@ -360,11 +372,15 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
             // Set initial counter
             const titleInput = document.getElementById('title');
             if (titleInput) {
                 document.getElementById('title-counter').innerText = titleInput.value.length + ' / 255 Karakter';
+            }
+
+            // Initialize lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
             }
         });
 
@@ -411,7 +427,8 @@
 
         function updateCardBadgeCount() {
             const count = document.querySelectorAll('#cards-container .card-item').length;
-            document.getElementById('card-count-badge').innerText = count + (count === 1 ? ' Card' : ' Cards');
+            const el = document.getElementById('card-count-badge');
+            if (el) el.innerText = count + (count === 1 ? ' Card' : ' Cards');
         }
 
         function reindexCards() {
@@ -423,8 +440,7 @@
                 const headerTitle = item.querySelector('.card-header-title');
                 const titleInput = item.querySelector('.card-title-input');
                 if (headerTitle) {
-                    const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'Card ' + (idx +
-                        1);
+                    const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'Card ' + (idx + 1);
                     headerTitle.innerText = val;
                 }
             });
@@ -508,16 +524,53 @@
                                oninput="updateCardHeaderTitle(this)"
                                class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                     </div>
+
+                    <!-- Icon Selection -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Deskripsi Card <span class="text-rose-500">*</span>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Icon Card (Opsional)
                         </label>
-                        <textarea name="cards[${index}][description]"
-                                  rows="3"
-                                  required
-                                  placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
-                                  class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
+                        <input type="hidden" name="cards[${index}][icon_name]" class="card-icon-name-input" value="">
+                        <input type="hidden" name="cards[${index}][remove_icon_image]" value="0" class="card-remove-icon-flag">
+                        <div class="flex items-start gap-3">
+                            <!-- Lucide Picker Button -->
+                            <div class="flex-1">
+                                <button type="button" onclick="openIconPicker(this)"
+                                    class="icon-picker-trigger w-full flex items-center gap-2.5 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-600 hover:border-emerald-400 hover:bg-emerald-50/30 transition-all cursor-pointer">
+                                    <span class="icon-picker-preview w-5 h-5 text-slate-400 flex items-center justify-center">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    </span>
+                                    <span class="icon-picker-label flex-1 text-left">Pilih Icon Lucide...</span>
+                                    <span class="icon-picker-clear hidden text-rose-400 hover:text-rose-600 p-0.5" onclick="event.stopPropagation(); clearSelectedIcon(this)">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <!-- Upload Custom Icon -->
+                            <div class="flex-1">
+                                <div class="icon-upload-zone border border-dashed border-gray-200 hover:border-emerald-400 rounded-xl px-3.5 py-2.5 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
+                                     onclick="this.querySelector('.card-icon-image-input').click()">
+                                    <input type="file" name="cards[${index}][icon_image]"
+                                           accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+                                           onchange="handleIconImagePreview(this)"
+                                           class="card-icon-image-input hidden">
+                                    <div class="icon-upload-preview hidden flex items-center gap-2">
+                                        <img src="#" alt="Icon Preview" class="icon-upload-preview-img w-6 h-6 object-contain rounded">
+                                        <span class="text-xs text-slate-700 font-medium truncate flex-1">Custom Icon</span>
+                                        <button type="button" onclick="event.stopPropagation(); removeIconImage(this)" class="text-rose-400 hover:text-rose-600 p-0.5 shrink-0">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        </button>
+                                    </div>
+                                    <div class="icon-upload-placeholder flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                        <span class="text-xs text-slate-500">Upload Custom</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-1">Pilih icon Lucide atau upload gambar custom (PNG, SVG, maks 512KB).</p>
                     </div>
+
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
                             Gambar Card (Opsional)
@@ -543,6 +596,16 @@
                                 <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">
+                            Deskripsi Card <span class="text-rose-500">*</span>
+                        </label>
+                        <textarea name="cards[${index}][description]"
+                                  rows="3"
+                                  required
+                                  placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                  class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                     </div>
                 </div>
             </div>

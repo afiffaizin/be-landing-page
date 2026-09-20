@@ -28,7 +28,7 @@ class ProductSectionController extends Controller
     public function show(ProductSection $productSection): ProductSectionResource
     {
         $productSection->load('products');
-        
+
         return new ProductSectionResource($productSection);
     }
 }

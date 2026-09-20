@@ -4,9 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\AboutSection;
 use App\Models\HomeSection;
+use App\Models\HowToOrderSection;
+use App\Models\ProductSection;
+use App\Models\TestimonialSection;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -42,8 +46,7 @@ class AdminPanelTest extends TestCase
     {
         $response = $this->get('/login');
         $response->assertStatus(200)
-                 ->assertSee('Admin Portal')
-                 ->assertSee('CMS Studio v2.4');
+            ->assertSee('Portal Manajemen Admin');
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void
@@ -62,8 +65,8 @@ class AdminPanelTest extends TestCase
         $response = $this->actingAs($this->user)->get('/admin/dashboard');
 
         $response->assertStatus(200)
-                 ->assertSee('Dashboard Overview')
-                 ->assertSee('Admin Portal');
+            ->assertSee('Dashboard Overview')
+            ->assertSee('Admin Portal');
     }
 
     public function test_authenticated_user_can_create_home_section(): void
@@ -97,7 +100,7 @@ class AdminPanelTest extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.home-sections.index'))
-                 ->assertSessionHas('success', 'Banner Beranda berhasil disimpan sebagai draft!');
+            ->assertSessionHas('success', 'Banner berhasil disimpan sebagai draft.');
 
         $this->assertDatabaseHas('home_sections', [
             'title' => 'Banner Draf Pengabdian',
@@ -188,7 +191,7 @@ class AdminPanelTest extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.about-sections.index'))
-                 ->assertSessionHas('success', 'About Section berhasil disimpan sebagai draft!');
+            ->assertSessionHas('success', 'About section berhasil disimpan sebagai draft.');
 
         $this->assertDatabaseHas('about_sections', [
             'title' => 'About Section Draft',
@@ -250,7 +253,7 @@ class AdminPanelTest extends TestCase
 
         $response = $this->getJson('/api/v1/home');
         $response->assertStatus(200)
-                 ->assertJsonFragment(['title' => 'Banner FE Test']);
+            ->assertJsonFragment(['title' => 'Banner FE Test']);
     }
 
     public function test_frontend_api_returns_active_about_sections(): void
@@ -266,6 +269,82 @@ class AdminPanelTest extends TestCase
 
         $response = $this->getJson('/api/v1/about');
         $response->assertStatus(200)
-                 ->assertJsonFragment(['title' => 'About FE Test']);
+            ->assertJsonFragment(['title' => 'About FE Test']);
+    }
+
+    public function test_create_views_display_terakhir_diperbarui_wib(): void
+    {
+        $sections = [
+            'admin.home-sections.create',
+            'admin.about-sections.create',
+            'admin.product-sections.create',
+            'admin.how-to-orders.create',
+            'admin.testimonial-sections.create',
+        ];
+
+        foreach ($sections as $route) {
+            $response = $this->actingAs($this->user)->get(route($route));
+            $response->assertStatus(200)
+                ->assertSee('Terakhir Diperbarui:')
+                ->assertSee('WIB')
+                ->assertSee('Saat disimpan (Baru)');
+        }
+    }
+
+    public function test_updating_product_touches_product_section_timestamp(): void
+    {
+        Carbon::setTestNow(now()->subHours(2));
+
+        $section = ProductSection::create([
+            'title' => 'Produk Awal',
+            'description' => 'Deskripsi',
+            'is_active' => true,
+        ]);
+
+        $initialTime = $section->fresh()->updated_at;
+
+        Carbon::setTestNow(now()->addHours(2));
+
+        // Update via controller endpoint
+        $this->actingAs($this->user)->put(route('admin.product-sections.update', $section), [
+            'title' => 'Produk Awal', // Main attributes unchanged
+            'description' => 'Deskripsi',
+            'is_active' => '1',
+            'products' => [
+                [
+                    'name' => 'Produk Baru Ditambahkan',
+                    'price' => 'Rp 50.000',
+                ],
+            ],
+        ]);
+
+        $updatedSection = $section->fresh();
+        $this->assertTrue($updatedSection->updated_at->isAfter($initialTime));
+
+        Carbon::setTestNow();
+    }
+
+    public function test_edit_views_display_terakhir_diperbarui_wib(): void
+    {
+        $home = HomeSection::create(['title' => 'Home Edit', 'description' => 'Desc', 'is_active' => true]);
+        $about = AboutSection::create(['title' => 'About Edit', 'description' => 'Desc', 'is_active' => true]);
+        $product = ProductSection::create(['title' => 'Product Edit', 'description' => 'Desc', 'is_active' => true]);
+        $howToOrder = HowToOrderSection::create(['title' => 'How To Order Edit', 'description' => 'Desc', 'is_active' => true]);
+        $testimonial = TestimonialSection::create(['title' => 'Testimonial Edit', 'is_active' => true]);
+
+        $routesWithModels = [
+            route('admin.home-sections.edit', $home),
+            route('admin.about-sections.edit', $about),
+            route('admin.product-sections.edit', $product),
+            route('admin.how-to-orders.edit', $howToOrder),
+            route('admin.testimonial-sections.edit', $testimonial),
+        ];
+
+        foreach ($routesWithModels as $url) {
+            $response = $this->actingAs($this->user)->get($url);
+            $response->assertStatus(200)
+                ->assertSee('Terakhir Diperbarui:')
+                ->assertSee('WIB');
+        }
     }
 }

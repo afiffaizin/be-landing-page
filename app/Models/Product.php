@@ -14,10 +14,13 @@ class Product extends Model
         'product_section_id',
         'name',
         'description',
+        'benefit',
         'price',
         'image',
         'order',
     ];
+
+    protected $touches = ['productSection'];
 
     public function productSection(): BelongsTo
     {

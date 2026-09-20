@@ -10,7 +10,7 @@
     <span class="text-slate-800">Edit Konten</span>
 @endsection
 
-@section('page_title', 'Kelola Product Section (Tentang Program)')
+@section('page_title', 'Kelola Product Section')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
@@ -37,9 +37,7 @@
 @endsection
 
 @section('page_headline', 'Edit Konten Product Section')
-@section('page_subtitle',
-    'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (products)
-    kegiatan.')
+@section('page_subtitle', 'Kelola informasi judul, deskripsi utama, kontak WhatsApp, serta daftar katalog produk.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $productSection->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-slate-100 text-slate-700 border border-slate-200/60' }}">
@@ -121,7 +119,8 @@
                             <label class="block text-xs font-bold text-slate-700 mb-2">
                                 Deskripsi <span class="text-rose-500">*</span>
                             </label>
-                            <x-form.rich-editor name="description" :value="old('description', $productSection->description)" placeholder="Tulis latar belakang, visi, atau penjelasan rinci tentang program..." />
+                            <x-form.rich-editor name="description" :value="old('description', $productSection->description)"
+                                placeholder="Tulis latar belakang, visi, atau penjelasan rinci tentang program..." />
                             <p class="text-[11px] text-slate-400 mt-1.5">
                                 Tulis latar belakang dan tujuan program secara lengkap.
                             </p>
@@ -142,11 +141,10 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <h3 class="text-base font-bold text-slate-900">Products / Fitur</h3>
-
+                                    <h3 class="text-base font-bold text-slate-900">Daftar Produk / Katalog</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap product berisi judul, gambar, dan deskripsi. Anda
-                                    dapat menambahkan multiple product.</p>
+                                <p class="text-xs text-slate-500">Setiap produk berisi judul, harga, benefit keunggulan,
+                                    deskripsi, dan gambar produk.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -175,10 +173,10 @@
                                         <span
                                             class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">{{ $idx + 1 }}</span>
                                         <span
-                                            class="product-header-title text-xs font-bold text-slate-800">{{ $product->title ?: 'product ' . ($idx + 1) }}</span>
+                                            class="product-header-title text-xs font-bold text-slate-800">{{ $product->name ?: 'Produk ' . ($idx + 1) }}</span>
                                     </div>
                                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                                        <button type="button" onclick="removeproductItem(this)" title="Hapus product"
+                                        <button type="button" onclick="removeproductItem(this)" title="Hapus Produk"
                                             class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -199,44 +197,64 @@
                                 </div>
 
                                 <!-- product Item Body -->
-                                <div class="product-body p-4 space-y-4 bg-white">
-                                    <!-- Judul product -->
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Judul product <span class="text-rose-500">*</span>
-                                        </label>
-                                        <input type="text" name="products[{{ $idx }}][name]"
-                                            value="{{ old("products.{$idx}.name", $product->name) }}" required
-                                            placeholder="Contoh: Pemberdayaan Masyarakat"
-                                            oninput="updateproductHeaderTitle(this)"
-                                            class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                <div class="product-body p-4 sm:p-5 space-y-4 bg-white">
+                                    <!-- Grid Judul & Harga Produk -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <!-- Judul product -->
+                                        <div>
+                                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                                Nama / Judul Produk <span class="text-rose-500">*</span>
+                                            </label>
+                                            <input type="text" name="products[{{ $idx }}][name]"
+                                                value="{{ old("products.{$idx}.name", $product->name) }}" required
+                                                placeholder="Contoh: Sabun Batang Eco-Enzyme"
+                                                oninput="updateproductHeaderTitle(this)"
+                                                class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                        </div>
+
+                                        <!-- Harga product -->
+                                        <div>
+                                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                                Harga Produk <span class="text-rose-500">*</span>
+                                            </label>
+                                            <input type="text" name="products[{{ $idx }}][price]"
+                                                value="{{ old("products.{$idx}.price", $product->price) }}" required
+                                                placeholder="Contoh: Rp 15.000 / batang"
+                                                class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                        </div>
                                     </div>
 
-                                    <!-- Harga product -->
+                                    <!-- Benefit / Keunggulan Utama Produk -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Harga product <span class="text-rose-500">*</span>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                            Benefit / Keunggulan Utama <span
+                                                class="text-[11px] font-normal text-slate-400">(Opsional)</span>
                                         </label>
-                                        <input type="text" name="products[{{ $idx }}][price]"
-                                            value="{{ old("products.{$idx}.price", $product->price) }}" required
-                                            placeholder="Contoh: Rp 50.000 / bulan"
-                                            class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                        <input type="text" name="products[{{ $idx }}][benefit]"
+                                            value="{{ old("products.{$idx}.benefit", $product->benefit) }}"
+                                            placeholder="Contoh: Aman untuk kulit sensitif anak-anak & 100% alami"
+                                            class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                        <p class="text-[11px] text-slate-400 mt-1">
+                                            Pernyataan manfaat/keunggulan utama produk yang langsung dirasakan oleh
+                                            pelanggan.
+                                        </p>
                                     </div>
 
                                     <!-- Deskripsi product -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Deskripsi product <span class="text-rose-500">*</span>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                            Deskripsi Produk <span class="text-rose-500">*</span>
                                         </label>
                                         <textarea name="products[{{ $idx }}][description]" rows="3" required
-                                            placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada product ini..."
-                                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old("products.{$idx}.description", $product->description) }}</textarea>
+                                            placeholder="Jelaskan secara ringkas karakteristik, bahan, atau kegunaan produk..."
+                                            class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed">{{ old("products.{$idx}.description", $product->description) }}</textarea>
                                     </div>
 
                                     <!-- Gambar product Upload -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Gambar product (Opsional)
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                            Gambar Produk <span
+                                                class="text-[11px] font-normal text-slate-400">(Opsional)</span>
                                         </label>
                                         <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
                                             onclick="this.querySelector('.product-image-input').click()">
@@ -248,7 +266,8 @@
                                             <!-- Preview Image -->
                                             <div
                                                 class="product-preview-wrapper {{ $product->image ? '' : 'hidden' }} mb-2">
-                                                <img src="{{ $product->image_url ?: '#' }}" alt="Preview"
+                                                <img src="{{ $product->image ? Storage::disk('public')->url($product->image) : '#' }}"
+                                                    alt="Preview"
                                                     class="product-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
                                                 <button type="button"
                                                     onclick="event.stopPropagation(); removeproductselectedImage(this)"
@@ -287,11 +306,10 @@
                                     <div class="flex items-center gap-2.5">
                                         <span
                                             class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">1</span>
-                                        <span class="product-header-title text-xs font-bold text-slate-800">product
-                                            1</span>
+                                        <span class="product-header-title text-xs font-bold text-slate-800">Produk 1</span>
                                     </div>
                                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                                        <button type="button" onclick="removeproductItem(this)" title="Hapus product"
+                                        <button type="button" onclick="removeproductItem(this)" title="Hapus Produk"
                                             class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -310,25 +328,58 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="product-body p-4 space-y-4 bg-white">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Judul product <span
-                                                class="text-rose-500">*</span></label>
-                                        <input type="text" name="products[0][name]" required
-                                            placeholder="Contoh: Pemberdayaan Masyarakat"
-                                            oninput="updateproductHeaderTitle(this)"
-                                            class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                <div class="product-body p-4 sm:p-5 space-y-4 bg-white">
+                                    <!-- Grid Judul & Harga Produk -->
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                                Nama / Judul Produk <span class="text-rose-500">*</span>
+                                            </label>
+                                            <input type="text" name="products[0][name]" required
+                                                placeholder="Contoh: Sabun Batang Eco-Enzyme"
+                                                oninput="updateproductHeaderTitle(this)"
+                                                class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                                Harga Produk <span class="text-rose-500">*</span>
+                                            </label>
+                                            <input type="text" name="products[0][price]" required
+                                                placeholder="Contoh: Rp 15.000 / batang"
+                                                class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                        </div>
                                     </div>
+
+                                    <!-- Benefit / Keunggulan Utama Produk -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Harga product <span
-                                                class="text-rose-500">*</span></label>
-                                        <input type="text" name="products[0][price]" required
-                                            placeholder="Contoh: Rp 50.000 / bulan"
-                                            class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                            Benefit / Keunggulan Utama <span
+                                                class="text-[11px] font-normal text-slate-400">(Opsional)</span>
+                                        </label>
+                                        <input type="text" name="products[0][benefit]"
+                                            placeholder="Contoh: Aman untuk kulit sensitif anak-anak & 100% alami"
+                                            class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                        <p class="text-[11px] text-slate-400 mt-1">
+                                            Pernyataan manfaat/keunggulan utama produk yang langsung dirasakan oleh
+                                            pelanggan.
+                                        </p>
                                     </div>
+
+                                    <!-- Deskripsi Produk -->
                                     <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Gambar product
-                                            (Opsional)
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                            Deskripsi Produk <span class="text-rose-500">*</span>
+                                        </label>
+                                        <textarea name="products[0][description]" rows="3" required
+                                            placeholder="Jelaskan secara ringkas karakteristik, bahan, atau kegunaan produk..."
+                                            class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed"></textarea>
+                                    </div>
+
+                                    <!-- Gambar product Upload -->
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                            Gambar Produk <span
+                                                class="text-[11px] font-normal text-slate-400">(Opsional)</span>
                                         </label>
                                         <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
                                             onclick="this.querySelector('.product-image-input').click()">
@@ -353,18 +404,11 @@
                                                     </path>
                                                 </svg>
                                                 <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk
-                                                    product ini</p>
+                                                    produk ini</p>
                                                 <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks
                                                     2MB</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi product
-                                            <span class="text-rose-500">*</span></label>
-                                        <textarea name="products[0][description]" rows="3" required
-                                            placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada product ini..."
-                                            class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -378,7 +422,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>Tambah product Baru</span>
+                        <span>Tambah Produk Baru</span>
                     </button>
                 </div>
 
@@ -445,9 +489,12 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-100 space-y-2 text-xs">
-                        <div class="flex justify-between text-slate-500">
+                        <div class="flex justify-between items-start text-slate-500">
                             <span>Terakhir Diperbarui:</span>
-                            <span class="text-slate-600">{{ $productSection->updated_at->diffForHumans() }}</span>
+                            <div class="text-right">
+                                <span class="text-slate-700 font-medium">{{ $productSection->updated_at->translatedFormat('d M Y, H:i') }} WIB</span>
+                                <span class="text-[11px] text-slate-400 block">({{ $productSection->updated_at->diffForHumans() }})</span>
+                            </div>
                         </div>
                         <div class="flex justify-between items-center text-slate-500 pt-1">
                             <span>Status Publikasi:</span>
@@ -553,7 +600,10 @@
 
         function updateproductBadgeCount() {
             const count = document.querySelectorAll('#products-container .product-item').length;
-            document.getElementById('product-count-badge').innerText = count + (count === 1 ? ' product' : ' products');
+            const badge = document.getElementById('product-count-badge');
+            if (badge) {
+                badge.innerText = count + ' Produk';
+            }
         }
 
         function reindexproducts() {
@@ -565,8 +615,8 @@
                 const headerTitle = item.querySelector('.product-header-title');
                 const titleInput = item.querySelector('.product-title-input');
                 if (headerTitle) {
-                    const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'product ' + (
-                        idx + 1);
+                    const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'Produk ' + (idx +
+                        1);
                     headerTitle.innerText = val;
                 }
             });
@@ -578,7 +628,7 @@
             const headerTitle = item.querySelector('.product-header-title');
             const idx = Array.from(document.querySelectorAll('#products-container .product-item')).indexOf(item) + 1;
             if (headerTitle) {
-                headerTitle.innerText = input.value.trim() ? input.value.trim() : 'product ' + idx;
+                headerTitle.innerText = input.value.trim() ? input.value.trim() : 'Produk ' + idx;
             }
         }
 
@@ -624,10 +674,10 @@
                 <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleproductAccordion(this)">
                     <div class="flex items-center gap-2.5">
                         <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">${newNum}</span>
-                        <span class="product-header-title text-xs font-bold text-slate-800">product ${newNum}</span>
+                        <span class="product-header-title text-xs font-bold text-slate-800">Produk ${newNum}</span>
                     </div>
                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                        <button type="button" onclick="removeproductItem(this)" title="Hapus product" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                        <button type="button" onclick="removeproductItem(this)" title="Hapus Produk" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
@@ -639,31 +689,62 @@
                         </button>
                     </div>
                 </div>
-                <div class="product-body p-4 space-y-4 bg-white">
+                <div class="product-body p-4 sm:p-5 space-y-4 bg-white">
+                    <!-- Grid Judul & Harga Produk -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                Nama / Judul Produk <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text"
+                                   name="products[${index}][name]"
+                                   required
+                                   placeholder="Contoh: Sabun Batang Eco-Enzyme"
+                                   oninput="updateproductHeaderTitle(this)"
+                                   class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                Harga Produk <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text"
+                                   name="products[${index}][price]"
+                                   required
+                                   placeholder="Contoh: Rp 15.000 / batang"
+                                   class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Benefit / Keunggulan Utama Produk -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Judul product <span class="text-rose-500">*</span>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Benefit / Keunggulan Utama <span class="text-[11px] font-normal text-slate-400">(Opsional)</span>
                         </label>
                         <input type="text"
-                               name="products[][name]"
-                               required
-                               placeholder="Contoh: Pemberdayaan Masyarakat"
-                               oninput="updateproductHeaderTitle(this)"
-                               class="product-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                               name="products[${index}][benefit]"
+                               placeholder="Contoh: Aman untuk kulit sensitif anak-anak & 100% alami"
+                               class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                        <p class="text-[11px] text-slate-400 mt-1">
+                            Pernyataan manfaat/keunggulan utama produk yang langsung dirasakan oleh pelanggan.
+                        </p>
                     </div>
+
+                    <!-- Deskripsi Produk -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Harga product <span class="text-rose-500">*</span>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Deskripsi Produk <span class="text-rose-500">*</span>
                         </label>
-                        <input type="text"
-                               name="products[${index}][price]"
-                               required
-                               placeholder="Contoh: Rp 50.000 / bulan"
-                               class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
+                        <textarea name="products[${index}][description]"
+                                  rows="3"
+                                  required
+                                  placeholder="Jelaskan secara ringkas karakteristik, bahan, atau kegunaan produk..."
+                                  class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed"></textarea>
                     </div>
+
+                    <!-- Gambar Produk Upload -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Gambar product (Opsional)
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Gambar Produk <span class="text-[11px] font-normal text-slate-400">(Opsional)</span>
                         </label>
                         <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
                              onclick="this.querySelector('.product-image-input').click()">
@@ -682,20 +763,10 @@
                                 <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
-                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk product ini</p>
+                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk produk ini</p>
                                 <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Deskripsi product <span class="text-rose-500">*</span>
-                        </label>
-                        <textarea name="products[${index}][description]"
-                                  rows="3"
-                                  required
-                                  placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada product ini..."
-                                  class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                     </div>
                 </div>
             </div>
@@ -719,7 +790,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Perhatian',
-                    text: 'Minimal harus ada 1 product di dalam Product Section.',
+                    text: 'Minimal harus ada 1 produk di dalam Product Section.',
                     confirmButtonColor: '#10b981',
                     confirmButtonText: 'Mengerti'
                 });

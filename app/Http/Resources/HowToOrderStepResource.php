@@ -19,6 +19,11 @@ class HowToOrderStepResource extends JsonResource
             'how_to_order_section_id' => $this->how_to_order_section_id,
             'title' => $this->title,
             'description' => $this->description,
+            'icon_name' => $this->icon_name,
+            'icon_image' => $this->icon_image,
+            'icon_image_url' => $this->icon_image_url,
+            'iconName' => $this->icon_name,
+            'iconImage' => $this->icon_image_url,
             'step_order' => $this->step_order,
         ];
     }

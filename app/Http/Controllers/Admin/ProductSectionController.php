@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProductSection;
 use App\Models\Product;
+use App\Models\ProductSection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +22,7 @@ class ProductSectionController extends Controller
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
         }
 
         if ($request->filled('status')) {
@@ -60,6 +60,7 @@ class ProductSectionController extends Controller
             'products' => ['nullable', 'array'],
             'products.*.name' => ['nullable', 'string', 'max:255'],
             'products.*.description' => ['nullable', 'string'],
+            'products.*.benefit' => ['nullable', 'string', 'max:500'],
             'products.*.price' => ['nullable', 'string', 'max:255'],
             'products.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
@@ -77,7 +78,10 @@ class ProductSectionController extends Controller
 
         // Hanya 1 product section yang aktif: jika section ini aktif, nonaktifkan section lainnya
         if ($isActive) {
-            ProductSection::where('is_active', true)->update(['is_active' => false]);
+            ProductSection::where('is_active', true)->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
         }
 
         /** @var ProductSection $productSection */
@@ -94,18 +98,20 @@ class ProductSectionController extends Controller
             foreach ($request->input('products') as $index => $productData) {
                 $productName = trim($productData['name'] ?? '');
                 $productDesc = trim($productData['description'] ?? '');
+                $productBenefit = trim($productData['benefit'] ?? '');
                 $productPrice = trim($productData['price'] ?? '');
                 $hasImage = $request->hasFile("products.{$index}.image");
 
-                if ($productName !== '' || $productDesc !== '' || $productPrice !== '' || $hasImage) {
+                if ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productPrice !== '' || $hasImage) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("products.{$index}.image")->store('product-images', 'public');
                     }
 
                     $productSection->products()->create([
-                        'name' => $productName ?: 'Product ' . $order,
+                        'name' => $productName ?: 'Product '.$order,
                         'description' => $productDesc,
+                        'benefit' => $productBenefit ?: null,
                         'price' => $productPrice,
                         'image' => $imagePath,
                         'order' => $order,
@@ -147,6 +153,7 @@ class ProductSectionController extends Controller
             'products.*.id' => ['nullable', 'integer'],
             'products.*.name' => ['nullable', 'string', 'max:255'],
             'products.*.description' => ['nullable', 'string'],
+            'products.*.benefit' => ['nullable', 'string', 'max:500'],
             'products.*.price' => ['nullable', 'string', 'max:255'],
             'products.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'products.*.remove_image' => ['nullable', 'boolean'],
@@ -167,7 +174,10 @@ class ProductSectionController extends Controller
         if ($isActive) {
             ProductSection::where('id', '!=', $productSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $productSection->update([
@@ -185,12 +195,13 @@ class ProductSectionController extends Controller
         if (is_array($submittedProducts)) {
             $order = 1;
             foreach ($submittedProducts as $index => $productData) {
-                $productId = !empty($productData['id']) ? (int) $productData['id'] : null;
+                $productId = ! empty($productData['id']) ? (int) $productData['id'] : null;
                 $productName = trim($productData['name'] ?? '');
                 $productDesc = trim($productData['description'] ?? '');
+                $productBenefit = trim($productData['benefit'] ?? '');
                 $productPrice = trim($productData['price'] ?? '');
                 $hasImage = $request->hasFile("products.{$index}.image");
-                $removeImage = !empty($productData['remove_image']);
+                $removeImage = ! empty($productData['remove_image']);
 
                 if ($productId && $existingProducts->has($productId)) {
                     /** @var Product $product */
@@ -212,8 +223,9 @@ class ProductSectionController extends Controller
                     }
 
                     $product->update([
-                        'name' => $productName ?: 'Product ' . $order,
+                        'name' => $productName ?: 'Product '.$order,
                         'description' => $productDesc,
+                        'benefit' => $productBenefit ?: null,
                         'price' => $productPrice,
                         'image' => $imagePath,
                         'order' => $order,
@@ -221,15 +233,16 @@ class ProductSectionController extends Controller
 
                     $keptProductIds[] = $productId;
                     $order++;
-                } elseif ($productName !== '' || $productDesc !== '' || $productPrice !== '' || $hasImage) {
+                } elseif ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productPrice !== '' || $hasImage) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("products.{$index}.image")->store('product-images', 'public');
                     }
 
                     $newProduct = $productSection->products()->create([
-                        'name' => $productName ?: 'Product ' . $order,
+                        'name' => $productName ?: 'Product '.$order,
                         'description' => $productDesc,
+                        'benefit' => $productBenefit ?: null,
                         'price' => $productPrice,
                         'image' => $imagePath,
                         'order' => $order,
@@ -243,13 +256,15 @@ class ProductSectionController extends Controller
 
         // Hapus product yang dibuang oleh user di form
         foreach ($existingProducts as $existingId => $existingProduct) {
-            if (!in_array($existingId, $keptProductIds)) {
+            if (! in_array($existingId, $keptProductIds)) {
                 if ($existingProduct->image && Storage::disk('public')->exists($existingProduct->image)) {
                     Storage::disk('public')->delete($existingProduct->image);
                 }
                 $existingProduct->delete();
             }
         }
+
+        $productSection->touch();
 
         $message = $isActive
             ? 'Product section berhasil diperbarui.'
@@ -282,21 +297,25 @@ class ProductSectionController extends Controller
      */
     public function toggleStatus(ProductSection $productSection): RedirectResponse
     {
-        $newStatus = !$productSection->is_active;
+        $newStatus = ! $productSection->is_active;
 
         // Hanya 1 product section yang aktif: jika diaktifkan, nonaktifkan section lainnya
         if ($newStatus) {
             ProductSection::where('id', '!=', $productSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $productSection->update([
             'is_active' => $newStatus,
         ]);
+        $productSection->touch();
 
-        $message = $newStatus 
-            ? 'Product section berhasil diaktifkan.' 
+        $message = $newStatus
+            ? 'Product section berhasil diaktifkan.'
             : 'Product section berhasil dinonaktifkan.';
 
         return back()->with('success', $message);

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HowToOrderSection;
-use App\Models\HowToOrderStep;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class HowToOrderSectionController extends Controller
@@ -16,16 +16,17 @@ class HowToOrderSectionController extends Controller
         $query = HowToOrderSection::query()->with('steps')->latest();
 
         if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
         }
 
         if ($request->filled('status')) {
-            $status = $request->input('status');
-            if ($status === 'active') {
+            if ($request->status === 'active') {
                 $query->where('is_active', true);
-            } elseif ($status === 'inactive') {
+            } elseif ($request->status === 'draft') {
                 $query->where('is_active', false);
             }
         }
@@ -51,6 +52,8 @@ class HowToOrderSectionController extends Controller
             'steps' => ['nullable', 'array'],
             'steps.*.title' => ['nullable', 'string', 'max:255'],
             'steps.*.description' => ['nullable', 'string'],
+            'steps.*.icon_name' => ['nullable', 'string', 'max:100'],
+            'steps.*.icon_image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp,svg', 'max:512'],
         ]);
 
         $action = $request->input('action');
@@ -65,7 +68,10 @@ class HowToOrderSectionController extends Controller
         $validated['is_active'] = $isActive;
 
         if ($isActive) {
-            HowToOrderSection::where('is_active', true)->update(['is_active' => false]);
+            HowToOrderSection::where('is_active', true)->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
         }
 
         $section = HowToOrderSection::create([
@@ -78,14 +84,23 @@ class HowToOrderSectionController extends Controller
 
         if ($request->has('steps') && is_array($request->input('steps'))) {
             $order = 1;
-            foreach ($request->input('steps') as $stepData) {
+            foreach ($request->input('steps') as $index => $stepData) {
                 $stepTitle = trim($stepData['title'] ?? '');
                 $stepDesc = trim($stepData['description'] ?? '');
+                $iconName = trim($stepData['icon_name'] ?? '');
+                $hasIconImage = $request->hasFile("steps.{$index}.icon_image");
 
-                if ($stepTitle !== '' || $stepDesc !== '') {
+                if ($stepTitle !== '' || $stepDesc !== '' || $iconName !== '' || $hasIconImage) {
+                    $iconImagePath = null;
+                    if ($hasIconImage) {
+                        $iconImagePath = $request->file("steps.{$index}.icon_image")->store('how-to-order-step-icons', 'public');
+                    }
+
                     $section->steps()->create([
-                        'title' => $stepTitle ?: 'Langkah ' . $order,
+                        'title' => $stepTitle ?: 'Langkah '.$order,
                         'description' => $stepDesc,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
                         'step_order' => $order,
                     ]);
                     $order++;
@@ -94,12 +109,14 @@ class HowToOrderSectionController extends Controller
         }
 
         $message = $isActive ? 'Section Cara Pesan berhasil dipublikasikan.' : 'Section Cara Pesan berhasil disimpan sebagai draft.';
+
         return redirect()->route('admin.how-to-orders.index')->with('success', $message);
     }
 
     public function edit(HowToOrderSection $howToOrder): View
     {
         $howToOrder->load('steps');
+
         return view('admin.how-to-order.edit', compact('howToOrder'));
     }
 
@@ -115,6 +132,9 @@ class HowToOrderSectionController extends Controller
             'steps.*.id' => ['nullable', 'integer'],
             'steps.*.title' => ['nullable', 'string', 'max:255'],
             'steps.*.description' => ['nullable', 'string'],
+            'steps.*.icon_name' => ['nullable', 'string', 'max:100'],
+            'steps.*.icon_image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp,svg', 'max:512'],
+            'steps.*.remove_icon_image' => ['nullable'],
         ]);
 
         $action = $request->input('action');
@@ -129,7 +149,10 @@ class HowToOrderSectionController extends Controller
         if ($isActive) {
             HowToOrderSection::where('id', '!=', $howToOrder->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $howToOrder->update([
@@ -146,24 +169,52 @@ class HowToOrderSectionController extends Controller
 
         if (is_array($submittedSteps)) {
             $order = 1;
-            foreach ($submittedSteps as $stepData) {
-                $stepId = !empty($stepData['id']) ? (int) $stepData['id'] : null;
+            foreach ($submittedSteps as $index => $stepData) {
+                $stepId = ! empty($stepData['id']) ? (int) $stepData['id'] : null;
                 $stepTitle = trim($stepData['title'] ?? '');
                 $stepDesc = trim($stepData['description'] ?? '');
+                $iconName = trim($stepData['icon_name'] ?? '');
+                $hasIconImage = $request->hasFile("steps.{$index}.icon_image");
+                $removeIconImage = ! empty($stepData['remove_icon_image']);
 
                 if ($stepId && $existingSteps->has($stepId)) {
                     $step = $existingSteps->get($stepId);
+                    $iconImagePath = $step->icon_image;
+
+                    if ($removeIconImage && $iconImagePath) {
+                        if (Storage::disk('public')->exists($iconImagePath)) {
+                            Storage::disk('public')->delete($iconImagePath);
+                        }
+                        $iconImagePath = null;
+                    }
+
+                    if ($hasIconImage) {
+                        if ($iconImagePath && Storage::disk('public')->exists($iconImagePath)) {
+                            Storage::disk('public')->delete($iconImagePath);
+                        }
+                        $iconImagePath = $request->file("steps.{$index}.icon_image")->store('how-to-order-step-icons', 'public');
+                    }
+
                     $step->update([
-                        'title' => $stepTitle ?: 'Langkah ' . $order,
+                        'title' => $stepTitle ?: 'Langkah '.$order,
                         'description' => $stepDesc,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
                         'step_order' => $order,
                     ]);
                     $keptStepIds[] = $stepId;
                     $order++;
-                } elseif ($stepTitle !== '' || $stepDesc !== '') {
+                } elseif ($stepTitle !== '' || $stepDesc !== '' || $iconName !== '' || $hasIconImage) {
+                    $iconImagePath = null;
+                    if ($hasIconImage) {
+                        $iconImagePath = $request->file("steps.{$index}.icon_image")->store('how-to-order-step-icons', 'public');
+                    }
+
                     $newStep = $howToOrder->steps()->create([
-                        'title' => $stepTitle ?: 'Langkah ' . $order,
+                        'title' => $stepTitle ?: 'Langkah '.$order,
                         'description' => $stepDesc,
+                        'icon_name' => $iconName ?: null,
+                        'icon_image' => $iconImagePath,
                         'step_order' => $order,
                     ]);
                     $keptStepIds[] = $newStep->id;
@@ -173,36 +224,54 @@ class HowToOrderSectionController extends Controller
         }
 
         foreach ($existingSteps as $existingId => $existingStep) {
-            if (!in_array($existingId, $keptStepIds)) {
+            if (! in_array($existingId, $keptStepIds)) {
+                if ($existingStep->icon_image && Storage::disk('public')->exists($existingStep->icon_image)) {
+                    Storage::disk('public')->delete($existingStep->icon_image);
+                }
                 $existingStep->delete();
             }
         }
 
+        $howToOrder->touch();
+
         $message = $isActive ? 'Section Cara Pesan berhasil diperbarui.' : 'Section Cara Pesan berhasil disimpan sebagai draft.';
+
         return redirect()->route('admin.how-to-orders.index')->with('success', $message);
     }
 
     public function destroy(HowToOrderSection $howToOrder): RedirectResponse
     {
+        foreach ($howToOrder->steps as $step) {
+            if ($step->icon_image && Storage::disk('public')->exists($step->icon_image)) {
+                Storage::disk('public')->delete($step->icon_image);
+            }
+        }
+
         $howToOrder->delete();
+
         return redirect()->route('admin.how-to-orders.index')->with('success', 'Section Cara Pesan berhasil dihapus.');
     }
 
     public function toggleStatus(HowToOrderSection $howToOrder): RedirectResponse
     {
-        $newStatus = !$howToOrder->is_active;
+        $newStatus = ! $howToOrder->is_active;
 
         if ($newStatus) {
             HowToOrderSection::where('id', '!=', $howToOrder->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $howToOrder->update([
             'is_active' => $newStatus,
         ]);
+        $howToOrder->touch();
 
         $message = $newStatus ? 'Section Cara Pesan berhasil diaktifkan.' : 'Section Cara Pesan berhasil dinonaktifkan.';
+
         return back()->with('success', $message);
     }
 }

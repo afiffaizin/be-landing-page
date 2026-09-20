@@ -133,7 +133,7 @@
                             @endif
                             <div class="truncate">
                                 <h5 class="text-sm font-semibold text-slate-900 truncate">{{ $home->title }}</h5>
-                                <p class="text-xs text-slate-400">{{ $home->updated_at->diffForHumans() }}</p>
+                                <p class="text-xs text-slate-400" title="{{ $home->updated_at->translatedFormat('d M Y, H:i') }} WIB">{{ $home->updated_at->diffForHumans() }}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-2">

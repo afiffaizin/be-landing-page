@@ -174,15 +174,28 @@
                         @endif
                     </a>
 
-                    <a href="{{ route('admin.testimonial-sections.index') }}"
-                       class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.testimonial-sections.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
+                    <a href="{{ route('admin.testimonials.index') }}"
+                       class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.testimonials.*', 'admin.testimonial-sections.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
                         <div class="flex items-center gap-3">
-                            <svg class="w-5 h-5 {{ request()->routeIs('admin.testimonial-sections.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 {{ request()->routeIs('admin.testimonials.*', 'admin.testimonial-sections.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                             </svg>
                             <span>Testimonial</span>
                         </div>
-                        @if(request()->routeIs('admin.testimonial-sections.*'))
+                        @if(request()->routeIs('admin.testimonials.*', 'admin.testimonial-sections.*'))
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        @endif
+                    </a>
+
+                    <a href="{{ route('admin.contact-sections.index') }}"
+                       class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.contact-sections.*', 'admin.contact-section.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 {{ request()->routeIs('admin.contact-sections.*', 'admin.contact-section.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>Section Kontak</span>
+                        </div>
+                        @if(request()->routeIs('admin.contact-sections.*', 'admin.contact-section.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>

@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\V1\HomeSectionController;
 use App\Http\Controllers\Api\V1\AboutSectionController;
+use App\Http\Controllers\Api\V1\ContactController;
+use App\Http\Controllers\Api\V1\HomeSectionController;
+use App\Http\Controllers\Api\V1\HowToOrderController;
+use App\Http\Controllers\Api\V1\ProductSectionController;
+use App\Http\Controllers\Api\V1\TestimonialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,12 +34,16 @@ Route::prefix('v1')->group(function () {
     Route::get('about/{aboutSection}', [AboutSectionController::class, 'show']);
 
     // Product Section
-    Route::get('products', [\App\Http\Controllers\Api\V1\ProductSectionController::class, 'index']);
-    Route::get('products/{productSection}', [\App\Http\Controllers\Api\V1\ProductSectionController::class, 'show']);
-    
+    Route::get('products', [ProductSectionController::class, 'index']);
+    Route::get('products/{productSection}', [ProductSectionController::class, 'show']);
+
     // Cara Pesan (How To Order)
-    Route::get('how-to-orders', [\App\Http\Controllers\Api\V1\HowToOrderController::class, 'index']);
+    Route::get('how-to-orders', [HowToOrderController::class, 'index']);
 
     // Testimonial
-    Route::get('testimonials', [\App\Http\Controllers\Api\V1\TestimonialController::class, 'index']);
+    Route::get('testimonials', [TestimonialController::class, 'index']);
+
+    // Contact Section
+    Route::get('contact', [ContactController::class, 'index']);
+    Route::get('contacts', [ContactController::class, 'index']);
 });

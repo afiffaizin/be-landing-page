@@ -21,7 +21,7 @@ class HomeSectionController extends Controller
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
         }
 
         if ($request->filled('status')) {
@@ -75,7 +75,10 @@ class HomeSectionController extends Controller
 
         // Hanya 1 banner yang aktif: jika banner baru ini aktif, nonaktifkan (draft-kan) semua banner lainnya
         if ($isActive) {
-            HomeSection::where('is_active', true)->update(['is_active' => false]);
+            HomeSection::where('is_active', true)->update([
+                'is_active' => false,
+                'updated_at' => now(),
+            ]);
         }
 
         if ($request->hasFile('image')) {
@@ -132,7 +135,10 @@ class HomeSectionController extends Controller
         if ($isActive) {
             HomeSection::where('id', '!=', $homeSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         if ($request->boolean('remove_image')) {
@@ -151,6 +157,7 @@ class HomeSectionController extends Controller
 
         unset($validated['remove_image']);
         $homeSection->update($validated);
+        $homeSection->touch();
 
         $message = $isActive
             ? 'Banner berhasil diperbarui.'
@@ -180,18 +187,22 @@ class HomeSectionController extends Controller
      */
     public function toggleStatus(HomeSection $homeSection): RedirectResponse
     {
-        $newStatus = !$homeSection->is_active;
+        $newStatus = ! $homeSection->is_active;
 
         // Hanya 1 banner yang aktif: jika diaktifkan, nonaktifkan banner lainnya
         if ($newStatus) {
             HomeSection::where('id', '!=', $homeSection->id)
                 ->where('is_active', true)
-                ->update(['is_active' => false]);
+                ->update([
+                    'is_active' => false,
+                    'updated_at' => now(),
+                ]);
         }
 
         $homeSection->update([
             'is_active' => $newStatus,
         ]);
+        $homeSection->touch();
 
         $message = $newStatus
             ? 'Banner berhasil diaktifkan.'

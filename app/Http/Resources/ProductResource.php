@@ -20,6 +20,7 @@ class ProductResource extends JsonResource
             'product_section_id' => $this->product_section_id,
             'name' => $this->name,
             'description' => $this->description,
+            'benefit' => $this->benefit,
             'price' => $this->price,
             'image_url' => $this->image ? asset(Storage::url($this->image)) : null,
             'order' => $this->order,

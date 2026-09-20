@@ -8,7 +8,7 @@
     <span class="text-slate-800">Product Section</span>
 @endsection
 
-@section('page_title', 'Kelola Product Section (Tentang Program)')
+@section('page_title', 'Kelola Product Section')
 
 @section('header_actions')
     <a href="{{ route('admin.product-sections.create') }}"
@@ -21,7 +21,7 @@
 @endsection
 
 @section('page_headline', 'Daftar Product Section')
-@section('page_subtitle', 'Kelola Section Product.')
+@section('page_subtitle', 'Kelola daftar katalog produk dan konten landing page section produk.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
@@ -86,7 +86,7 @@
                             class="bg-gray-50/80 border-b border-gray-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                             <th class="py-3.5 px-5">Media</th>
                             <th class="py-3.5 px-5">Judul Section</th>
-                            <th class="py-3.5 px-5">products Program</th>
+                            <th class="py-3.5 px-5">Daftar Produk</th>
                             <th class="py-3.5 px-5 text-center">Status</th>
                             <th class="py-3.5 px-5">Terakhir Diperbarui</th>
                             <th class="py-3.5 px-5 text-right">Aksi</th>
@@ -101,7 +101,7 @@
                                     @endphp
                                     @if ($firstCardWithImage && $firstCardWithImage->image)
                                         <img src="{{ Storage::disk('public')->url($firstCardWithImage->image) }}"
-                                            alt="{{ $firstCardWithImage->title }}"
+                                            alt="{{ $firstCardWithImage->name }}"
                                             class="w-12 h-12 object-cover rounded-xl border border-gray-200 shadow-xs">
                                     @elseif($section->image)
                                         <img src="{{ Storage::disk('public')->url($section->image) }}"
@@ -132,7 +132,7 @@
                                                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                                             </path>
                                         </svg>
-                                        {{ $section->products->count() }} products
+                                        {{ $section->products->count() }} Produk
                                     </span>
                                 </td>
                                 <td class="py-3.5 px-5 whitespace-nowrap text-center">
@@ -149,8 +149,9 @@
                                         </button>
                                     </form>
                                 </td>
-                                <td class="py-3.5 px-5 whitespace-nowrap text-slate-500 text-[11px]">
-                                    {{ $section->updated_at->format('d M Y, H:i') }}
+                                <td class="py-3.5 px-5 whitespace-nowrap text-slate-500 text-[11px]" title="{{ $section->updated_at->diffForHumans() }}">
+                                    <div class="font-medium text-slate-700">{{ $section->updated_at->translatedFormat('d M Y, H:i') }} WIB</div>
+                                    <div class="text-[10px] text-slate-400">{{ $section->updated_at->diffForHumans() }}</div>
                                 </td>
                                 <td class="py-3.5 px-5 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-1.5">

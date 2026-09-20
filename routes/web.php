@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AboutSectionController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ContactSectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\HowToOrderSectionController;
@@ -85,4 +86,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->name('testimonial-sections.destroy');
     Route::patch('/testimonial-sections/{testimonialSection}/toggle-status', [TestimonialSectionController::class, 'toggleStatus'])
         ->name('testimonial-sections.toggle-status');
+
+    // Contact Section Management
+    Route::patch('/contact-sections/{contactSection}/toggle-status', [ContactSectionController::class, 'toggleStatus'])
+        ->name('contact-sections.toggle-status');
+    Route::resource('contact-sections', ContactSectionController::class)->except(['show']);
+
+    // Legacy Fallback & Compatibility
+    Route::get('/contact-section', function () {
+        return redirect()->route('admin.contact-sections.index');
+    })->name('contact-section.index');
 });

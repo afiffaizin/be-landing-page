@@ -1,4 +1,4 @@
-name: Deploy to cPanel (Push to Deploy)
+name: Deploy Backend to cPanel (Push to Deploy)
 
 on:
   push:
@@ -20,17 +20,20 @@ jobs:
           SSH_PASS: ${{ secrets.CPANEL_SSH_PASSWORD }}
           CPANEL_REMOTE: "ssh://sanitas1@cipressa.id.rapidplex.com:64000/home/sanitas1/.local/apps/gitdeploy/repos/3d92394c.git"
         run: |
-          # 1. Daftarkan host key server cPanel agar tidak terhenti konfirmasi fingerprint
+          # 1. Pastikan seluruh history benar-benar lengkap (unshallow)
+          git fetch --prune --unshallow 2>/dev/null || true
+
+          # 2. Daftarkan host key server cPanel
           mkdir -p ~/.ssh
           ssh-keyscan -p 64000 -H cipressa.id.rapidplex.com >> ~/.ssh/known_hosts 2>/dev/null || true
 
-          # 2. Pasang utility sshpass
+          # 3. Pasang utility sshpass
           sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
 
-          # 3. Paksa SSH langsung meminta password (PubkeyAuthentication=no)
+          # 4. Paksa SSH menggunakan autentikasi password
           export GIT_SSH_COMMAND="sshpass -p '$SSH_PASS' ssh -p 64000 -o StrictHostKeyChecking=no -o PubkeyAuthentication=no"
 
-          # 4. Daftarkan remote cPanel dan push
+          # 5. Daftarkan remote cPanel dan dorong commit HEAD langsung ke branch main cPanel
           git remote remove cpanel 2>/dev/null || true
           git remote add cpanel "$CPANEL_REMOTE"
-          git push cpanel main --force
+          git push cpanel HEAD:refs/heads/main --force

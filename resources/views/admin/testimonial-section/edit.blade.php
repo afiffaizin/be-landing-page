@@ -209,8 +209,8 @@
                                                 <input type="text" name="testimonials[{{ $idx }}][name]" value="{{ $item['name'] ?? '' }}" required class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600" placeholder="Cth: Ibu Endang Rahayu" oninput="this.closest('.testimonial-item').querySelector('.testimonial-header-title').textContent = this.value || 'Item Testimoni'">
                                             </div>
                                             <div>
-                                                <label class="block text-xs font-semibold text-slate-700 mb-1">Sub-judul / Lokasi (Opsional)</label>
-                                                <input type="text" name="testimonials[{{ $idx }}][subtitle]" value="{{ $item['subtitle'] ?? '' }}" class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600" placeholder="Cth: Cilacap">
+                                                <label class="block text-xs font-semibold text-slate-700 mb-1">Lokasi (Opsional)</label>
+                                                <input type="text" name="testimonials[{{ $idx }}][location]" value="{{ $item['location'] ?? $item['subtitle'] ?? '' }}" class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600" placeholder="Cth: Cilacap">
                                             </div>
                                         </div>
                                     </div>
@@ -465,8 +465,8 @@
                                 <input type="text" name="testimonials[${testimonialIndex}][name]" required class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600" placeholder="Cth: Ibu Endang Rahayu" oninput="this.closest('.testimonial-item').querySelector('.testimonial-header-title').textContent = this.value || 'Testimoni Baru'">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Sub-judul / Lokasi (Opsional)</label>
-                                <input type="text" name="testimonials[${testimonialIndex}][subtitle]" class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600" placeholder="Cth: Cilacap">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Lokasi (Opsional)</label>
+                                <input type="text" name="testimonials[${testimonialIndex}][location]" class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600" placeholder="Cth: Cilacap">
                             </div>
                         </div>
                     </div>

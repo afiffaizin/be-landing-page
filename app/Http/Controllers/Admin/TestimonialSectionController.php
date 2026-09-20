@@ -3,83 +3,246 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\TestimonialItem;
 use App\Models\TestimonialSection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class TestimonialSectionController extends Controller
 {
+    /**
+     * Display the Testimonial Hub.
+     */
     public function index(Request $request): View
     {
-        $query = TestimonialSection::query()->with(['statistics', 'testimonials'])->latest();
+        // Ensure there is a primary active section record
+        $section = TestimonialSection::with('statistics')->where('is_active', true)->first();
 
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('title', 'like', "%{$search}%");
-        }
-
-        if ($request->filled('status')) {
-            $status = $request->input('status');
-            if ($status === 'active') {
-                $query->where('is_active', true);
-            } elseif ($status === 'inactive') {
-                $query->where('is_active', false);
+        if (! $section) {
+            $section = TestimonialSection::first();
+            if ($section) {
+                $section->update(['is_active' => true]);
+            } else {
+                $section = TestimonialSection::create([
+                    'title' => 'Apa Kata Mereka?',
+                    'is_active' => true,
+                ]);
             }
         }
 
-        $testimonialSections = $query->paginate(10)->withQueryString();
+        // Search & pagination for testimonial items
+        $query = $section->testimonials()->latest();
 
-        return view('admin.testimonial-section.index', compact('testimonialSections'));
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('location', 'like', "%{$search}%")
+                    ->orWhere('quote', 'like', "%{$search}%");
+            });
+        }
+
+        $testimonials = $query->paginate(10)->withQueryString();
+
+        return view('admin.testimonial-section.index', compact('section', 'testimonials'));
     }
 
+    /**
+     * Store multiple testimonials in a single batch (Quick Batch Modal).
+     */
+    public function batchStore(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.name' => ['required', 'string', 'max:255'],
+            'items.*.location' => ['nullable', 'string', 'max:255'],
+            'items.*.subtitle' => ['nullable', 'string', 'max:255'],
+            'items.*.quote' => ['required', 'string'],
+        ], [
+            'items.required' => 'Setidaknya tambahkan satu ulasan testimoni.',
+            'items.*.name.required' => 'Nama ulasan wajib diisi.',
+            'items.*.quote.required' => 'Isi ulasan testimoni wajib diisi.',
+        ]);
+
+        $section = TestimonialSection::where('is_active', true)->first()
+            ?? TestimonialSection::firstOrCreate([], ['title' => 'Apa Kata Mereka?', 'is_active' => true]);
+
+        $insertedCount = 0;
+
+        DB::transaction(function () use ($validated, $section, &$insertedCount) {
+            foreach ($validated['items'] as $itemData) {
+                $name = trim($itemData['name'] ?? '');
+                $quote = trim($itemData['quote'] ?? '');
+                $location = trim($itemData['location'] ?? $itemData['subtitle'] ?? '');
+
+                if ($name !== '' && $quote !== '') {
+                    $section->testimonials()->create([
+                        'name' => $name,
+                        'location' => $location !== '' ? $location : null,
+                        'quote' => $quote,
+                    ]);
+                    $insertedCount++;
+                }
+            }
+            $section->touch();
+        });
+
+        return redirect()->route('admin.testimonials.index')
+            ->with('success', "Berhasil menambahkan {$insertedCount} testimoni baru.");
+    }
+
+    /**
+     * Update a single testimonial item.
+     */
+    public function updateItem(Request $request, TestimonialItem $testimonialItem): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+            'quote' => ['required', 'string'],
+        ], [
+            'name.required' => 'Nama pemberi testimoni wajib diisi.',
+            'quote.required' => 'Isi ulasan testimoni wajib diisi.',
+        ]);
+
+        $locationVal = $validated['location'] ?? $validated['subtitle'] ?? null;
+
+        $testimonialItem->update([
+            'name' => trim($validated['name']),
+            'location' => filled($locationVal) ? trim($locationVal) : null,
+            'quote' => trim($validated['quote']),
+        ]);
+
+        $testimonialItem->touch();
+
+        return redirect()->route('admin.testimonials.index')
+            ->with('success', 'Testimoni berhasil diperbarui.');
+    }
+
+    /**
+     * Delete a single testimonial item.
+     */
+    public function destroyItem(TestimonialItem $testimonialItem): RedirectResponse
+    {
+        $testimonialItem->delete();
+
+        return redirect()->route('admin.testimonials.index')
+            ->with('success', 'Testimoni berhasil dihapus.');
+    }
+
+    /**
+     * Update header section title and impact statistics.
+     */
+    public function updateHeader(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'statistics' => ['nullable', 'array'],
+            'statistics.*.id' => ['nullable', 'integer'],
+            'statistics.*.value' => ['nullable', 'string', 'max:255'],
+            'statistics.*.description' => ['nullable', 'string', 'max:255'],
+        ], [
+            'title.required' => 'Judul section testimonial wajib diisi.',
+        ]);
+
+        $section = TestimonialSection::where('is_active', true)->first();
+        if (! $section) {
+            $section = TestimonialSection::firstOrCreate([], [
+                'title' => $validated['title'],
+                'is_active' => true,
+            ]);
+        }
+
+        DB::transaction(function () use ($validated, $section, $request) {
+            $section->update([
+                'title' => trim($validated['title']),
+                'is_active' => true,
+            ]);
+
+            $submittedStats = $request->input('statistics', []);
+            $existingStats = $section->statistics()->get()->keyBy('id');
+            $keptStatIds = [];
+
+            if (is_array($submittedStats)) {
+                foreach ($submittedStats as $statData) {
+                    $statId = ! empty($statData['id']) ? (int) $statData['id'] : null;
+                    $val = trim($statData['value'] ?? '');
+                    $desc = trim($statData['description'] ?? '');
+
+                    if ($val !== '' || $desc !== '') {
+                        if ($statId && $existingStats->has($statId)) {
+                            $stat = $existingStats->get($statId);
+                            $stat->update([
+                                'value' => $val,
+                                'description' => $desc,
+                            ]);
+                            $keptStatIds[] = $statId;
+                        } else {
+                            $newStat = $section->statistics()->create([
+                                'value' => $val,
+                                'description' => $desc,
+                            ]);
+                            $keptStatIds[] = $newStat->id;
+                        }
+                    }
+                }
+            }
+
+            foreach ($existingStats as $existingId => $existingStat) {
+                if (! in_array($existingId, $keptStatIds, true)) {
+                    $existingStat->delete();
+                }
+            }
+
+            $section->touch();
+        });
+
+        return redirect()->route('admin.testimonials.index')
+            ->with('success', 'Pengaturan judul dan statistik berhasil diperbarui.');
+    }
+
+    /**
+     * Legacy compatibility: create view
+     */
     public function create(): View
     {
         return view('admin.testimonial-section.create');
     }
 
+    /**
+     * Legacy compatibility: edit view
+     */
+    public function edit(TestimonialSection $testimonialSection): View
+    {
+        $testimonialSection->load(['statistics', 'testimonials']);
+
+        return view('admin.testimonial-section.edit', compact('testimonialSection'));
+    }
+
+    /**
+     * Legacy compatibility: store section
+     */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'is_active' => ['nullable'],
-
             'statistics' => ['nullable', 'array'],
-            'statistics.*.value' => ['nullable', 'string', 'max:255'],
-            'statistics.*.description' => ['nullable', 'string'],
-
             'testimonials' => ['nullable', 'array'],
-            'testimonials.*.quote' => ['nullable', 'string'],
-            'testimonials.*.name' => ['nullable', 'string', 'max:255'],
-            'testimonials.*.subtitle' => ['nullable', 'string', 'max:255'],
         ]);
-
-        $action = $request->input('action');
-        if ($action === 'draft') {
-            $isActive = false;
-        } elseif ($action === 'publish') {
-            $isActive = true;
-        } else {
-            $isActive = $request->boolean('is_active');
-        }
-
-        if ($isActive) {
-            TestimonialSection::where('is_active', true)->update([
-                'is_active' => false,
-                'updated_at' => now(),
-            ]);
-        }
 
         $section = TestimonialSection::create([
             'title' => $validated['title'],
-            'is_active' => $isActive,
+            'is_active' => true,
         ]);
 
         if ($request->has('statistics') && is_array($request->input('statistics'))) {
             foreach ($request->input('statistics') as $statData) {
                 $val = trim($statData['value'] ?? '');
                 $desc = trim($statData['description'] ?? '');
-
                 if ($val !== '' || $desc !== '') {
                     $section->statistics()->create([
                         'value' => $val,
@@ -93,176 +256,59 @@ class TestimonialSectionController extends Controller
             foreach ($request->input('testimonials') as $itemData) {
                 $quote = trim($itemData['quote'] ?? '');
                 $name = trim($itemData['name'] ?? '');
-                $subtitle = trim($itemData['subtitle'] ?? '');
-
+                $location = trim($itemData['location'] ?? $itemData['subtitle'] ?? '');
                 if ($quote !== '' || $name !== '') {
                     $section->testimonials()->create([
                         'quote' => $quote,
                         'name' => $name,
-                        'subtitle' => $subtitle,
+                        'location' => $location !== '' ? $location : null,
                     ]);
                 }
             }
         }
 
-        $message = $isActive ? 'Testimonial Section berhasil dipublikasikan.' : 'Testimonial Section berhasil disimpan sebagai draft.';
-
-        return redirect()->route('admin.testimonial-sections.index')->with('success', $message);
+        return redirect()->route('admin.testimonials.index')->with('success', 'Section berhasil disimpan.');
     }
 
-    public function edit(TestimonialSection $testimonialSection): View
-    {
-        $testimonialSection->load(['statistics', 'testimonials']);
-
-        return view('admin.testimonial-section.edit', compact('testimonialSection'));
-    }
-
+    /**
+     * Legacy compatibility: update section
+     */
     public function update(Request $request, TestimonialSection $testimonialSection): RedirectResponse
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'is_active' => ['nullable'],
-
             'statistics' => ['nullable', 'array'],
-            'statistics.*.id' => ['nullable', 'integer'],
-            'statistics.*.value' => ['nullable', 'string', 'max:255'],
-            'statistics.*.description' => ['nullable', 'string'],
-
             'testimonials' => ['nullable', 'array'],
-            'testimonials.*.id' => ['nullable', 'integer'],
-            'testimonials.*.quote' => ['nullable', 'string'],
-            'testimonials.*.name' => ['nullable', 'string', 'max:255'],
-            'testimonials.*.subtitle' => ['nullable', 'string', 'max:255'],
         ]);
-
-        $action = $request->input('action');
-        if ($action === 'draft') {
-            $isActive = false;
-        } elseif ($action === 'publish') {
-            $isActive = true;
-        } else {
-            $isActive = $request->boolean('is_active');
-        }
-
-        if ($isActive) {
-            TestimonialSection::where('id', '!=', $testimonialSection->id)
-                ->where('is_active', true)
-                ->update([
-                    'is_active' => false,
-                    'updated_at' => now(),
-                ]);
-        }
 
         $testimonialSection->update([
             'title' => $validated['title'],
-            'is_active' => $isActive,
+            'is_active' => true,
         ]);
 
-        // Process statistics
-        $submittedStats = $request->input('statistics', []);
-        $existingStats = $testimonialSection->statistics()->get()->keyBy('id');
-        $keptStatIds = [];
-
-        if (is_array($submittedStats)) {
-            foreach ($submittedStats as $statData) {
-                $statId = ! empty($statData['id']) ? (int) $statData['id'] : null;
-                $val = trim($statData['value'] ?? '');
-                $desc = trim($statData['description'] ?? '');
-
-                if ($statId && $existingStats->has($statId)) {
-                    $stat = $existingStats->get($statId);
-                    $stat->update([
-                        'value' => $val,
-                        'description' => $desc,
-                    ]);
-                    $keptStatIds[] = $statId;
-                } elseif ($val !== '' || $desc !== '') {
-                    $newStat = $testimonialSection->statistics()->create([
-                        'value' => $val,
-                        'description' => $desc,
-                    ]);
-                    $keptStatIds[] = $newStat->id;
-                }
-            }
-        }
-
-        foreach ($existingStats as $existingId => $existingStat) {
-            if (! in_array($existingId, $keptStatIds)) {
-                $existingStat->delete();
-            }
-        }
-
-        // Process testimonials
-        $submittedItems = $request->input('testimonials', []);
-        $existingItems = $testimonialSection->testimonials()->get()->keyBy('id');
-        $keptItemIds = [];
-
-        if (is_array($submittedItems)) {
-            foreach ($submittedItems as $itemData) {
-                $itemId = ! empty($itemData['id']) ? (int) $itemData['id'] : null;
-                $quote = trim($itemData['quote'] ?? '');
-                $name = trim($itemData['name'] ?? '');
-                $subtitle = trim($itemData['subtitle'] ?? '');
-
-                if ($itemId && $existingItems->has($itemId)) {
-                    $item = $existingItems->get($itemId);
-                    $item->update([
-                        'quote' => $quote,
-                        'name' => $name,
-                        'subtitle' => $subtitle,
-                    ]);
-                    $keptItemIds[] = $itemId;
-                } elseif ($quote !== '' || $name !== '') {
-                    $newItem = $testimonialSection->testimonials()->create([
-                        'quote' => $quote,
-                        'name' => $name,
-                        'subtitle' => $subtitle,
-                    ]);
-                    $keptItemIds[] = $newItem->id;
-                }
-            }
-        }
-
-        foreach ($existingItems as $existingId => $existingItem) {
-            if (! in_array($existingId, $keptItemIds)) {
-                $existingItem->delete();
-            }
-        }
-
-        $testimonialSection->touch();
-
-        $message = $isActive ? 'Testimonial Section berhasil diperbarui.' : 'Testimonial Section berhasil disimpan sebagai draft.';
-
-        return redirect()->route('admin.testimonial-sections.index')->with('success', $message);
+        return redirect()->route('admin.testimonials.index')->with('success', 'Section berhasil diperbarui.');
     }
 
+    /**
+     * Legacy compatibility: destroy section
+     */
     public function destroy(TestimonialSection $testimonialSection): RedirectResponse
     {
         $testimonialSection->delete();
 
-        return redirect()->route('admin.testimonial-sections.index')->with('success', 'Testimonial Section berhasil dihapus.');
+        return redirect()->route('admin.testimonials.index')->with('success', 'Section berhasil dihapus.');
     }
 
+    /**
+     * Legacy compatibility: toggle status
+     */
     public function toggleStatus(TestimonialSection $testimonialSection): RedirectResponse
     {
-        $newStatus = ! $testimonialSection->is_active;
-
-        if ($newStatus) {
-            TestimonialSection::where('id', '!=', $testimonialSection->id)
-                ->where('is_active', true)
-                ->update([
-                    'is_active' => false,
-                    'updated_at' => now(),
-                ]);
-        }
-
         $testimonialSection->update([
-            'is_active' => $newStatus,
+            'is_active' => ! $testimonialSection->is_active,
         ]);
-        $testimonialSection->touch();
 
-        $message = $newStatus ? 'Testimonial Section berhasil diaktifkan.' : 'Testimonial Section berhasil dinonaktifkan.';
-
-        return back()->with('success', $message);
+        return back()->with('success', 'Status section berhasil diubah.');
     }
 }

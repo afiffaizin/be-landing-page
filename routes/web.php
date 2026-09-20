@@ -4,6 +4,9 @@ use App\Http\Controllers\Admin\AboutSectionController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HomeSectionController;
+use App\Http\Controllers\Admin\HowToOrderSectionController;
+use App\Http\Controllers\Admin\ProductSectionController;
+use App\Http\Controllers\Admin\TestimonialSectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,17 +48,41 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('about-sections', AboutSectionController::class)->except(['show']);
 
     // Product Section Management
-    Route::patch('/product-sections/{productSection}/toggle-status', [\App\Http\Controllers\Admin\ProductSectionController::class, 'toggleStatus'])
+    Route::patch('/product-sections/{productSection}/toggle-status', [ProductSectionController::class, 'toggleStatus'])
         ->name('product-sections.toggle-status');
-    Route::resource('product-sections', \App\Http\Controllers\Admin\ProductSectionController::class)->except(['show']);
+    Route::resource('product-sections', ProductSectionController::class)->except(['show']);
 
     // How To Order Management
-    Route::patch('/how-to-orders/{howToOrder}/toggle-status', [\App\Http\Controllers\Admin\HowToOrderSectionController::class, 'toggleStatus'])
+    Route::patch('/how-to-orders/{howToOrder}/toggle-status', [HowToOrderSectionController::class, 'toggleStatus'])
         ->name('how-to-orders.toggle-status');
-    Route::resource('how-to-orders', \App\Http\Controllers\Admin\HowToOrderSectionController::class)->except(['show']);
+    Route::resource('how-to-orders', HowToOrderSectionController::class)->except(['show']);
 
-    // Testimonial Management
-    Route::patch('/testimonial-sections/{testimonialSection}/toggle-status', [\App\Http\Controllers\Admin\TestimonialSectionController::class, 'toggleStatus'])
+    // Testimonial Hub Management
+    Route::get('/testimonials', [TestimonialSectionController::class, 'index'])
+        ->name('testimonials.index');
+    Route::post('/testimonials/header', [TestimonialSectionController::class, 'updateHeader'])
+        ->name('testimonials.update-header');
+    Route::post('/testimonials/batch-store', [TestimonialSectionController::class, 'batchStore'])
+        ->name('testimonials.batch-store');
+    Route::put('/testimonials/items/{testimonialItem}', [TestimonialSectionController::class, 'updateItem'])
+        ->name('testimonials.update-item');
+    Route::delete('/testimonials/items/{testimonialItem}', [TestimonialSectionController::class, 'destroyItem'])
+        ->name('testimonials.destroy-item');
+
+    // Legacy Fallbacks & Compatibility
+    Route::get('/testimonial-sections', function () {
+        return redirect()->route('admin.testimonials.index');
+    })->name('testimonial-sections.index');
+    Route::get('/testimonial-sections/create', [TestimonialSectionController::class, 'create'])
+        ->name('testimonial-sections.create');
+    Route::get('/testimonial-sections/{testimonialSection}/edit', [TestimonialSectionController::class, 'edit'])
+        ->name('testimonial-sections.edit');
+    Route::post('/testimonial-sections', [TestimonialSectionController::class, 'store'])
+        ->name('testimonial-sections.store');
+    Route::put('/testimonial-sections/{testimonialSection}', [TestimonialSectionController::class, 'update'])
+        ->name('testimonial-sections.update');
+    Route::delete('/testimonial-sections/{testimonialSection}', [TestimonialSectionController::class, 'destroy'])
+        ->name('testimonial-sections.destroy');
+    Route::patch('/testimonial-sections/{testimonialSection}/toggle-status', [TestimonialSectionController::class, 'toggleStatus'])
         ->name('testimonial-sections.toggle-status');
-    Route::resource('testimonial-sections', \App\Http\Controllers\Admin\TestimonialSectionController::class)->except(['show']);
 });

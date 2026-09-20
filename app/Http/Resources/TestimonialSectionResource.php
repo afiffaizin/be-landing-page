@@ -32,7 +32,7 @@ class TestimonialSectionResource extends JsonResource
                         'id' => $item->id,
                         'quote' => $item->quote,
                         'name' => $item->name,
-                        'subtitle' => $item->subtitle,
+                        'location' => $item->location,
                     ];
                 });
             }),

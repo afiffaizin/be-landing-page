@@ -117,11 +117,18 @@
             </div>
 
             <!-- Group: Landing Page -->
+            @php
+                $user = Auth::user();
+                $isSuperAdmin = $user?->hasRole('super_admin');
+            @endphp
+
+            @if($isSuperAdmin || $user?->hasAnyPermission(['manage_home_sections', 'manage_about_sections', 'manage_product_sections', 'manage_how_to_order', 'manage_testimonials', 'manage_contact_sections']))
             <div>
                 <p class="px-3 text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2">
                     Landing Page
                 </p>
                 <div class="space-y-1">
+                    @if($isSuperAdmin || $user?->hasPermissionTo('manage_home_sections'))
                     <a href="{{ route('admin.home-sections.index') }}"
                        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.home-sections.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
                         <div class="flex items-center gap-3">
@@ -134,7 +141,9 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>
+                    @endif
 
+                    @if($isSuperAdmin || $user?->hasPermissionTo('manage_about_sections'))
                     <a href="{{ route('admin.about-sections.index') }}"
                        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.about-sections.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
                         <div class="flex items-center gap-3">
@@ -147,7 +156,9 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>
+                    @endif
 
+                    @if($isSuperAdmin || $user?->hasPermissionTo('manage_product_sections'))
                     <a href="{{ route('admin.product-sections.index') }}"
                        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.product-sections.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
                         <div class="flex items-center gap-3">
@@ -160,7 +171,9 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>
+                    @endif
 
+                    @if($isSuperAdmin || $user?->hasPermissionTo('manage_how_to_order'))
                     <a href="{{ route('admin.how-to-orders.index') }}"
                        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.how-to-orders.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
                         <div class="flex items-center gap-3">
@@ -173,7 +186,9 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>
+                    @endif
 
+                    @if($isSuperAdmin || $user?->hasPermissionTo('manage_testimonials'))
                     <a href="{{ route('admin.testimonials.index') }}"
                        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.testimonials.*', 'admin.testimonial-sections.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
                         <div class="flex items-center gap-3">
@@ -186,7 +201,9 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>
+                    @endif
 
+                    @if($isSuperAdmin || $user?->hasPermissionTo('manage_contact_sections'))
                     <a href="{{ route('admin.contact-sections.index') }}"
                        class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.contact-sections.*', 'admin.contact-section.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
                         <div class="flex items-center gap-3">
@@ -199,6 +216,52 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                         @endif
                     </a>
+                    @endif
+                </div>
+            </div>
+            @endif
+
+            <!-- Group: Pengaturan (Super Admin Only) -->
+            @if($isSuperAdmin)
+            <div>
+                <p class="px-3 text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-2">
+                    Pengaturan
+                </p>
+                <div class="space-y-1">
+                    <a href="{{ route('admin.users.index') }}"
+                       class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.users.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 {{ request()->routeIs('admin.users.*') ? 'text-amber-300' : 'text-amber-400/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <span>Manajemen User</span>
+                        </div>
+                        @if(request()->routeIs('admin.users.*'))
+                            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                        @endif
+                    </a>
+                </div>
+            </div>
+            @endif
+
+            <!-- Group: Akun Saya -->
+            <div>
+                <p class="px-3 text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2">
+                    Akun Saya
+                </p>
+                <div class="space-y-1">
+                    <a href="{{ route('admin.profile.edit') }}"
+                       class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.profile.*') ? 'bg-white/15 text-white font-semibold shadow-sm' : 'text-emerald-200 hover:text-white hover:bg-white/5' }}">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 {{ request()->routeIs('admin.profile.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Edit Profil</span>
+                        </div>
+                        @if(request()->routeIs('admin.profile.*'))
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        @endif
+                    </a>
                 </div>
             </div>
         </nav>
@@ -207,12 +270,14 @@
         <div class="p-4 border-t border-emerald-700/50 bg-emerald-950/50">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-emerald-700 text-emerald-200 font-bold flex items-center justify-center text-xs border border-emerald-600/50">
+                    <div class="w-9 h-9 rounded-full {{ Auth::user()?->hasRole('super_admin') ? 'bg-amber-600/80 text-amber-100' : 'bg-emerald-700 text-emerald-200' }} font-bold flex items-center justify-center text-xs border border-emerald-600/50">
                         {{ strtoupper(substr(Auth::user()->name ?? 'Admin', 0, 2)) }}
                     </div>
                     <div class="truncate max-w-27.5">
                         <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name ?? 'Admin Kreatif' }}</p>
-                        <p class="text-xs text-emerald-400 truncate">{{ Auth::user()->email ?? 'admin@pengabdian.id' }}</p>
+                        <p class="text-[10px] font-medium truncate {{ Auth::user()?->hasRole('super_admin') ? 'text-amber-300' : 'text-emerald-400' }}">
+                            {{ Auth::user()?->hasRole('super_admin') ? 'Super Admin' : 'Admin' }}
+                        </p>
                     </div>
                 </div>
                 <form action="{{ route('logout') }}" method="POST">

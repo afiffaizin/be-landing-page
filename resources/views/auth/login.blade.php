@@ -70,7 +70,7 @@
                         <input id="email"
                                type="email"
                                name="email"
-                               value="{{ old('email', 'admin@admin.com') }}"
+                               value="{{ old('email') }}"
                                required
                                autofocus
                                placeholder="admin@pengabdian.id"
@@ -95,7 +95,6 @@
                                name="password"
                                required
                                placeholder="••••••••"
-                               value="password"
                                class="w-full px-4 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white transition-all">
                         <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400 group-focus-within:text-emerald-600 transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

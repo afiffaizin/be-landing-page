@@ -1,4 +1,4 @@
-name: Deploy Backend to cPanel (Push to Deploy)
+name: Deploy Backend to cPanel (SSH Pull)
 
 on:
   push:
@@ -6,34 +6,36 @@ on:
       - main
 
 jobs:
-  cpanel-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Push to cPanel Remote via Password
+      - name: Deploy via SSH
         env:
           SSH_PASS: ${{ secrets.CPANEL_SSH_PASSWORD }}
-          CPANEL_REMOTE: "ssh://sanitas1@cipressa.id.rapidplex.com:64000/home/sanitas1/.local/apps/gitdeploy/repos/3d92394c.git"
+          SSH_HOST: "cipressa.id.rapidplex.com"
+          SSH_PORT: "64000"
+          SSH_USER: "sanitas1"
         run: |
-          # 1. Pastikan seluruh history benar-benar lengkap (unshallow)
-          git fetch --prune --unshallow 2>/dev/null || true
-
-          # 2. Daftarkan host key server cPanel
-          mkdir -p ~/.ssh
-          ssh-keyscan -p 64000 -H cipressa.id.rapidplex.com >> ~/.ssh/known_hosts 2>/dev/null || true
-
-          # 3. Pasang utility sshpass
+          # 1. Pasang utility sshpass
           sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
 
-          # 4. Paksa SSH menggunakan autentikasi password
-          export GIT_SSH_COMMAND="sshpass -p '$SSH_PASS' ssh -p 64000 -o StrictHostKeyChecking=no -o PubkeyAuthentication=no"
+          # 2. Eksekusi perintah deployment langsung di dalam server cPanel
+          sshpass -p "$SSH_PASS" ssh -p $SSH_PORT -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} << 'EOF'
+            set -e
 
-          # 5. Daftarkan remote cPanel dan dorong commit HEAD langsung ke branch main cPanel
-          git remote remove cpanel 2>/dev/null || true
-          git remote add cpanel "$CPANEL_REMOTE"
-          git push cpanel HEAD:refs/heads/main --force
+            # Masuk ke direktori backend Laravel
+            cd /home/sanitas1/public_html/backend
+
+            # Ambil update kode terbaru langsung dari GitHub
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Eksekusi dependensi dan optimasi Laravel
+            composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+            php artisan migrate --force
+            php artisan optimize:clear
+            php artisan optimize
+
+            echo "Deployment Backend Berhasil!"
+          EOF

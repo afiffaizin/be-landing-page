@@ -193,8 +193,7 @@
                                     </div>
                                 </td>
                                 <td class="py-3.5 px-5 align-top max-w-md">
-                                    <div
-                                        class="relative pl-3 border-l-2 border-emerald-300 text-slate-700 text-xs leading-relaxed italic line-clamp-3">
+                                    <div class="text-slate-700 text-xs leading-relaxed italic line-clamp-3">
                                         "{{ $item->quote }}"
                                     </div>
                                 </td>

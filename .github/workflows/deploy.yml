@@ -3,7 +3,7 @@ name: Deploy to cPanel (Push to Deploy)
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   cpanel-deploy:
@@ -13,37 +13,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
-      - name: Setup SSH and Push to cPanel Remote
+      - name: Push to cPanel Remote via Password
         env:
-          SSH_KEY: ${{ secrets.CPANEL_SSH_KEY }}
           SSH_PASS: ${{ secrets.CPANEL_SSH_PASSWORD }}
           CPANEL_REMOTE: "ssh://sanitas1@cipressa.id.rapidplex.com:64000/home/sanitas1/.local/apps/gitdeploy/repos/96399503.git"
         run: |
-          # 1. Siapkan direktori .ssh di GitHub Runner
+          # 1. Daftarkan host key server cPanel agar tidak terhenti konfirmasi fingerprint
           mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-
-          # 2. Simpan file private key
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-          # 3. Hilangkan passphrase pada key 
-          # Langkah ini membuat koneksi SSH berjalan otomatis tanpa prompt interaktif
-          if [ -n "$SSH_PASS" ]; then
-            ssh-keygen -p -P "$SSH_PASS" -N "" -f ~/.ssh/id_rsa 2>/dev/null || true
-          fi
-
-          # 4. Daftarkan host key server cPanel 
           ssh-keyscan -p 64000 -H cipressa.id.rapidplex.com >> ~/.ssh/known_hosts 2>/dev/null || true
 
-          # 5. Pasang utility sshpass untuk menangani autentikasi password server
+          # 2. Pasang utility sshpass
           sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
 
-          # 6. Konfigurasikan perintah Git SSH dengan kredensial lengkap
-          export GIT_SSH_COMMAND="sshpass -p '$SSH_PASS' ssh -i ~/.ssh/id_rsa -p 64000 -o StrictHostKeyChecking=no"
+          # 3. Paksa SSH langsung meminta password (PubkeyAuthentication=no)
+          export GIT_SSH_COMMAND="sshpass -p '$SSH_PASS' ssh -p 64000 -o StrictHostKeyChecking=no -o PubkeyAuthentication=no"
 
-          # 7. Daftarkan remote repository cPanel dan kirim commit terbaru
+          # 4. Daftarkan remote cPanel dan push
+          git remote remove cpanel 2>/dev/null || true
           git remote add cpanel "$CPANEL_REMOTE"
           git push cpanel main --force

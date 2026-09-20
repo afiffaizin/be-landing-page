@@ -263,7 +263,7 @@ class AdminPanelTest extends TestCase
 
     public function test_frontend_api_returns_active_about_sections(): void
     {
-        AboutSection::create([
+        $about = AboutSection::create([
             'title' => 'About FE Test',
             'description' => 'Deskripsi tentang program',
             'points' => [
@@ -272,9 +272,16 @@ class AdminPanelTest extends TestCase
             'is_active' => true,
         ]);
 
+        $about->cards()->create([
+            'title' => 'Pilar Inovasi',
+            'description' => 'Deskripsi pilar inovasi',
+            'icon_name' => 'sparkles',
+        ]);
+
         $response = $this->getJson('/api/v1/about');
         $response->assertStatus(200)
-            ->assertJsonFragment(['title' => 'About FE Test']);
+            ->assertJsonFragment(['title' => 'About FE Test'])
+            ->assertJsonPath('data.0.cards.0.icon_name', 'sparkles');
     }
 
     public function test_create_views_display_terakhir_diperbarui_wib(): void

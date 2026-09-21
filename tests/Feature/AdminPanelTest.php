@@ -51,7 +51,9 @@ class AdminPanelTest extends TestCase
     {
         $response = $this->get('/login');
         $response->assertStatus(200)
-            ->assertSee('Portal Manajemen Admin');
+            ->assertSee('Portal Manajemen Admin')
+            ->assertSee('togglePasswordBtn')
+            ->assertSee('Tampilkan kata sandi');
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void

@@ -74,33 +74,39 @@
     <!-- Mobile Header / Nav Toggle -->
     <div class="md:hidden flex items-center justify-between bg-emerald-900 px-4 py-3 sticky top-0 z-40">
         <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center text-white font-bold shadow-sm shadow-emerald-500/30">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19.5c-4.478 0-8-3.582-8-7.5 0-3.918 3.522-7.5 8-7.5s8 3.582 8 7.5c0 1.5-.5 2.9-1.4 4.1L20 21l-3.5-1.2c-1.3.5-2.8.7-4.5.7zM9 10c0 1.657 1.343 3 3 3s3-1.343 3-3"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 14.5c1.5 2 3.5 3 5 3s3.5-1 5-3"></path>
-                </svg>
-            </div>
+            <img src="{{ asset('images/logo.png') }}" alt="Eco-Enzyme Logo" class="w-9 h-9 rounded-xl shadow-md shadow-emerald-500/30 object-cover shrink-0">
             <div>
                 <h1 class="text-sm font-bold text-white leading-tight">Eco-Enzyme Admin</h1>
                 <p class="text-[11px] text-emerald-300 font-medium">Pengabdian Dosen</p>
             </div>
         </div>
-        <button type="button" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')" class="p-2 rounded-lg text-emerald-300 hover:bg-emerald-800">
+        <button type="button" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-backdrop')?.classList.toggle('hidden')" class="p-2 rounded-lg text-emerald-300 hover:bg-emerald-800" title="Buka Menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
             </svg>
         </button>
     </div>
 
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebar-backdrop" onclick="document.getElementById('sidebar').classList.add('-translate-x-full'); this.classList.add('hidden')" class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-xs hidden md:hidden transition-opacity"></div>
+
     <!-- Sidebar -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-linear-to-b from-emerald-900 via-emerald-900 to-emerald-950 flex flex-col transition-transform duration-200 ease-in-out -translate-x-full md:translate-x-0 md:static md:h-screen md:shrink-0">
         <!-- Brand Header -->
-        <div class="p-5 border-b border-emerald-700/50 flex items-center gap-3">
-            <img src="{{ asset('images/logo.png') }}" alt="Eco-Enzyme Logo" class="w-10 h-10 rounded-xl shadow-md shadow-emerald-500/30 object-cover">
-            <div>
-                <span class="text-base font-bold text-white tracking-tight block">Eco-Enzyme</span>
-                <span class="text-[11px] font-medium text-emerald-300 bg-emerald-800/60 border border-emerald-600/40 px-2 py-0.5 rounded-md inline-block mt-0.5">Admin Portal</span>
+        <div class="p-5 border-b border-emerald-700/50 flex items-center justify-between">
+            <div class="flex items-center gap-3 min-w-0">
+                <img src="{{ asset('images/logo.png') }}" alt="Eco-Enzyme Logo" class="w-10 h-10 rounded-xl shadow-md shadow-emerald-500/30 object-cover shrink-0">
+                <div class="min-w-0">
+                    <span class="text-base font-bold text-white tracking-tight block truncate">Eco-Enzyme</span>
+                    <span class="text-[11px] font-medium text-emerald-300 bg-emerald-800/60 border border-emerald-600/40 px-2 py-0.5 rounded-md inline-block mt-0.5">Admin Portal</span>
+                </div>
             </div>
+            <!-- Mobile Close Button inside Sidebar -->
+            <button type="button" onclick="document.getElementById('sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-backdrop')?.classList.add('hidden')" class="md:hidden p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-emerald-800 transition-colors" title="Tutup Menu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
 
         <!-- Navigation Menu -->

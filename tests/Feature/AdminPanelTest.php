@@ -76,6 +76,29 @@ class AdminPanelTest extends TestCase
             ->assertSee('Admin Portal');
     }
 
+    public function test_dashboard_displays_correct_about_points_pilar_count(): void
+    {
+        // Deactivate existing about sections to isolate this test
+        AboutSection::query()->update(['is_active' => false]);
+
+        $about = AboutSection::create([
+            'title' => 'Program Pengabdian Test',
+            'description' => 'Deskripsi program test',
+            'is_active' => true,
+        ]);
+
+        $about->cards()->createMany([
+            ['title' => 'Pilar 1', 'description' => 'Deskripsi 1', 'steps' => 1],
+            ['title' => 'Pilar 2', 'description' => 'Deskripsi 2', 'steps' => 2],
+            ['title' => 'Pilar 3', 'description' => 'Deskripsi 3', 'steps' => 3],
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('admin.dashboard'));
+
+        $response->assertStatus(200)
+            ->assertSee('3 Poin Pilar');
+    }
+
     public function test_authenticated_user_can_create_home_section(): void
     {
         $file = UploadedFile::fake()->image('hero.jpg');

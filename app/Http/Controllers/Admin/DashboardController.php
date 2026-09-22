@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AboutSection;
+use App\Models\AboutSectionCard;
 use App\Models\ContactItem;
 use App\Models\ContactSection;
 use App\Models\HomeSection;
@@ -31,10 +32,16 @@ class DashboardController extends Controller
         // Tentang Kami (About)
         $totalAbout = AboutSection::count();
         $activeAbout = AboutSection::where('is_active', true)->count();
-        $aboutSections = AboutSection::all();
-        $totalPoints = $aboutSections->reduce(function ($carry, $item) {
-            return $carry + (is_array($item->points) ? count($item->points) : 0);
-        }, 0);
+        $activeAboutSection = AboutSection::with('cards')->where('is_active', true)->first();
+        if ($activeAboutSection) {
+            $totalCards = $activeAboutSection->cards->count();
+            if ($totalCards === 0 && is_array($activeAboutSection->points)) {
+                $totalCards = count($activeAboutSection->points);
+            }
+        } else {
+            $totalCards = AboutSectionCard::count();
+        }
+        $totalPoints = $totalCards;
         $recentAbout = AboutSection::latest('updated_at')->take(3)->get();
 
         // Produk (Products)
@@ -116,6 +123,7 @@ class DashboardController extends Controller
         $lastUpdateTimes = array_filter([
             HomeSection::max('updated_at'),
             AboutSection::max('updated_at'),
+            AboutSectionCard::max('updated_at'),
             ProductSection::max('updated_at'),
             Product::max('updated_at'),
             HowToOrderSection::max('updated_at'),
@@ -131,6 +139,7 @@ class DashboardController extends Controller
             'totalAbout',
             'activeAbout',
             'totalPoints',
+            'totalCards',
             'recentHome',
             'recentAbout',
             'totalProducts',

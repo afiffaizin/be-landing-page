@@ -12,7 +12,7 @@
 
 @section('header_actions')
     <div class="flex items-center gap-2.5">
-        <a href="{{ url('/') }}" target="_blank" rel="noopener noreferrer"
+        <a href="{{ config('app.frontend_url', 'https://sanitasihijau.com/') }}" target="_blank" rel="noopener noreferrer"
             class="inline-flex items-center gap-2 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs transition-all duration-150">
             <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -83,7 +83,7 @@
                             {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->timezone('Asia/Jakarta')->translatedFormat('d M Y, H:i') . ' WIB' : 'Belum Ada Pembaruan' }}
                         </p>
                     </div>
-                    <a href="{{ url('/') }}" target="_blank" rel="noopener noreferrer"
+                    <a href="{{ config('app.frontend_url', 'https://sanitasihijau.com/') }}" target="_blank" rel="noopener noreferrer"
                         class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm shadow-emerald-500/20 hover:shadow-md transition-all duration-150 cursor-pointer">
                         <span>Lihat Halaman Utama</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

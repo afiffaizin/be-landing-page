@@ -73,7 +73,9 @@ class AdminPanelTest extends TestCase
 
         $response->assertStatus(200)
             ->assertSee('Dashboard Overview')
-            ->assertSee('Admin Portal');
+            ->assertSee('Admin Portal')
+            ->assertSee('Lihat Halaman Utama')
+            ->assertSee('https://sanitasihijau.com/');
     }
 
     public function test_dashboard_displays_correct_about_points_pilar_count(): void

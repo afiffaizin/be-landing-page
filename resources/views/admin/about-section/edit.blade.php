@@ -126,7 +126,7 @@
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Cards Program</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap card berisi judul, icon, gambar, dan deskripsi.</p>
+                                <p class="text-xs text-slate-500">Setiap card berisi judul, icon, dan deskripsi.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -145,8 +145,6 @@
                                 data-index="{{ $idx }}">
                                 <input type="hidden" name="cards[{{ $idx }}][id]"
                                     value="{{ $card->id }}">
-                                <input type="hidden" name="cards[{{ $idx }}][remove_image]" value="0"
-                                    class="card-remove-image-flag">
 
                                 <!-- Card Item Header -->
                                 <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer"
@@ -203,47 +201,6 @@
                                         remove-name="cards[{{ $idx }}][remove_icon_image]"
                                     />
 
-                                    <!-- Gambar Card Upload -->
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Gambar Card (Opsional)
-                                        </label>
-                                        <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
-                                            onclick="this.querySelector('.card-image-input').click()">
-                                            <input type="file" name="cards[{{ $idx }}][image]"
-                                                accept="image/png,image/jpeg,image/jpg,image/webp"
-                                                onchange="handleCardImagePreview(this)" class="card-image-input hidden">
-
-                                            <!-- Preview Image -->
-                                            <div class="card-preview-wrapper {{ $card->image ? '' : 'hidden' }} mb-2">
-                                                <img src="{{ $card->image_url ?: '#' }}" alt="Preview"
-                                                    class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
-                                                <button type="button"
-                                                    onclick="event.stopPropagation(); removeCardSelectedImage(this)"
-                                                    class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
-                                                    Hapus / Ganti Gambar
-                                                </button>
-                                            </div>
-
-                                            <!-- Dropzone Placeholder Content -->
-                                            <div class="card-dropzone-content {{ $card->image ? 'hidden' : '' }}">
-                                                <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                    </path>
-                                                </svg>
-                                                <p class="text-xs font-medium text-slate-700">
-                                                    Klik atau seret gambar untuk mengganti/menambah
-                                                </p>
-                                                <p class="text-[10px] text-slate-400 mt-0.5">
-                                                    Format: PNG, JPG, WEBP • Maks 2MB
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!-- Deskripsi Card -->
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-700 mb-1">
@@ -258,8 +215,8 @@
                         @empty
                             <div class="card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs"
                                 data-index="0">
-                                <input type="hidden" name="cards[0][remove_image]" value="0"
-                                    class="card-remove-image-flag">
+                                <input type="hidden" name="cards[0][remove_icon_image]" value="0"
+                                    class="card-remove-icon-flag">
                                 <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer"
                                     onclick="toggleCardAccordion(this)">
                                     <div class="flex items-center gap-2.5">
@@ -306,38 +263,6 @@
                                         remove-name="cards[0][remove_icon_image]"
                                     />
 
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Gambar Card
-                                            (Opsional)
-                                        </label>
-                                        <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
-                                            onclick="this.querySelector('.card-image-input').click()">
-                                            <input type="file" name="cards[0][image]"
-                                                accept="image/png,image/jpeg,image/jpg,image/webp"
-                                                onchange="handleCardImagePreview(this)" class="card-image-input hidden">
-                                            <div class="card-preview-wrapper hidden mb-2">
-                                                <img src="#" alt="Preview"
-                                                    class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
-                                                <button type="button"
-                                                    onclick="event.stopPropagation(); removeCardSelectedImage(this)"
-                                                    class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">Hapus
-                                                    / Ganti Gambar</button>
-                                            </div>
-                                            <div class="card-dropzone-content">
-                                                <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                    </path>
-                                                </svg>
-                                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk
-                                                    card ini</p>
-                                                <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks
-                                                    2MB</p>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi Card <span
                                                 class="text-rose-500">*</span></label>
@@ -594,7 +519,6 @@
 
             const cardHtml = `
             <div class="card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs" data-index="${index}">
-                <input type="hidden" name="cards[${index}][remove_image]" value="0" class="card-remove-image-flag">
                 <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleCardAccordion(this)">
                     <div class="flex items-center gap-2.5">
                         <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">${newNum}</span>
@@ -672,32 +596,6 @@
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Gambar Card (Opsional)
-                        </label>
-                        <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
-                             onclick="this.querySelector('.card-image-input').click()">
-                            <input type="file"
-                                   name="cards[${index}][image]"
-                                   accept="image/png,image/jpeg,image/jpg,image/webp"
-                                   onchange="handleCardImagePreview(this)"
-                                   class="card-image-input hidden">
-                            <div class="card-preview-wrapper hidden mb-2">
-                                <img src="#" alt="Preview" class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
-                                <button type="button" onclick="event.stopPropagation(); removeCardSelectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
-                                    Hapus / Ganti Gambar
-                                </button>
-                            </div>
-                            <div class="card-dropzone-content">
-                                <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk card ini</p>
-                                <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">
                             Deskripsi Card <span class="text-rose-500">*</span>
                         </label>
                         <textarea name="cards[${index}][description]"
@@ -744,52 +642,5 @@
             }, 150);
         }
 
-        // ─── Image Preview Handlers ──────────────────────────────────────────
-        function handleCardImagePreview(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            if (file.size > 2 * 1024 * 1024) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ukuran File Terlalu Besar',
-                    text: 'Maksimal ukuran gambar card adalah 2MB.',
-                    confirmButtonColor: '#e11d48'
-                });
-                input.value = '';
-                return;
-            }
-
-            const dropzone = input.closest('.card-image-dropzone');
-            const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
-            const previewImg = dropzone.querySelector('.card-preview-img');
-            const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
-            const removeFlag = dropzone.closest('.card-item').querySelector('.card-remove-image-flag');
-
-            if (removeFlag) removeFlag.value = '0';
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                previewWrapper.classList.remove('hidden');
-                dropzoneContent.classList.add('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removeCardSelectedImage(btn) {
-            const dropzone = btn.closest('.card-image-dropzone');
-            const input = dropzone.querySelector('.card-image-input');
-            const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
-            const previewImg = dropzone.querySelector('.card-preview-img');
-            const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
-            const removeFlag = dropzone.closest('.card-item').querySelector('.card-remove-image-flag');
-
-            if (removeFlag) removeFlag.value = '1';
-            input.value = '';
-            previewImg.src = '#';
-            previewWrapper.classList.add('hidden');
-            dropzoneContent.classList.remove('hidden');
-        }
     </script>
 @endpush

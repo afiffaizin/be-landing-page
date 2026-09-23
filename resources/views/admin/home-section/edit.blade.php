@@ -194,35 +194,43 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-2">Gambar Utama</label>
+                    <input type="hidden" name="remove_image" id="remove-image-flag" value="{{ old('remove_image', '0') }}">
                     <div id="dropzone"
                          onclick="document.getElementById('image-input').click()"
                          class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 rounded-2xl p-6 text-center cursor-pointer transition-all bg-emerald-50/30 hover:bg-emerald-50/60">
                         <input type="file"
-                               id="image-input"
-                               name="image"
-                               accept="image/png,image/jpeg,image/jpg,image/webp"
-                               onchange="handleImagePreview(this)"
-                               class="hidden">
+                                id="image-input"
+                                name="image"
+                                accept="image/png,image/jpeg,image/jpg,image/webp"
+                                onchange="handleImagePreview(this)"
+                                class="hidden">
+
+                        @php
+                            $hasImage = ($homeSection->image && old('remove_image') !== '1');
+                        @endphp
 
                         <!-- Preview Container -->
-                        <div id="image-preview-wrapper" class="{{ $homeSection->image ? '' : 'hidden' }} mb-3">
+                        <div id="image-preview-wrapper" class="{{ $hasImage ? '' : 'hidden' }} mb-3">
                             <img id="image-preview"
                                  src="{{ $homeSection->image ? asset('storage/' . $homeSection->image) : '#' }}"
                                  alt="Preview"
-                                 class="w-full h-36 object-cover rounded-xl border border-gray-200 shadow-xs mb-2">
+                                 class="w-full aspect-square object-cover rounded-xl border border-gray-200 shadow-xs mb-2">
                             <div class="flex items-center justify-center gap-4 text-xs">
                                 <span class="text-emerald-700 font-semibold underline">Ganti Gambar</span>
-                                @if($homeSection->image)
-                                    <label onclick="event.stopPropagation()" class="flex items-center gap-1.5 text-rose-600 hover:text-rose-800 font-semibold cursor-pointer">
-                                        <input type="checkbox" name="remove_image" value="1" class="rounded border-gray-300 text-rose-600">
-                                        <span>Hapus Gambar</span>
-                                    </label>
-                                @endif
+                                <button type="button"
+                                        id="btn-remove-image"
+                                        onclick="event.stopPropagation(); removeSelectedImage()"
+                                        class="inline-flex items-center gap-1 text-rose-600 hover:text-rose-800 font-semibold underline cursor-pointer">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    <span>Hapus Gambar</span>
+                                </button>
                             </div>
                         </div>
 
                         <!-- Dropzone Icon & Text -->
-                        <div id="dropzone-content" class="{{ $homeSection->image ? 'hidden' : '' }}">
+                        <div id="dropzone-content" class="{{ $hasImage ? 'hidden' : '' }}">
                             <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-3">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
@@ -235,7 +243,7 @@
                                 Format: PNG, JPG, WEBP • Maksimal 2MB
                             </p>
                             <p class="text-[10px] text-slate-400 mt-0.5">
-                                Rekomendasi rasio: 16:9 (1200x675 px)
+                                Rekomendasi rasio: 1:1 (800 × 800 px)
                             </p>
                         </div>
                     </div>
@@ -375,6 +383,8 @@
 
     function handleImagePreview(input) {
         if (input.files && input.files[0]) {
+            const removeFlag = document.getElementById('remove-image-flag');
+            if (removeFlag) removeFlag.value = '0';
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById('image-preview').src = e.target.result;
@@ -387,10 +397,15 @@
 
     function removeSelectedImage() {
         const input = document.getElementById('image-input');
-        input.value = '';
-        document.getElementById('image-preview').src = '#';
-        document.getElementById('image-preview-wrapper').classList.add('hidden');
-        document.getElementById('dropzone-content').classList.remove('hidden');
+        if (input) input.value = '';
+        const removeFlag = document.getElementById('remove-image-flag');
+        if (removeFlag) removeFlag.value = '1';
+        const preview = document.getElementById('image-preview');
+        if (preview) preview.src = '#';
+        const wrapper = document.getElementById('image-preview-wrapper');
+        if (wrapper) wrapper.classList.add('hidden');
+        const dropzoneContent = document.getElementById('dropzone-content');
+        if (dropzoneContent) dropzoneContent.classList.remove('hidden');
     }
 </script>
 @endpush

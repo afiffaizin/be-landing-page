@@ -138,8 +138,7 @@
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Daftar Produk / Katalog</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap produk berisi judul, harga, benefit keunggulan,
-                                    deskripsi, dan gambar produk.</p>
+                                <p class="text-xs text-slate-500">Setiap produk berisi judul, harga, benefit keunggulan, deskripsi, detail spesifikasi, dan gambar produk.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -163,6 +162,7 @@
                                     <span
                                         class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">1</span>
                                     <span class="product-header-title text-xs font-bold text-slate-800">Produk 1</span>
+                                    <span class="product-header-price text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100/80 hidden"></span>
                                 </div>
                                 <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                                     <button type="button" onclick="removeproductItem(this)" title="Hapus Produk"
@@ -208,7 +208,8 @@
                                         <input type="text" name="products[0][price]"
                                             value="{{ old('products.0.price') }}" required
                                             placeholder="Contoh: Rp 15.000 / batang"
-                                            class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                            oninput="updateproductHeaderPrice(this)"
+                                            class="product-price-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                                     </div>
                                 </div>
 
@@ -227,14 +228,34 @@
                                     </p>
                                 </div>
 
-                                <!-- Deskripsi product -->
+                                <!-- Deskripsi Singkat Produk -->
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1.5">
-                                        Deskripsi Produk <span class="text-rose-500">*</span>
+                                        Deskripsi Singkat Produk <span class="text-rose-500">*</span>
                                     </label>
-                                    <textarea name="products[0][description]" rows="3" required
-                                        placeholder="Jelaskan secara ringkas karakteristik, bahan, atau kegunaan produk..."
+                                    <textarea name="products[0][description]" rows="2" required
+                                        placeholder="Jelaskan secara ringkas karakteristik, bahan, atau kegunaan produk untuk kartu katalog..."
                                         class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed">{{ old('products.0.description') }}</textarea>
+                                    <p class="text-[11px] text-slate-400 mt-1">
+                                        Ringkasan singkat yang ditampilkan pada kartu katalog produk di landing page.
+                                    </p>
+                                </div>
+
+                                <!-- Detail Produk -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <label class="block text-xs font-semibold text-slate-700">
+                                            Detail Produk (Spesifikasi & Rincian) <span
+                                                class="text-[11px] font-normal text-slate-400">(Opsional)</span>
+                                        </label>
+                                        <span class="text-[11px] text-slate-400">Rincian Lengkap Produk</span>
+                                    </div>
+                                    <textarea name="products[0][detail]" rows="4"
+                                        placeholder="Masukan detail produk anda"
+                                        class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed">{{ old('products.0.detail') }}</textarea>
+                                    <p class="text-[11px] text-slate-400 mt-1">
+                                        Cantumkan informasi detail seperti spesifikasi teknis, komposisi/bahan, netto, izin edar, aturan pakai, atau petunjuk penyimpanan.
+                                    </p>
                                 </div>
 
                                 <!-- Gambar product Upload -->
@@ -466,6 +487,18 @@
                         1);
                     headerTitle.innerText = val;
                 }
+
+                const headerPrice = item.querySelector('.product-header-price');
+                const priceInput = item.querySelector('.product-price-input');
+                if (headerPrice) {
+                    if (priceInput && priceInput.value.trim()) {
+                        headerPrice.innerText = priceInput.value.trim();
+                        headerPrice.classList.remove('hidden');
+                    } else {
+                        headerPrice.innerText = '';
+                        headerPrice.classList.add('hidden');
+                    }
+                }
             });
             updateproductBadgeCount();
         }
@@ -476,6 +509,20 @@
             const idx = Array.from(document.querySelectorAll('#products-container .product-item')).indexOf(item) + 1;
             if (headerTitle) {
                 headerTitle.innerText = input.value.trim() ? input.value.trim() : 'Produk ' + idx;
+            }
+        }
+
+        function updateproductHeaderPrice(input) {
+            const item = input.closest('.product-item');
+            const headerPrice = item.querySelector('.product-header-price');
+            if (headerPrice) {
+                if (input.value.trim()) {
+                    headerPrice.innerText = input.value.trim();
+                    headerPrice.classList.remove('hidden');
+                } else {
+                    headerPrice.innerText = '';
+                    headerPrice.classList.add('hidden');
+                }
             }
         }
 
@@ -521,6 +568,7 @@
                     <div class="flex items-center gap-2.5">
                         <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">${newNum}</span>
                         <span class="product-header-title text-xs font-bold text-slate-800">Produk ${newNum}</span>
+                        <span class="product-header-price text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100/80 hidden"></span>
                     </div>
                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                         <button type="button" onclick="removeproductItem(this)" title="Hapus Produk" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
@@ -557,7 +605,8 @@
                                    name="products[${index}][price]"
                                    required
                                    placeholder="Contoh: Rp 15.000 / batang"
-                                   class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                   oninput="updateproductHeaderPrice(this)"
+                                   class="product-price-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         </div>
                     </div>
 
@@ -575,16 +624,36 @@
                         </p>
                     </div>
 
-                    <!-- Deskripsi Produk -->
+                    <!-- Deskripsi Singkat Produk -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">
-                            Deskripsi Produk <span class="text-rose-500">*</span>
+                            Deskripsi Singkat Produk <span class="text-rose-500">*</span>
                         </label>
                         <textarea name="products[${index}][description]"
-                                  rows="3"
+                                  rows="2"
                                   required
-                                  placeholder="Jelaskan secara ringkas karakteristik, bahan, atau kegunaan produk..."
+                                  placeholder="Jelaskan secara ringkas karakteristik, bahan, atau kegunaan produk untuk kartu katalog..."
                                   class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed"></textarea>
+                        <p class="text-[11px] text-slate-400 mt-1">
+                            Ringkasan singkat yang ditampilkan pada kartu katalog produk di landing page.
+                        </p>
+                    </div>
+
+                    <!-- Detail Produk -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-xs font-semibold text-slate-700">
+                                Detail Produk (Spesifikasi & Rincian) <span class="text-[11px] font-normal text-slate-400">(Opsional)</span>
+                            </label>
+                            <span class="text-[11px] text-slate-400">Rincian Lengkap Produk</span>
+                        </div>
+                        <textarea name="products[${index}][detail]"
+                                  rows="4"
+                                  placeholder="Masukan detail produk anda"
+                                  class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed"></textarea>
+                        <p class="text-[11px] text-slate-400 mt-1">
+                            Cantumkan informasi detail seperti spesifikasi teknis, komposisi/bahan, netto, izin edar, aturan pakai, atau petunjuk penyimpanan.
+                        </p>
                     </div>
 
                     <!-- Gambar Produk Upload -->

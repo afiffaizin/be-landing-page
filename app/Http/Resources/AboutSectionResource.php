@@ -23,7 +23,6 @@ class AboutSectionResource extends JsonResource
                 return [
                     'id' => $card->id,
                     'title' => $card->title,
-                    'image_url' => $card->image_url,
                     'description' => $card->description,
                     'icon_name' => $card->icon_name,
                     'icon_image' => $card->icon_image,

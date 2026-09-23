@@ -35,7 +35,7 @@
 ### 🛠️ Admin Portal (Web CMS)
 - **Executive Dashboard** — KPI cards, status kesiapan seluruh 6 modul publik, aktivitas pembaruan terakhir, dan ringkasan katalog.
 - **Manajemen Beranda (Home Section)** — Pengaturan hero headline, sub-headline, gambar ilustrasi banner, dan 2 tombol CTA kustom.
-- **Manajemen Tentang Kami (About Section)** — Profil inisiatif, kartu pilar informasi dinamis (dengan ikon/gambar dan langkah), serta daftar poin keunggulan.
+- **Manajemen Tentang Kami (About Section)** — Profil inisiatif, kartu pilar informasi dinamis (dengan ikon dan langkah), serta daftar poin keunggulan.
 - **Manajemen Produk (Product Section)** — Pengaturan katalog produk UMKM, harga, deskripsi, manfaat (*benefit*), gambar produk, dan direct CTA nomor WhatsApp pemesanan.
 - **Manajemen Cara Pesan (How to Order)** — Panduan tahapan pemesanan step-by-step terurut dengan ikon grafis dan tombol aksi.
 - **Manajemen Testimoni & Statistik** — Hub manajemen testimoni pelanggan, kutipan ulasan, asal pelanggan, serta metrik statistik pencapaian.
@@ -324,16 +324,11 @@ GET /api/v1/about/{id}
         {
           "id": 1,
           "title": "Ramah Lingkungan",
-          "image_url": null,
           "description": "Mengurangi beban timbunan sampah organik di tempat pembuangan akhir.",
           "icon_name": "sparkles",
           "icon_image": null,
           "icon_image_url": null,
-          "steps": [
-            "Pilah sampah organik dapur",
-            "Campur dengan rasio 1:3:10",
-            "Fermentasi selama 90 hari"
-          ]
+          "steps": 1
         }
       ],
       "points": [
@@ -349,8 +344,8 @@ GET /api/v1/about/{id}
         }
       ],
       "is_active": true,
-      "created_at": "2026-09-20T08:00:00.000000Z",
-      "updated_at": "2026-09-20T08:30:00.000000Z"
+      "created_at": "2026-09-20T08:00:00+00:00",
+      "updated_at": "2026-09-20T08:30:00+00:00"
     }
   ]
 }
@@ -363,7 +358,7 @@ GET /api/v1/about/{id}
 | `cards[].icon_name` | String / Null | Nama icon identifier (misal `sparkles`, `shield-check`, `leaf`). |
 | `cards[].icon_image` | String / Null | Path penyimpanan file icon bila diunggah. |
 | `cards[].icon_image_url` | String (URL) / Null | URL publik absolut icon custom bila diunggah. |
-| `cards[].steps` | Array of Strings | Langkah-langkah detail kartu informasi (opsional). |
+| `cards[].steps` | Integer | Nomor urutan tampilan card. |
 | `points` | Array of Objects | Poin keunggulan bernomor urut (`number`, `title`, `description`). |
 
 ---
@@ -753,7 +748,7 @@ Sistem otorisasi dibangun menggunakan pustaka **Spatie Laravel Permission** deng
 ## 🧪 Pengujian & Standar Kode
 
 ### 1. Menjalankan Automated Tests (PHPUnit)
-Proyek ini dilengkapi dengan 76 skenario automated feature test dengan 290+ assertion yang mencakup otentikasi, proteksi hak akses Spatie, operasi CRUD admin, dan respon API publik:
+Proyek ini dilengkapi dengan 85 skenario automated feature test dengan 330+ assertion yang mencakup otentikasi, proteksi hak akses Spatie, operasi CRUD admin, dan respon API publik:
 ```bash
 # Menjalankan seluruh pengujian dalam format ringkas
 php artisan test --compact

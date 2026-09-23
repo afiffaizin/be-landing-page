@@ -122,7 +122,7 @@
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Cards Program</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap card berisi judul, icon, gambar, dan deskripsi.</p>
+                                <p class="text-xs text-slate-500">Setiap card berisi judul, icon, dan deskripsi.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -189,46 +189,6 @@
                                     upload-name="cards[0][icon_image]"
                                     remove-name="cards[0][remove_icon_image]"
                                 />
-
-                                <!-- Gambar Card Upload -->
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                        Gambar Card (Opsional)
-                                    </label>
-                                    <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
-                                        onclick="this.querySelector('.card-image-input').click()">
-                                        <input type="file" name="cards[0][image]"
-                                            accept="image/png,image/jpeg,image/jpg,image/webp"
-                                            onchange="handleCardImagePreview(this)" class="card-image-input hidden">
-
-                                        <!-- Preview Image -->
-                                        <div class="card-preview-wrapper hidden mb-2">
-                                            <img src="#" alt="Preview"
-                                                class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
-                                            <button type="button"
-                                                onclick="event.stopPropagation(); removeCardSelectedImage(this)"
-                                                class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
-                                                Hapus / Ganti Gambar
-                                            </button>
-                                        </div>
-
-                                        <!-- Dropzone Placeholder Content -->
-                                        <div class="card-dropzone-content">
-                                            <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                                </path>
-                                            </svg>
-                                            <p class="text-xs font-medium text-slate-700">
-                                                Klik atau seret gambar untuk card ini
-                                            </p>
-                                            <p class="text-[10px] text-slate-400 mt-0.5">
-                                                Format: PNG, JPG, WEBP • Maks 2MB
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <!-- Deskripsi Card -->
                                 <div>
@@ -559,32 +519,6 @@
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Gambar Card (Opsional)
-                        </label>
-                        <div class="card-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
-                             onclick="this.querySelector('.card-image-input').click()">
-                            <input type="file"
-                                   name="cards[${index}][image]"
-                                   accept="image/png,image/jpeg,image/jpg,image/webp"
-                                   onchange="handleCardImagePreview(this)"
-                                   class="card-image-input hidden">
-                            <div class="card-preview-wrapper hidden mb-2">
-                                <img src="#" alt="Preview" class="card-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
-                                <button type="button" onclick="event.stopPropagation(); removeCardSelectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
-                                    Hapus / Ganti Gambar
-                                </button>
-                            </div>
-                            <div class="card-dropzone-content">
-                                <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk card ini</p>
-                                <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">
                             Deskripsi Card <span class="text-rose-500">*</span>
                         </label>
                         <textarea name="cards[${index}][description]"
@@ -631,47 +565,5 @@
             }, 150);
         }
 
-        // ─── Image Preview Handlers ──────────────────────────────────────────
-        function handleCardImagePreview(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            if (file.size > 2 * 1024 * 1024) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ukuran File Terlalu Besar',
-                    text: 'Maksimal ukuran gambar card adalah 2MB.',
-                    confirmButtonColor: '#e11d48'
-                });
-                input.value = '';
-                return;
-            }
-
-            const dropzone = input.closest('.card-image-dropzone');
-            const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
-            const previewImg = dropzone.querySelector('.card-preview-img');
-            const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                previewWrapper.classList.remove('hidden');
-                dropzoneContent.classList.add('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function removeCardSelectedImage(btn) {
-            const dropzone = btn.closest('.card-image-dropzone');
-            const input = dropzone.querySelector('.card-image-input');
-            const previewWrapper = dropzone.querySelector('.card-preview-wrapper');
-            const previewImg = dropzone.querySelector('.card-preview-img');
-            const dropzoneContent = dropzone.querySelector('.card-dropzone-content');
-
-            input.value = '';
-            previewImg.src = '#';
-            previewWrapper.classList.add('hidden');
-            dropzoneContent.classList.remove('hidden');
-        }
     </script>
 @endpush

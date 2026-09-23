@@ -59,7 +59,6 @@ class AboutSectionController extends Controller
             'cards' => ['nullable', 'array'],
             'cards.*.title' => ['nullable', 'string', 'max:255'],
             'cards.*.description' => ['nullable', 'string'],
-            'cards.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'cards.*.icon_name' => ['nullable', 'string', 'max:100'],
             'cards.*.icon_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:512'],
         ]);
@@ -96,16 +95,10 @@ class AboutSectionController extends Controller
             foreach ($request->input('cards') as $index => $cardData) {
                 $cardTitle = trim($cardData['title'] ?? '');
                 $cardDesc = trim($cardData['description'] ?? '');
-                $hasImage = $request->hasFile("cards.{$index}.image");
                 $hasIconImage = $request->hasFile("cards.{$index}.icon_image");
                 $iconName = trim($cardData['icon_name'] ?? '');
 
-                if ($cardTitle !== '' || $cardDesc !== '' || $hasImage) {
-                    $imagePath = null;
-                    if ($hasImage) {
-                        $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
-                    }
-
+                if ($cardTitle !== '' || $cardDesc !== '') {
                     $iconImagePath = null;
                     if ($hasIconImage) {
                         $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
@@ -114,7 +107,6 @@ class AboutSectionController extends Controller
                     $aboutSection->cards()->create([
                         'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
-                        'image' => $imagePath,
                         'icon_name' => $iconName ?: null,
                         'icon_image' => $iconImagePath,
                         'steps' => $step,
@@ -155,8 +147,6 @@ class AboutSectionController extends Controller
             'cards.*.id' => ['nullable', 'integer'],
             'cards.*.title' => ['nullable', 'string', 'max:255'],
             'cards.*.description' => ['nullable', 'string'],
-            'cards.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
-            'cards.*.remove_image' => ['nullable', 'boolean'],
             'cards.*.icon_name' => ['nullable', 'string', 'max:100'],
             'cards.*.icon_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:512'],
             'cards.*.remove_icon_image' => ['nullable', 'boolean'],
@@ -200,8 +190,6 @@ class AboutSectionController extends Controller
                 $cardId = ! empty($cardData['id']) ? (int) $cardData['id'] : null;
                 $cardTitle = trim($cardData['title'] ?? '');
                 $cardDesc = trim($cardData['description'] ?? '');
-                $hasImage = $request->hasFile("cards.{$index}.image");
-                $removeImage = ! empty($cardData['remove_image']);
                 $hasIconImage = $request->hasFile("cards.{$index}.icon_image");
                 $removeIconImage = ! empty($cardData['remove_icon_image']);
                 $iconName = trim($cardData['icon_name'] ?? '');
@@ -209,23 +197,7 @@ class AboutSectionController extends Controller
                 if ($cardId && $existingCards->has($cardId)) {
                     /** @var AboutSectionCard $card */
                     $card = $existingCards->get($cardId);
-                    $imagePath = $card->image;
                     $iconImagePath = $card->icon_image;
-
-                    // Handle card image
-                    if ($removeImage && $imagePath) {
-                        if (Storage::disk('public')->exists($imagePath)) {
-                            Storage::disk('public')->delete($imagePath);
-                        }
-                        $imagePath = null;
-                    }
-
-                    if ($hasImage) {
-                        if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-                            Storage::disk('public')->delete($imagePath);
-                        }
-                        $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
-                    }
 
                     // Handle icon image
                     if ($removeIconImage && $iconImagePath) {
@@ -245,7 +217,6 @@ class AboutSectionController extends Controller
                     $card->update([
                         'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
-                        'image' => $imagePath,
                         'icon_name' => $iconName ?: null,
                         'icon_image' => $iconImagePath,
                         'steps' => $step,
@@ -253,12 +224,7 @@ class AboutSectionController extends Controller
 
                     $keptCardIds[] = $cardId;
                     $step++;
-                } elseif ($cardTitle !== '' || $cardDesc !== '' || $hasImage) {
-                    $imagePath = null;
-                    if ($hasImage) {
-                        $imagePath = $request->file("cards.{$index}.image")->store('about-cards', 'public');
-                    }
-
+                } elseif ($cardTitle !== '' || $cardDesc !== '') {
                     $iconImagePath = null;
                     if ($hasIconImage) {
                         $iconImagePath = $request->file("cards.{$index}.icon_image")->store('about-card-icons', 'public');
@@ -267,7 +233,6 @@ class AboutSectionController extends Controller
                     $newCard = $aboutSection->cards()->create([
                         'title' => $cardTitle ?: 'Card '.$step,
                         'description' => $cardDesc,
-                        'image' => $imagePath,
                         'icon_name' => $iconName ?: null,
                         'icon_image' => $iconImagePath,
                         'steps' => $step,
@@ -282,9 +247,6 @@ class AboutSectionController extends Controller
         // Hapus card yang dibuang oleh user di form
         foreach ($existingCards as $existingId => $existingCard) {
             if (! in_array($existingId, $keptCardIds)) {
-                if ($existingCard->image && Storage::disk('public')->exists($existingCard->image)) {
-                    Storage::disk('public')->delete($existingCard->image);
-                }
                 if ($existingCard->icon_image && Storage::disk('public')->exists($existingCard->icon_image)) {
                     Storage::disk('public')->delete($existingCard->icon_image);
                 }
@@ -309,9 +271,6 @@ class AboutSectionController extends Controller
     {
         // Hapus semua gambar card dan icon
         foreach ($aboutSection->cards as $card) {
-            if ($card->image && Storage::disk('public')->exists($card->image)) {
-                Storage::disk('public')->delete($card->image);
-            }
             if ($card->icon_image && Storage::disk('public')->exists($card->icon_image)) {
                 Storage::disk('public')->delete($card->icon_image);
             }

@@ -14,7 +14,6 @@ class AboutSectionCard extends Model
     protected $fillable = [
         'about_section_id',
         'title',
-        'image',
         'description',
         'icon_name',
         'icon_image',
@@ -33,18 +32,6 @@ class AboutSectionCard extends Model
     public function aboutSection(): BelongsTo
     {
         return $this->belongsTo(AboutSection::class);
-    }
-
-    /**
-     * Get the full URL for the image.
-     */
-    public function getImageUrlAttribute(): ?string
-    {
-        if (! $this->image) {
-            return null;
-        }
-
-        return Storage::disk('public')->url($this->image);
     }
 
     /**

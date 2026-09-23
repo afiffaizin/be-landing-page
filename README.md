@@ -399,6 +399,7 @@ GET /api/v1/products/{id}
           "name": "Eco-Enzyme Multiguna 500ml",
           "description": "Cairan pembersih lantai, pencuci piring, dan penyegar udara alami.",
           "benefit": "Membunuh bakteri, menghilangkan bau amis, serta ramah untuk kulit sensitif.",
+          "detail": "Komposisi: 100% fermentasi kulit buah & molase alami. Netto: 500ml. Petunjuk: Campurkan 1 tutup botol ke dalam 1 liter air.",
           "price": "25000",
           "image_url": "http://localhost:8000/storage/products/eco-500ml.webp",
           "order": 1,
@@ -411,6 +412,7 @@ GET /api/v1/products/{id}
           "name": "Pupuk Cair Organik Fermentasi 1 Liter",
           "description": "Nutrisi alami tanaman untuk menyuburkan tanah dan mempercepat pertumbuhan tunas.",
           "benefit": "Memperbaiki mikroorganisme tanah dan meningkatkan hasil panen.",
+          "detail": "Komposisi: Ekstrak fermentasi organik kaya unsur hara makro & mikro. Netto: 1 Liter. Cara Pakai: Semprotkan pada daun atau siramkan ke perakaran seminggu sekali.",
           "price": "45000",
           "image_url": "http://localhost:8000/storage/products/pupuk-1l.webp",
           "order": 2,
@@ -432,6 +434,7 @@ GET /api/v1/products/{id}
 | `products` | Array of Objects | Daftar varian produk yang terdaftar pada section ini. |
 | `products[].price` | String / Decimal | Harga produk dalam Rupiah (contoh: `"25000"`). |
 | `products[].benefit` | String / Null | Manfaat / keunggulan spesifik produk. |
+| `products[].detail` | String / Null | Rincian detail produk (spesifikasi, komposisi, netto, aturan pakai, izin edar). |
 | `products[].order` | Integer | Nomor urutan tampilan produk di frontend. |
 
 ---

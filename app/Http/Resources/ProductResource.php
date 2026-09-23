@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'benefit' => $this->benefit,
+            'detail' => $this->detail,
             'price' => $this->price,
             'image_url' => $this->image ? asset(Storage::url($this->image)) : null,
             'order' => $this->order,

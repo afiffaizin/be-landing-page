@@ -141,16 +141,16 @@ class HomeSectionController extends Controller
                 ]);
         }
 
-        if ($request->boolean('remove_image')) {
-            if ($homeSection->image && Storage::disk('public')->exists($homeSection->image)) {
-                Storage::disk('public')->delete($homeSection->image);
-            }
-            $validated['image'] = null;
-        } elseif ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             if ($homeSection->image && Storage::disk('public')->exists($homeSection->image)) {
                 Storage::disk('public')->delete($homeSection->image);
             }
             $validated['image'] = $request->file('image')->store('home-sections', 'public');
+        } elseif ($request->boolean('remove_image')) {
+            if ($homeSection->image && Storage::disk('public')->exists($homeSection->image)) {
+                Storage::disk('public')->delete($homeSection->image);
+            }
+            $validated['image'] = null;
         } else {
             unset($validated['image']);
         }

@@ -184,6 +184,56 @@ class AdminPanelTest extends TestCase
         ]);
     }
 
+    public function test_authenticated_user_can_update_home_section_and_remove_image(): void
+    {
+        Storage::fake('public');
+        $file = UploadedFile::fake()->image('banner.jpg');
+        $path = $file->store('home-sections', 'public');
+
+        $banner = HomeSection::create([
+            'title' => 'Banner Dengan Gambar',
+            'description' => '<p>Deskripsi banner</p>',
+            'image' => $path,
+            'is_active' => true,
+        ]);
+
+        Storage::disk('public')->assertExists($path);
+
+        $response = $this->actingAs($this->user)->put(route('admin.home-sections.update', $banner), [
+            'title' => 'Banner Tanpa Gambar',
+            'description' => '<p>Deskripsi banner</p>',
+            'remove_image' => '1',
+            'action' => 'publish',
+        ]);
+
+        $response->assertRedirect(route('admin.home-sections.index'))
+            ->assertSessionHas('success', 'Banner berhasil diperbarui.');
+
+        $this->assertDatabaseHas('home_sections', [
+            'id' => $banner->id,
+            'title' => 'Banner Tanpa Gambar',
+            'image' => null,
+        ]);
+
+        Storage::disk('public')->assertMissing($path);
+    }
+
+    public function test_home_section_edit_view_renders_delete_image_button(): void
+    {
+        $banner = HomeSection::create([
+            'title' => 'Banner Edit View Test',
+            'description' => '<p>Deskripsi banner</p>',
+            'image' => 'home-sections/sample.jpg',
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('admin.home-sections.edit', $banner));
+        $response->assertStatus(200)
+            ->assertSee('id="remove-image-flag"', false)
+            ->assertSee('id="btn-remove-image"', false)
+            ->assertSee('Hapus Gambar');
+    }
+
     public function test_authenticated_user_can_create_about_section_with_points(): void
     {
         $file = UploadedFile::fake()->image('about.jpg');

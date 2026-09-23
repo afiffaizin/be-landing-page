@@ -206,9 +206,18 @@
                         <!-- Preview Container -->
                         <div id="image-preview-wrapper" class="hidden mb-3">
                             <img id="image-preview" src="#" alt="Preview" class="w-full h-36 object-cover rounded-xl border border-gray-200 shadow-xs mb-2">
-                            <button type="button" onclick="event.stopPropagation(); removeSelectedImage()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
-                                Hapus / Ganti Gambar
-                            </button>
+                            <div class="flex items-center justify-center gap-4 text-xs">
+                                <span class="text-emerald-700 font-semibold underline">Ganti Gambar</span>
+                                <button type="button"
+                                        id="btn-remove-image"
+                                        onclick="event.stopPropagation(); removeSelectedImage()"
+                                        class="inline-flex items-center gap-1 text-rose-600 hover:text-rose-800 font-semibold underline cursor-pointer">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    <span>Hapus Gambar</span>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Dropzone Icon & Text -->

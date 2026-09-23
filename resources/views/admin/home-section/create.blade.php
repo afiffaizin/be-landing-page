@@ -205,7 +205,7 @@
 
                         <!-- Preview Container -->
                         <div id="image-preview-wrapper" class="hidden mb-3">
-                            <img id="image-preview" src="#" alt="Preview" class="w-full h-36 object-cover rounded-xl border border-gray-200 shadow-xs mb-2">
+                            <img id="image-preview" src="#" alt="Preview" class="w-full aspect-square object-cover rounded-xl border border-gray-200 shadow-xs mb-2">
                             <div class="flex items-center justify-center gap-4 text-xs">
                                 <span class="text-emerald-700 font-semibold underline">Ganti Gambar</span>
                                 <button type="button"
@@ -234,7 +234,7 @@
                                 Format: PNG, JPG, WEBP • Maksimal 2MB
                             </p>
                             <p class="text-[10px] text-slate-400 mt-0.5">
-                                Rekomendasi rasio: 16:9 (1200x675 px)
+                                Rekomendasi rasio: 1:1 (800 × 800 px)
                             </p>
                         </div>
                     </div>

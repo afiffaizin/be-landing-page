@@ -87,7 +87,6 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-50/80 border-b border-gray-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                            <th class="py-3.5 px-5">Icon / Media</th>
                             <th class="py-3.5 px-5">Judul Section</th>
                             <th class="py-3.5 px-5">Item Kontak</th>
                             <th class="py-3.5 px-5 text-center">Status</th>
@@ -98,28 +97,6 @@
                     <tbody class="divide-y divide-gray-100 text-xs">
                         @forelse($contactSections as $section)
                             <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="py-3.5 px-5 whitespace-nowrap">
-                                    @php
-                                        $firstItemWithImage = $section->items->firstWhere('icon_image', '!=', null);
-                                        $firstItem = $section->items->first();
-                                    @endphp
-                                    @if ($firstItemWithImage && $firstItemWithImage->icon_image)
-                                        <img src="{{ Storage::disk('public')->url($firstItemWithImage->icon_image) }}"
-                                            alt="{{ $firstItemWithImage->label }}"
-                                            class="w-12 h-12 object-contain p-1 rounded-xl bg-gray-50 border border-gray-200 shadow-xs">
-                                    @elseif ($firstItem && $firstItem->icon_name)
-                                        <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700">
-                                            <i data-lucide="{{ $firstItem->icon_name }}" class="w-6 h-6"></i>
-                                        </div>
-                                    @else
-                                        <div class="w-12 h-12 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center text-slate-400">
-                                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                            </svg>
-                                        </div>
-                                    @endif
-                                </td>
                                 <td class="py-3.5 px-5">
                                     <div class="font-bold text-slate-900 text-sm max-w-xs">{{ $section->title ?: 'Tanpa Judul' }}</div>
                                     <div class="text-slate-500 line-clamp-1 max-w-sm mt-0.5">{{ $section->description ?: '-' }}</div>
@@ -182,7 +159,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-16 text-center">
+                                <td colspan="5" class="py-16 text-center">
                                     <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto mb-3">
                                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"

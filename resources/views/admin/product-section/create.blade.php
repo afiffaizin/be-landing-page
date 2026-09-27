@@ -275,7 +275,7 @@
                                         <!-- Preview Image -->
                                         <div class="product-preview-wrapper hidden mb-2">
                                             <div
-                                                class="w-full sm:max-w-xs aspect-square bg-gray-50 rounded-lg border border-slate-200 shadow-2xs mb-2 flex items-center justify-center overflow-hidden">
+                                                class="w-full sm:max-w-xs mx-auto aspect-square bg-gray-50 rounded-lg border border-slate-200 shadow-2xs mb-2 flex items-center justify-center overflow-hidden">
                                                 <img src="#" alt="Preview"
                                                     class="product-preview-img max-w-full max-h-full object-contain">
                                             </div>
@@ -678,7 +678,7 @@
                                    onchange="handleproductImagePreview(this)"
                                    class="product-image-input hidden">
                             <div class="product-preview-wrapper hidden mb-2">
-                                <div class="w-full sm:max-w-xs aspect-square bg-gray-50 rounded-lg border border-slate-200 shadow-2xs mb-2 flex items-center justify-center overflow-hidden">
+                                <div class="w-full sm:max-w-xs mx-auto aspect-square bg-gray-50 rounded-lg border border-slate-200 shadow-2xs mb-2 flex items-center justify-center overflow-hidden">
                                     <img src="#" alt="Preview" class="product-preview-img max-w-full max-h-full object-contain">
                                 </div>
                                 <button type="button" onclick="event.stopPropagation(); removeproductselectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">

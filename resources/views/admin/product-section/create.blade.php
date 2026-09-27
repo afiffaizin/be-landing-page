@@ -138,7 +138,8 @@
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Daftar Produk / Katalog</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap produk berisi judul, harga, benefit keunggulan, deskripsi, detail spesifikasi, dan gambar produk.</p>
+                                <p class="text-xs text-slate-500">Setiap produk berisi judul, harga, benefit keunggulan,
+                                    deskripsi, detail spesifikasi, dan gambar produk.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -162,7 +163,8 @@
                                     <span
                                         class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center product-badge-num">1</span>
                                     <span class="product-header-title text-xs font-bold text-slate-800">Produk 1</span>
-                                    <span class="product-header-price text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100/80 hidden"></span>
+                                    <span
+                                        class="product-header-price text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100/80 hidden"></span>
                                 </div>
                                 <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                                     <button type="button" onclick="removeproductItem(this)" title="Hapus Produk"
@@ -250,11 +252,11 @@
                                         </label>
                                         <span class="text-[11px] text-slate-400">Rincian Lengkap Produk</span>
                                     </div>
-                                    <textarea name="products[0][detail]" rows="4"
-                                        placeholder="Masukan detail produk anda"
+                                    <textarea name="products[0][detail]" rows="4" placeholder="Masukan detail produk anda"
                                         class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed">{{ old('products.0.detail') }}</textarea>
                                     <p class="text-[11px] text-slate-400 mt-1">
-                                        Cantumkan informasi detail seperti spesifikasi teknis, komposisi/bahan, netto, izin edar, aturan pakai, atau petunjuk penyimpanan.
+                                        Cantumkan informasi detail seperti spesifikasi teknis, komposisi/bahan, netto, izin
+                                        edar, aturan pakai, atau petunjuk penyimpanan.
                                     </p>
                                 </div>
 
@@ -272,8 +274,11 @@
 
                                         <!-- Preview Image -->
                                         <div class="product-preview-wrapper hidden mb-2">
-                                            <img src="#" alt="Preview"
-                                                class="product-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
+                                            <div
+                                                class="w-full sm:max-w-xs aspect-square bg-gray-50 rounded-lg border border-slate-200 shadow-2xs mb-2 flex items-center justify-center overflow-hidden">
+                                                <img src="#" alt="Preview"
+                                                    class="product-preview-img max-w-full max-h-full object-contain">
+                                            </div>
                                             <button type="button"
                                                 onclick="event.stopPropagation(); removeproductselectedImage(this)"
                                                 class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
@@ -294,6 +299,9 @@
                                             </p>
                                             <p class="text-[10px] text-slate-400 mt-0.5">
                                                 Format: PNG, JPG, WEBP • Maks 2MB
+                                            </p>
+                                            <p class="text-[10px] text-emerald-600 font-medium mt-1">
+                                                 Rekomendasi rasio: 1:1 (800 × 800 px)
                                             </p>
                                         </div>
                                     </div>
@@ -375,7 +383,8 @@
                         <div class="flex justify-between items-start text-slate-500">
                             <span>Terakhir Diperbarui:</span>
                             <div class="text-right">
-                                <span class="text-slate-700 font-medium">{{ now()->translatedFormat('d M Y, H:i') }} WIB</span>
+                                <span class="text-slate-700 font-medium">{{ now()->translatedFormat('d M Y, H:i') }}
+                                    WIB</span>
                                 <span class="text-[11px] text-emerald-600 font-medium block">Saat disimpan (Baru)</span>
                             </div>
                         </div>
@@ -669,7 +678,9 @@
                                    onchange="handleproductImagePreview(this)"
                                    class="product-image-input hidden">
                             <div class="product-preview-wrapper hidden mb-2">
-                                <img src="#" alt="Preview" class="product-preview-img w-full max-h-48 object-cover rounded-lg border border-slate-200 shadow-2xs mb-2">
+                                <div class="w-full sm:max-w-xs aspect-square bg-gray-50 rounded-lg border border-slate-200 shadow-2xs mb-2 flex items-center justify-center overflow-hidden">
+                                    <img src="#" alt="Preview" class="product-preview-img max-w-full max-h-full object-contain">
+                                </div>
                                 <button type="button" onclick="event.stopPropagation(); removeproductselectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
                                     Hapus / Ganti Gambar
                                 </button>
@@ -680,6 +691,7 @@
                                 </svg>
                                 <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk produk ini</p>
                                 <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
+                                <p class="text-[10px] text-emerald-600 font-medium mt-1">✦ Rekomendasi ukuran: 1:1 (800×800 px)</p>
                             </div>
                         </div>
                     </div>

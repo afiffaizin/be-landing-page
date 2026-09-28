@@ -342,7 +342,6 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                         </svg>
                                         <span>Tambah Detail Gambar</span>
-                                        <span class="text-[10px] text-slate-400 font-normal">(Maks. 2MB per foto)</span>
                                     </button>
                                 </div>
                             </div>
@@ -770,7 +769,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
                             <span>Tambah Detail Gambar</span>
-                            <span class="text-[10px] text-slate-400 font-normal">(Maks. 2MB per foto)</span>
                         </button>
                     </div>
                 </div>

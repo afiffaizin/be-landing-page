@@ -36,7 +36,7 @@ class ProductSectionController extends Controller
     )]
     public function index(): AnonymousResourceCollection
     {
-        $productSections = ProductSection::with('products')
+        $productSections = ProductSection::with('products.detailImages')
             ->where('is_active', true)
             ->latest()
             ->get();
@@ -76,7 +76,7 @@ class ProductSectionController extends Controller
     )]
     public function show(ProductSection $productSection): ProductSectionResource
     {
-        $productSection->load('products');
+        $productSection->load('products.detailImages');
 
         return new ProductSectionResource($productSection);
     }

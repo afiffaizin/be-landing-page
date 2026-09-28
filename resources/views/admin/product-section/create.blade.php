@@ -260,10 +260,10 @@
                                     </p>
                                 </div>
 
-                                <!-- Gambar product Upload -->
+                                <!-- Gambar Utama Produk Upload -->
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1.5">
-                                        Gambar Produk <span
+                                        Gambar Utama Produk <span
                                             class="text-[11px] font-normal text-slate-400">(Opsional)</span>
                                     </label>
                                     <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
@@ -281,7 +281,7 @@
                                             </div>
                                             <button type="button"
                                                 onclick="event.stopPropagation(); removeproductselectedImage(this)"
-                                                class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
+                                                class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline cursor-pointer">
                                                 Hapus / Ganti Gambar
                                             </button>
                                         </div>
@@ -295,7 +295,7 @@
                                                 </path>
                                             </svg>
                                             <p class="text-xs font-medium text-slate-700">
-                                                Klik atau seret gambar untuk produk ini
+                                                Klik atau seret gambar utama untuk produk ini
                                             </p>
                                             <p class="text-[10px] text-slate-400 mt-0.5">
                                                 Format: PNG, JPG, WEBP • Maks 2MB
@@ -305,6 +305,45 @@
                                             </p>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Detail Gambar Produk Upload (Maks. 5 Gambar) -->
+                                <div class="pt-4 border-t border-slate-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-slate-700">
+                                                Detail Gambar Produk <span class="text-[11px] font-normal text-slate-400">(Maksimal 5 Gambar)</span>
+                                            </label>
+                                            <p class="text-[11px] text-slate-400 mt-0.5">
+                                                Unggah foto detail, varian, atau rincian tambahan untuk produk ini.
+                                            </p>
+                                        </div>
+                                        <span class="product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                                            0 / 5 Gambar
+                                        </span>
+                                    </div>
+
+                                    <!-- Grid Preview Detail Images -->
+                                    <div class="product-detail-images-grid grid grid-cols-2 sm:grid-cols-5 gap-3 mb-3"></div>
+
+                                    <!-- File input for detail images -->
+                                    <input type="file"
+                                           name="products[0][detail_images][]"
+                                           multiple
+                                           accept="image/png,image/jpeg,image/jpg,image/webp"
+                                           onchange="handleDetailImagesSelected(this)"
+                                           class="product-detail-images-input hidden">
+
+                                    <!-- Add button trigger -->
+                                    <button type="button"
+                                            onclick="triggerDetailImageUpload(this)"
+                                            class="product-detail-images-add-trigger w-full py-2.5 px-3 border border-dashed border-gray-300 hover:border-emerald-500 rounded-xl bg-gray-50/60 hover:bg-emerald-50/40 text-slate-600 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                        <span>Tambah Detail Gambar</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">(Maks. 2MB per foto)</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -665,10 +704,10 @@
                         </p>
                     </div>
 
-                    <!-- Gambar Produk Upload -->
+                    <!-- Gambar Utama Produk Upload -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">
-                            Gambar Produk <span class="text-[11px] font-normal text-slate-400">(Opsional)</span>
+                            Gambar Utama Produk <span class="text-[11px] font-normal text-slate-400">(Opsional)</span>
                         </label>
                         <div class="product-image-dropzone border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-4 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
                              onclick="this.querySelector('.product-image-input').click()">
@@ -681,7 +720,7 @@
                                 <div class="w-full sm:max-w-xs mx-auto aspect-square bg-gray-50 rounded-lg border border-slate-200 shadow-2xs mb-2 flex items-center justify-center overflow-hidden">
                                     <img src="#" alt="Preview" class="product-preview-img max-w-full max-h-full object-contain">
                                 </div>
-                                <button type="button" onclick="event.stopPropagation(); removeproductselectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline">
+                                <button type="button" onclick="event.stopPropagation(); removeproductselectedImage(this)" class="text-xs text-rose-600 hover:text-rose-800 font-semibold underline cursor-pointer">
                                     Hapus / Ganti Gambar
                                 </button>
                             </div>
@@ -689,11 +728,50 @@
                                 <svg class="w-8 h-8 text-slate-400 mx-auto mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                 </svg>
-                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar untuk produk ini</p>
+                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar utama untuk produk ini</p>
                                 <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks 2MB</p>
                                 <p class="text-[10px] text-emerald-600 font-medium mt-1">✦ Rekomendasi ukuran: 1:1 (800×800 px)</p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Detail Gambar Produk Upload (Maks. 5 Gambar) -->
+                    <div class="pt-4 border-t border-slate-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700">
+                                    Detail Gambar Produk <span class="text-[11px] font-normal text-slate-400">(Maksimal 5 Gambar)</span>
+                                </label>
+                                <p class="text-[11px] text-slate-400 mt-0.5">
+                                    Unggah foto detail, varian, atau rincian tambahan untuk produk ini.
+                                </p>
+                            </div>
+                            <span class="product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                                0 / 5 Gambar
+                            </span>
+                        </div>
+
+                        <!-- Grid Preview Detail Images -->
+                        <div class="product-detail-images-grid grid grid-cols-2 sm:grid-cols-5 gap-3 mb-3"></div>
+
+                        <!-- File input for detail images -->
+                        <input type="file"
+                               name="products[${index}][detail_images][]"
+                               multiple
+                               accept="image/png,image/jpeg,image/jpg,image/webp"
+                               onchange="handleDetailImagesSelected(this)"
+                               class="product-detail-images-input hidden">
+
+                        <!-- Add button trigger -->
+                        <button type="button"
+                                onclick="triggerDetailImageUpload(this)"
+                                class="product-detail-images-add-trigger w-full py-2.5 px-3 border border-dashed border-gray-300 hover:border-emerald-500 rounded-xl bg-gray-50/60 hover:bg-emerald-50/40 text-slate-600 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span>Tambah Detail Gambar</span>
+                            <span class="text-[10px] text-slate-400 font-normal">(Maks. 2MB per foto)</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -725,6 +803,9 @@
             }
 
             const item = btn.closest('.product-item');
+            const pIndex = item.getAttribute('data-index');
+            delete productDetailFilesMap[pIndex];
+
             item.style.opacity = '0';
             item.style.transform = 'scale(0.95)';
             setTimeout(() => {
@@ -774,6 +855,168 @@
             previewImg.src = '#';
             previewWrapper.classList.add('hidden');
             dropzoneContent.classList.remove('hidden');
+        }
+
+        // ─── Detail Images Handlers ──────────────────────────────────────────
+        const productDetailFilesMap = {};
+
+        function triggerDetailImageUpload(btn) {
+            const productItem = btn.closest('.product-item');
+            const input = productItem.querySelector('.product-detail-images-input');
+            if (input) {
+                input.click();
+            }
+        }
+
+        function handleDetailImagesSelected(input) {
+            const productItem = input.closest('.product-item');
+            const pIndex = productItem.getAttribute('data-index');
+
+            if (!productDetailFilesMap[pIndex]) {
+                productDetailFilesMap[pIndex] = [];
+            }
+
+            const existingCount = productItem.querySelectorAll('.product-detail-images-grid .existing-detail-image').length;
+            const currentSelectedCount = productDetailFilesMap[pIndex].length;
+            const remainingSlots = 5 - (existingCount + currentSelectedCount);
+
+            if (remainingSlots <= 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Maksimal 5 Foto',
+                    text: 'Setiap produk maksimal memiliki 5 detail gambar.',
+                    confirmButtonColor: '#10b981'
+                });
+                input.value = '';
+                return;
+            }
+
+            const files = Array.from(input.files);
+            let addedCount = 0;
+            let invalidSize = false;
+            let exceeded = false;
+
+            for (let file of files) {
+                if (file.size > 2 * 1024 * 1024) {
+                    invalidSize = true;
+                    continue;
+                }
+
+                if (existingCount + productDetailFilesMap[pIndex].length >= 5) {
+                    exceeded = true;
+                    break;
+                }
+
+                productDetailFilesMap[pIndex].push(file);
+                addedCount++;
+            }
+
+            if (invalidSize) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ukuran Terlalu Besar',
+                    text: 'Beberapa gambar melebihi ukuran maksimal 2MB dan tidak dapat ditambahkan.',
+                    confirmButtonColor: '#e11d48'
+                });
+            }
+
+            if (exceeded) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Batas Maksimal',
+                    text: 'Maksimal 5 detail gambar tercapai. Sisa gambar diabaikan.',
+                    confirmButtonColor: '#10b981'
+                });
+            }
+
+            syncProductDetailInput(productItem, pIndex);
+            renderDetailImagesGrid(productItem, pIndex);
+            input.value = '';
+        }
+
+        function syncProductDetailInput(productItem, pIndex) {
+            const input = productItem.querySelector('.product-detail-images-input');
+            const files = productDetailFilesMap[pIndex] || [];
+            const dt = new DataTransfer();
+            files.forEach(f => dt.items.add(f));
+            input.files = dt.files;
+        }
+
+        function renderDetailImagesGrid(productItem, pIndex) {
+            const grid = productItem.querySelector('.product-detail-images-grid');
+            const newPreviews = grid.querySelectorAll('.new-detail-image-preview');
+            newPreviews.forEach(el => el.remove());
+
+            const files = productDetailFilesMap[pIndex] || [];
+            const existingCount = grid.querySelectorAll('.existing-detail-image').length;
+
+            files.forEach((file, fIdx) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'new-detail-image-preview relative group aspect-square rounded-xl border border-slate-200 bg-slate-50 overflow-hidden shadow-2xs flex items-center justify-center';
+                itemDiv.setAttribute('data-fidx', fIdx);
+
+                const img = document.createElement('img');
+                img.className = 'w-full h-full object-cover';
+                img.src = URL.createObjectURL(file);
+
+                const overlay = document.createElement('div');
+                overlay.className = 'absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5';
+
+                const delBtn = document.createElement('button');
+                delBtn.type = 'button';
+                delBtn.className = 'p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow-sm transition-transform transform hover:scale-110 cursor-pointer';
+                delBtn.title = 'Hapus Foto';
+                delBtn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>`;
+                delBtn.onclick = function(e) {
+                    e.stopPropagation();
+                    removeNewDetailImage(productItem, pIndex, fIdx);
+                };
+
+                const badge = document.createElement('span');
+                badge.className = 'absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/60 text-white backdrop-blur-xs';
+                badge.innerText = 'Foto ' + (existingCount + fIdx + 1);
+
+                overlay.appendChild(delBtn);
+                itemDiv.appendChild(img);
+                itemDiv.appendChild(overlay);
+                itemDiv.appendChild(badge);
+                grid.appendChild(itemDiv);
+            });
+
+            updateDetailImagesCounter(productItem, pIndex);
+        }
+
+        function removeNewDetailImage(productItem, pIndex, fIdx) {
+            if (productDetailFilesMap[pIndex]) {
+                productDetailFilesMap[pIndex].splice(fIdx, 1);
+                syncProductDetailInput(productItem, pIndex);
+                renderDetailImagesGrid(productItem, pIndex);
+            }
+        }
+
+        function updateDetailImagesCounter(productItem, pIndex) {
+            const existingCount = productItem.querySelectorAll('.product-detail-images-grid .existing-detail-image').length;
+            const newCount = (productDetailFilesMap[pIndex] || []).length;
+            const total = existingCount + newCount;
+
+            const counter = productItem.querySelector('.product-detail-images-counter');
+            if (counter) {
+                counter.innerText = total + ' / 5 Gambar';
+                if (total >= 5) {
+                    counter.className = 'product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200';
+                } else {
+                    counter.className = 'product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200';
+                }
+            }
+
+            const trigger = productItem.querySelector('.product-detail-images-add-trigger');
+            if (trigger) {
+                if (total >= 5) {
+                    trigger.classList.add('hidden');
+                } else {
+                    trigger.classList.remove('hidden');
+                }
+            }
         }
     </script>
 @endpush

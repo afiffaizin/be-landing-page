@@ -7,6 +7,7 @@ use App\Models\ProductSection;
 use App\Models\User;
 use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -174,7 +175,133 @@ class ProductSectionTest extends TestCase
         ]);
     }
 
-    public function test_api_products_returns_detail_field(): void
+    public function test_admin_can_store_product_section_with_up_to_5_detail_images(): void
+    {
+        $detailImages = [
+            UploadedFile::fake()->image('detail1.jpg'),
+            UploadedFile::fake()->image('detail2.png'),
+            UploadedFile::fake()->image('detail3.webp'),
+        ];
+
+        $payload = [
+            'title' => 'Katalog Dengan Detail Gambar',
+            'description' => 'Deskripsi Katalog',
+            'action' => 'publish',
+            'products' => [
+                [
+                    'name' => 'Produk Galeri',
+                    'price' => 'Rp 25.000',
+                    'description' => 'Produk dengan detail gambar',
+                    'detail_images' => $detailImages,
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($this->user)->post(route('admin.product-sections.store'), $payload);
+
+        $response->assertRedirect(route('admin.product-sections.index'));
+
+        $product = Product::where('name', 'Produk Galeri')->first();
+        $this->assertNotNull($product);
+        $this->assertCount(3, $product->detailImages);
+
+        foreach ($product->detailImages as $detailImage) {
+            Storage::disk('public')->assertExists($detailImage->image);
+        }
+    }
+
+    public function test_cannot_store_product_section_with_more_than_5_detail_images(): void
+    {
+        $detailImages = [
+            UploadedFile::fake()->image('detail1.jpg'),
+            UploadedFile::fake()->image('detail2.jpg'),
+            UploadedFile::fake()->image('detail3.jpg'),
+            UploadedFile::fake()->image('detail4.jpg'),
+            UploadedFile::fake()->image('detail5.jpg'),
+            UploadedFile::fake()->image('detail6.jpg'),
+        ];
+
+        $payload = [
+            'title' => 'Katalog Melebihi Batas',
+            'description' => 'Deskripsi Katalog',
+            'action' => 'publish',
+            'products' => [
+                [
+                    'name' => 'Produk 6 Gambar',
+                    'price' => 'Rp 25.000',
+                    'description' => 'Deskripsi',
+                    'detail_images' => $detailImages,
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($this->user)->post(route('admin.product-sections.store'), $payload);
+
+        $response->assertSessionHasErrors('products.0.detail_images');
+    }
+
+    public function test_admin_can_update_product_and_remove_or_add_detail_images(): void
+    {
+        $section = ProductSection::create([
+            'title' => 'Section Detail Gambar Update',
+            'description' => 'Deskripsi',
+            'is_active' => true,
+        ]);
+
+        /** @var Product $product */
+        $product = $section->products()->create([
+            'name' => 'Produk Update Gambar',
+            'price' => 'Rp 10.000',
+            'description' => 'Deskripsi',
+            'order' => 1,
+        ]);
+
+        $img1 = $product->detailImages()->create([
+            'image' => 'product-detail-images/test1.jpg',
+            'order' => 1,
+        ]);
+        Storage::disk('public')->put('product-detail-images/test1.jpg', 'fake content 1');
+
+        $img2 = $product->detailImages()->create([
+            'image' => 'product-detail-images/test2.jpg',
+            'order' => 2,
+        ]);
+        Storage::disk('public')->put('product-detail-images/test2.jpg', 'fake content 2');
+
+        $newImage = UploadedFile::fake()->image('new_detail.png');
+
+        $payload = [
+            'title' => 'Section Detail Gambar Updated',
+            'action' => 'publish',
+            'products' => [
+                [
+                    'id' => $product->id,
+                    'name' => 'Produk Update Gambar',
+                    'price' => 'Rp 10.000',
+                    'description' => 'Deskripsi',
+                    'remove_detail_images' => [$img1->id],
+                    'detail_images' => [$newImage],
+                ],
+            ],
+        ];
+
+        $response = $this->actingAs($this->user)->put(route('admin.product-sections.update', $section), $payload);
+
+        $response->assertRedirect(route('admin.product-sections.index'));
+
+        // img1 should be removed from database and disk
+        $this->assertDatabaseMissing('product_detail_images', ['id' => $img1->id]);
+        Storage::disk('public')->assertMissing('product-detail-images/test1.jpg');
+
+        // img2 should still exist
+        $this->assertDatabaseHas('product_detail_images', ['id' => $img2->id]);
+
+        // New image should be created
+        $product->refresh();
+        $this->assertCount(2, $product->detailImages);
+    }
+
+    public function test_api_products_returns_detail_field_and_detail_images(): void
     {
         $section = ProductSection::create([
             'title' => 'Section API',
@@ -182,12 +309,18 @@ class ProductSectionTest extends TestCase
             'is_active' => true,
         ]);
 
-        $section->products()->create([
+        /** @var Product $product */
+        $product = $section->products()->create([
             'name' => 'Produk API Test',
             'price' => 'Rp 50.000',
             'benefit' => 'Benefit API',
             'description' => 'Deskripsi Singkat',
             'detail' => 'Komposisi dan petunjuk penggunaan via API.',
+            'order' => 1,
+        ]);
+
+        $detailImg = $product->detailImages()->create([
+            'image' => 'product-detail-images/api_detail.jpg',
             'order' => 1,
         ]);
 
@@ -198,5 +331,49 @@ class ProductSectionTest extends TestCase
             'name' => 'Produk API Test',
             'detail' => 'Komposisi dan petunjuk penggunaan via API.',
         ]);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'products' => [
+                        '*' => [
+                            'detail_images' => [
+                                '*' => ['id', 'product_id', 'image_url', 'order'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function test_destroy_product_section_deletes_detail_images_from_storage(): void
+    {
+        $section = ProductSection::create([
+            'title' => 'Section To Delete',
+            'is_active' => true,
+        ]);
+
+        /** @var Product $product */
+        $product = $section->products()->create([
+            'name' => 'Produk Delete Storage',
+            'image' => 'product-images/main_del.jpg',
+            'order' => 1,
+        ]);
+        Storage::disk('public')->put('product-images/main_del.jpg', 'main content');
+
+        $product->detailImages()->create([
+            'image' => 'product-detail-images/detail_del.jpg',
+            'order' => 1,
+        ]);
+        Storage::disk('public')->put('product-detail-images/detail_del.jpg', 'detail content');
+
+        $response = $this->actingAs($this->user)->delete(route('admin.product-sections.destroy', $section));
+
+        $response->assertRedirect(route('admin.product-sections.index'));
+        $this->assertDatabaseMissing('product_sections', ['id' => $section->id]);
+        $this->assertDatabaseMissing('products', ['id' => $product->id]);
+
+        Storage::disk('public')->assertMissing('product-images/main_del.jpg');
+        Storage::disk('public')->assertMissing('product-detail-images/detail_del.jpg');
     }
 }

@@ -17,7 +17,7 @@ class ProductSectionController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = ProductSection::query()->with('products')->latest();
+        $query = ProductSection::query()->with('products.detailImages')->latest();
 
         if ($request->filled('search')) {
             $search = $request->input('search');
@@ -64,6 +64,13 @@ class ProductSectionController extends Controller
             'products.*.detail' => ['nullable', 'string'],
             'products.*.price' => ['nullable', 'string', 'max:255'],
             'products.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'products.*.detail_images' => ['nullable', 'array', 'max:5'],
+            'products.*.detail_images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+        ], [
+            'products.*.detail_images.max' => 'Setiap produk maksimal memiliki 5 detail gambar.',
+            'products.*.detail_images.*.image' => 'Detail gambar harus berupa file gambar.',
+            'products.*.detail_images.*.mimes' => 'Detail gambar harus berformat jpeg, png, jpg, atau webp.',
+            'products.*.detail_images.*.max' => 'Ukuran detail gambar maksimal 2MB per file.',
         ]);
 
         $action = $request->input('action');
@@ -103,14 +110,16 @@ class ProductSectionController extends Controller
                 $productDetail = trim($productData['detail'] ?? '');
                 $productPrice = trim($productData['price'] ?? '');
                 $hasImage = $request->hasFile("products.{$index}.image");
+                $hasDetailImages = $request->hasFile("products.{$index}.detail_images");
 
-                if ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productDetail !== '' || $productPrice !== '' || $hasImage) {
+                if ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productDetail !== '' || $productPrice !== '' || $hasImage || $hasDetailImages) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("products.{$index}.image")->store('product-images', 'public');
                     }
 
-                    $productSection->products()->create([
+                    /** @var Product $newProduct */
+                    $newProduct = $productSection->products()->create([
                         'name' => $productName ?: 'Product '.$order,
                         'description' => $productDesc,
                         'benefit' => $productBenefit ?: null,
@@ -119,6 +128,22 @@ class ProductSectionController extends Controller
                         'image' => $imagePath,
                         'order' => $order,
                     ]);
+
+                    if ($hasDetailImages) {
+                        $detailImages = $request->file("products.{$index}.detail_images");
+                        if (is_array($detailImages)) {
+                            $detailImages = array_slice($detailImages, 0, 5);
+                            $detailOrder = 1;
+                            foreach ($detailImages as $detailImgFile) {
+                                $detailPath = $detailImgFile->store('product-detail-images', 'public');
+                                $newProduct->detailImages()->create([
+                                    'image' => $detailPath,
+                                    'order' => $detailOrder++,
+                                ]);
+                            }
+                        }
+                    }
+
                     $order++;
                 }
             }
@@ -137,7 +162,7 @@ class ProductSectionController extends Controller
      */
     public function edit(ProductSection $productSection): View
     {
-        $productSection->load('products');
+        $productSection->load('products.detailImages');
 
         return view('admin.product-section.edit', compact('productSection'));
     }
@@ -161,6 +186,15 @@ class ProductSectionController extends Controller
             'products.*.price' => ['nullable', 'string', 'max:255'],
             'products.*.image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'products.*.remove_image' => ['nullable', 'boolean'],
+            'products.*.detail_images' => ['nullable', 'array', 'max:5'],
+            'products.*.detail_images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'products.*.remove_detail_images' => ['nullable', 'array'],
+            'products.*.remove_detail_images.*' => ['integer'],
+        ], [
+            'products.*.detail_images.max' => 'Setiap produk maksimal memiliki 5 detail gambar.',
+            'products.*.detail_images.*.image' => 'Detail gambar harus berupa file gambar.',
+            'products.*.detail_images.*.mimes' => 'Detail gambar harus berformat jpeg, png, jpg, atau webp.',
+            'products.*.detail_images.*.max' => 'Ukuran detail gambar maksimal 2MB per file.',
         ]);
 
         $action = $request->input('action');
@@ -193,7 +227,7 @@ class ProductSectionController extends Controller
 
         // Tangani sync products
         $submittedProducts = $request->input('products', []);
-        $existingProducts = $productSection->products()->get()->keyBy('id');
+        $existingProducts = $productSection->products()->with('detailImages')->get()->keyBy('id');
         $keptProductIds = [];
 
         if (is_array($submittedProducts)) {
@@ -207,6 +241,7 @@ class ProductSectionController extends Controller
                 $productPrice = trim($productData['price'] ?? '');
                 $hasImage = $request->hasFile("products.{$index}.image");
                 $removeImage = ! empty($productData['remove_image']);
+                $hasDetailImages = $request->hasFile("products.{$index}.detail_images");
 
                 if ($productId && $existingProducts->has($productId)) {
                     /** @var Product $product */
@@ -237,14 +272,47 @@ class ProductSectionController extends Controller
                         'order' => $order,
                     ]);
 
+                    // Hapus detail images yang ditandai hapus
+                    $removedDetailImageIds = $productData['remove_detail_images'] ?? [];
+                    if (! empty($removedDetailImageIds) && is_array($removedDetailImageIds)) {
+                        $imagesToDelete = $product->detailImages()->whereIn('id', $removedDetailImageIds)->get();
+                        foreach ($imagesToDelete as $imgToDelete) {
+                            if ($imgToDelete->image && Storage::disk('public')->exists($imgToDelete->image)) {
+                                Storage::disk('public')->delete($imgToDelete->image);
+                            }
+                            $imgToDelete->delete();
+                        }
+                    }
+
+                    // Tambah detail images baru (maksimal 5 total per produk)
+                    if ($hasDetailImages) {
+                        $newDetailImages = $request->file("products.{$index}.detail_images");
+                        if (is_array($newDetailImages)) {
+                            $currentCount = $product->detailImages()->count();
+                            $availableSlots = max(0, 5 - $currentCount);
+                            $imagesToAdd = array_slice($newDetailImages, 0, $availableSlots);
+                            $highestOrder = (int) $product->detailImages()->max('order');
+
+                            foreach ($imagesToAdd as $detailImgFile) {
+                                $highestOrder++;
+                                $detailPath = $detailImgFile->store('product-detail-images', 'public');
+                                $product->detailImages()->create([
+                                    'image' => $detailPath,
+                                    'order' => $highestOrder,
+                                ]);
+                            }
+                        }
+                    }
+
                     $keptProductIds[] = $productId;
                     $order++;
-                } elseif ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productDetail !== '' || $productPrice !== '' || $hasImage) {
+                } elseif ($productName !== '' || $productDesc !== '' || $productBenefit !== '' || $productDetail !== '' || $productPrice !== '' || $hasImage || $hasDetailImages) {
                     $imagePath = null;
                     if ($hasImage) {
                         $imagePath = $request->file("products.{$index}.image")->store('product-images', 'public');
                     }
 
+                    /** @var Product $newProduct */
                     $newProduct = $productSection->products()->create([
                         'name' => $productName ?: 'Product '.$order,
                         'description' => $productDesc,
@@ -254,6 +322,21 @@ class ProductSectionController extends Controller
                         'image' => $imagePath,
                         'order' => $order,
                     ]);
+
+                    if ($hasDetailImages) {
+                        $newDetailImages = $request->file("products.{$index}.detail_images");
+                        if (is_array($newDetailImages)) {
+                            $imagesToAdd = array_slice($newDetailImages, 0, 5);
+                            $detailOrder = 1;
+                            foreach ($imagesToAdd as $detailImgFile) {
+                                $detailPath = $detailImgFile->store('product-detail-images', 'public');
+                                $newProduct->detailImages()->create([
+                                    'image' => $detailPath,
+                                    'order' => $detailOrder++,
+                                ]);
+                            }
+                        }
+                    }
 
                     $keptProductIds[] = $newProduct->id;
                     $order++;
@@ -266,6 +349,11 @@ class ProductSectionController extends Controller
             if (! in_array($existingId, $keptProductIds)) {
                 if ($existingProduct->image && Storage::disk('public')->exists($existingProduct->image)) {
                     Storage::disk('public')->delete($existingProduct->image);
+                }
+                foreach ($existingProduct->detailImages as $detailImage) {
+                    if ($detailImage->image && Storage::disk('public')->exists($detailImage->image)) {
+                        Storage::disk('public')->delete($detailImage->image);
+                    }
                 }
                 $existingProduct->delete();
             }
@@ -286,10 +374,15 @@ class ProductSectionController extends Controller
      */
     public function destroy(ProductSection $productSection): RedirectResponse
     {
-        // Hapus semua gambar product
+        // Hapus semua gambar product dan detail gambar
         foreach ($productSection->products as $product) {
             if ($product->image && Storage::disk('public')->exists($product->image)) {
                 Storage::disk('public')->delete($product->image);
+            }
+            foreach ($product->detailImages as $detailImage) {
+                if ($detailImage->image && Storage::disk('public')->exists($detailImage->image)) {
+                    Storage::disk('public')->delete($detailImage->image);
+                }
             }
         }
 

@@ -136,7 +136,26 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'detail', type: 'string', nullable: true, example: 'Komposisi: Eco-enzyme, VCO, NaOH. Netto: 80gr'),
         new OA\Property(property: 'price', type: 'string', example: 'Rp 15.000 / batang'),
         new OA\Property(property: 'image_url', type: 'string', format: 'url', nullable: true, example: 'http://localhost:8000/storage/products/sabun.jpg'),
+        new OA\Property(
+            property: 'detail_images',
+            type: 'array',
+            items: new OA\Items(ref: '#/components/schemas/ProductDetailImage')
+        ),
         new OA\Property(property: 'order', type: 'integer', example: 0),
+        new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
+        new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
+    ]
+)]
+
+#[OA\Schema(
+    schema: 'ProductDetailImage',
+    title: 'Product Detail Image',
+    description: 'Detail gambar / galeri foto produk (maksimal 5 foto per produk)',
+    properties: [
+        new OA\Property(property: 'id', type: 'integer', example: 1),
+        new OA\Property(property: 'product_id', type: 'integer', example: 1),
+        new OA\Property(property: 'image_url', type: 'string', format: 'url', example: 'http://localhost:8000/storage/product-detail-images/sabun-detail-1.jpg'),
+        new OA\Property(property: 'order', type: 'integer', example: 1),
         new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
         new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
     ]

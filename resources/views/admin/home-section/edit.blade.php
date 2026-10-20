@@ -1,43 +1,43 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Banner - Beranda')
+@section('title', 'Ubah Banner - Beranda')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Halaman Depan</a>
     <span>/</span>
-    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-slate-900">Beranda</a>
+    <a href="{{ route('admin.home-sections.index') }}" class="text-slate-500 hover:text-slate-900">Banner Beranda</a>
     <span>/</span>
-    <span class="text-slate-800">Edit</span>
+    <span class="text-slate-800">Ubah Banner</span>
 @endsection
 
-@section('page_title', 'Edit Banner (Beranda)')
+@section('page_title', 'Ubah Banner Beranda')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
         <a href="{{ route('admin.home-sections.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shrink-0">
-            Batalkan
+            Kembali
         </a>
         <button type="button" onclick="submitWithAction('draft')" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer shrink-0">
             <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
             </svg>
-            <span>Simpan Draft</span>
+            <span>Simpan Sebagai Draf</span>
         </button>
         <button type="button" onclick="submitWithAction('publish')" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span>Publikasikan</span>
+            <span>Simpan & Tampilkan di Website</span>
         </button>
     </div>
 @endsection
 
-@section('page_headline', 'Edit Banner Beranda')
-@section('page_subtitle', 'Perbarui konten teks, tombol aksi, gambar banner, serta status publikasi banner.')
+@section('page_headline', 'Ubah Banner Beranda')
+@section('page_subtitle', 'Perbarui judul, deskripsi, tautan tombol, foto banner, serta status penayangan di halaman depan website.')
 @section('status_badge')
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $homeSection->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-gray-100 text-slate-700 border border-gray-200/60' }}">
         <span class="w-2 h-2 rounded-full {{ $homeSection->is_active ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
-        Status: {{ $homeSection->is_active ? 'Aktif di Landing Page' : 'Draft (Nonaktif)' }}
+        Status: {{ $homeSection->is_active ? 'Aktif di Website' : 'Draf (Belum Tampil)' }}
     </span>
 @endsection
 
@@ -61,8 +61,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Konten Utama</h3>
-                        <p class="text-xs text-slate-500">Kelola judul dan deskripsi utama untuk bagian banner beranda.</p>
+                        <h3 class="text-base font-bold text-slate-900">Konten Utama Banner</h3>
+                        <p class="text-xs text-slate-500">Tulis judul utama dan penjelasan singkat kegiatan atau program Anda.</p>
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <label for="title" class="block text-xs font-bold text-slate-700">
-                                Judul <span class="text-rose-500">*</span>
+                                Judul Banner <span class="text-rose-500">*</span>
                             </label>
                             <span id="title-counter" class="text-[11px] text-slate-400 font-mono">{{ strlen(old('title', $homeSection->title)) }} / 255 Karakter</span>
                         </div>
@@ -81,22 +81,22 @@
                                value="{{ old('title', $homeSection->title) }}"
                                required
                                maxlength="255"
-                               placeholder="Contoh: Pengabdian Kepada Masyarakat"
+                               placeholder="Contoh: Pengabdian Kepada Masyarakat Universitas"
                                oninput="document.getElementById('title-counter').innerText = this.value.length + ' / 255 Karakter'"
                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         <p class="text-[11px] text-slate-400 mt-1.5">
-                            Gunakan kalimat pemikat yang ringkas dan merepresentasikan fokus utama program.
+                            Gunakan kalimat yang jelas, menarik, dan mudah dipahami pengunjung dalam sekali baca.
                         </p>
                     </div>
 
                     <!-- Deskripsi Rich Editor -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-2">
-                            Deskripsi <span class="text-rose-500">*</span>
+                            Deskripsi Singkat <span class="text-rose-500">*</span>
                         </label>
-                        <x-form.rich-editor name="description" :value="old('description', $homeSection->description)" placeholder="Tulis deskripsi pengantar yang informatif dan menarik..." />
+                        <x-form.rich-editor name="description" :value="old('description', $homeSection->description)" placeholder="Tulis ringkasan atau pengantar program yang ingin Anda sampaikan kepada pengunjung..." />
                         <p class="text-[11px] text-slate-400 mt-1.5">
-                            Tulis narasi pengantar yang informatif dan menarik untuk pengunjung landing page.
+                            Tuliskan 1-2 kalimat ringkas untuk menjelaskan secara singkat apa kegiatan atau keunggulan produk Anda.
                         </p>
                     </div>
                 </div>
@@ -111,8 +111,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Tombol Aksi (Call to Action)</h3>
-                        <p class="text-xs text-slate-500">Atur tombol aksi (CTA) yang muncul di bawah deskripsi banner.</p>
+                        <h3 class="text-base font-bold text-slate-900">Tombol Tautan Pengunjung (Pilihan)</h3>
+                        <p class="text-xs text-slate-500">Pengunjung dapat menekan tombol ini untuk langsung menuju bagian tertentu atau nomor WhatsApp.</p>
                     </div>
                 </div>
 
@@ -120,54 +120,54 @@
                     <!-- Tombol Utama (Button 1) -->
                     <div class="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3">
                         <div class="flex items-center justify-between pb-2 border-b border-gray-200/60">
-                            <span class="text-xs font-bold text-slate-800">Tombol Utama (Button 1)</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-600 text-white">PRIMER</span>
+                            <span class="text-xs font-bold text-slate-800">Tombol Utama (Pertama)</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-600 text-white">UTAMA</span>
                         </div>
                         <div>
-                            <label for="button_one_text" class="block text-[11px] font-semibold text-slate-600 mb-1">Teks Tombol</label>
+                            <label for="button_one_text" class="block text-[11px] font-semibold text-slate-600 mb-1">Tulisan pada Tombol</label>
                             <input type="text"
                                    id="button_one_text"
                                    name="button_one_text"
                                    value="{{ old('button_one_text', $homeSection->button_one_text) }}"
-                                   placeholder="Contoh: Lihat Program"
+                                   placeholder="Contoh: Lihat Katalog Produk"
                                    class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         </div>
                         <div>
-                            <label for="button_one_link" class="block text-[11px] font-semibold text-slate-600 mb-1">Tautan / URL</label>
+                            <label for="button_one_link" class="block text-[11px] font-semibold text-slate-600 mb-1">Tujuan Tautan (Link / URL)</label>
                             <input type="text"
                                    id="button_one_link"
                                    name="button_one_link"
                                    value="{{ old('button_one_link', $homeSection->button_one_link) }}"
-                                   placeholder="Contoh: #programs atau https://..."
+                                   placeholder="Contoh: #produk atau https://website.com"
                                    class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
-                            <p class="text-[10px] text-slate-400 mt-1">Bisa berupa anchor (#section) atau URL web eksternal.</p>
+                            <p class="text-[10px] text-slate-400 mt-1">Bisa berupa bagian halaman (misal: #produk) atau alamat web (https://...).</p>
                         </div>
                     </div>
 
                     <!-- Tombol Sekunder (Button 2) -->
                     <div class="p-4 rounded-xl border border-gray-200 bg-gray-50/50 space-y-3">
                         <div class="flex items-center justify-between pb-2 border-b border-gray-200/60">
-                            <span class="text-xs font-bold text-slate-800">Tombol Sekunder (Button 2)</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700">SEKUNDER</span>
+                            <span class="text-xs font-bold text-slate-800">Tombol Tambahan (Kedua)</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700">KEDUA</span>
                         </div>
                         <div>
-                            <label for="button_two_text" class="block text-[11px] font-semibold text-slate-600 mb-1">Teks Tombol</label>
+                            <label for="button_two_text" class="block text-[11px] font-semibold text-slate-600 mb-1">Tulisan pada Tombol</label>
                             <input type="text"
                                    id="button_two_text"
                                    name="button_two_text"
                                    value="{{ old('button_two_text', $homeSection->button_two_text) }}"
-                                   placeholder="Contoh: Hubungi Kami"
+                                   placeholder="Contoh: Hubungi Kami di WhatsApp"
                                    class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         </div>
                         <div>
-                            <label for="button_two_link" class="block text-[11px] font-semibold text-slate-600 mb-1">Tautan / URL</label>
+                            <label for="button_two_link" class="block text-[11px] font-semibold text-slate-600 mb-1">Tujuan Tautan (Link / URL)</label>
                             <input type="text"
                                    id="button_two_link"
                                    name="button_two_link"
                                    value="{{ old('button_two_link', $homeSection->button_two_link) }}"
-                                   placeholder="Contoh: #contact atau https://wa.me/..."
+                                   placeholder="Contoh: https://wa.me/6281234567890 atau #kontak"
                                    class="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
-                            <p class="text-[10px] text-slate-400 mt-1">Bisa berupa anchor (#section) atau URL web eksternal.</p>
+                            <p class="text-[10px] text-slate-400 mt-1">Bisa berupa tautan langsung ke WhatsApp atau bagian halaman lainnya.</p>
                         </div>
                     </div>
                 </div>
@@ -187,13 +187,13 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Media Banner</h3>
-                        <p class="text-xs text-slate-500">Unggah gambar ilustrasi utama banner beranda.</p>
+                        <h3 class="text-base font-bold text-slate-900">Foto Banner Utama</h3>
+                        <p class="text-xs text-slate-500">Pilih foto atau ilustrasi menarik untuk dipajang di bagian paling atas website.</p>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Gambar Utama</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-2">Pilih Berkas Foto</label>
                     <input type="hidden" name="remove_image" id="remove-image-flag" value="{{ old('remove_image', '0') }}">
                     <div id="dropzone"
                          onclick="document.getElementById('image-input').click()"
@@ -213,10 +213,10 @@
                         <div id="image-preview-wrapper" class="{{ $hasImage ? '' : 'hidden' }} mb-3">
                             <img id="image-preview"
                                  src="{{ $homeSection->image ? asset('storage/' . $homeSection->image) : '#' }}"
-                                 alt="Preview"
+                                 alt="Preview Foto"
                                  class="w-full aspect-square object-cover rounded-xl border border-gray-200 shadow-xs mb-2">
                             <div class="flex items-center justify-center gap-4 text-xs">
-                                <span class="text-emerald-700 font-semibold underline">Ganti Gambar</span>
+                                <span class="text-emerald-700 font-semibold underline">Ganti Foto</span>
                                 <button type="button"
                                         id="btn-remove-image"
                                         onclick="event.stopPropagation(); removeSelectedImage()"
@@ -237,13 +237,13 @@
                                 </svg>
                             </div>
                             <p class="text-xs font-bold text-slate-800">
-                                Tarik & lepas file atau <span class="text-emerald-700 font-semibold underline">Jelajahi</span>
+                                Tarik & letakkan foto di sini, atau <span class="text-emerald-700 font-semibold underline">Pilih Berkas</span>
                             </p>
-                            <p class="text-[11px] text-slate-400 mt-1">
-                                Format: PNG, JPG, WEBP • Maksimal 2MB
+                            <p class="text-[11px] text-slate-500 mt-1">
+                                Format yang diterima: PNG, JPG, WEBP • Ukuran maksimal 2 MB
                             </p>
                             <p class="text-[10px] text-slate-400 mt-0.5">
-                                Rekomendasi rasio: 1:1 (800 × 800 px)
+                                Saran: Foto beresolusi baik dengan rasio seimbang (contoh: 800 × 800 piksel)
                             </p>
                         </div>
                     </div>
@@ -260,20 +260,20 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Visibilitas</h3>
-                        <p class="text-xs text-slate-500">Pengaturan status publikasi section.</p>
+                        <h3 class="text-base font-bold text-slate-900">Status Penayangan</h3>
+                        <p class="text-xs text-slate-500">Pilih apakah banner ini langsung tampil atau disimpan sebagai draf.</p>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between py-2">
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-slate-800">Status Banner</span>
+                            <span class="text-xs font-bold text-slate-800">Tayangkan di Website?</span>
                             <span id="status-badge" class="px-2 py-0.5 rounded text-[10px] font-bold {{ $homeSection->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-200 text-slate-700' }}">
-                                {{ $homeSection->is_active ? 'Aktif' : 'Draft' }}
+                                {{ $homeSection->is_active ? 'Aktif di Website' : 'Draf (Belum Tampil)' }}
                             </span>
                         </div>
-                        <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah banner ini langsung tampil atau draft.</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Jika aktif, pengunjung langsung dapat melihat banner ini.</p>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox"
@@ -295,7 +295,7 @@
                         </svg>
                         <div>
                             <span class="font-bold block text-emerald-900">Kebijakan 1 Banner Aktif</span>
-                            <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 banner utama yang aktif. Jika banner ini diaktifkan, banner lain otomatis dijadikan <strong>Draft</strong>.</p>
+                            <p class="text-[11px] text-emerald-700/90 mt-0.5">Halaman depan hanya menampilkan 1 banner utama. Jika banner ini diaktifkan, banner lain yang sebelumnya aktif otomatis dijadikan <strong>Draf</strong>.</p>
                         </div>
                     </div>
                 </div>
@@ -323,17 +323,17 @@
                 <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
                 </svg>
-                <span>Simpan Draft</span>
+                <span>Simpan Sebagai Draf</span>
             </button>
             <button type="button" onclick="submitWithAction('publish')" class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <span>Publikasikan</span>
+                <span>Simpan & Tampilkan di Website</span>
             </button>
         </div>
         <a href="{{ route('admin.home-sections.index') }}" class="w-full inline-flex items-center justify-center py-2.5 px-4 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
-            Batalkan & Kembali
+            Kembali ke Daftar Banner
         </a>
     </div>
 </form>
@@ -350,14 +350,14 @@
             const badge = document.getElementById('status-badge');
             if (badge) {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-                badge.innerText = 'Draft';
+                badge.innerText = 'Draf (Belum Tampil)';
             }
         } else if (action === 'publish') {
             if (toggle) toggle.checked = true;
             const badge = document.getElementById('status-badge');
             if (badge) {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                badge.innerText = 'Aktif';
+                badge.innerText = 'Aktif di Website';
             }
         }
 
@@ -372,11 +372,11 @@
         const formAction = document.getElementById('form-action');
         if (elem.checked) {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-            badge.innerText = 'Aktif';
+            badge.innerText = 'Aktif di Website';
             if (formAction) formAction.value = 'publish';
         } else {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-            badge.innerText = 'Draft';
+            badge.innerText = 'Draf (Belum Tampil)';
             if (formAction) formAction.value = 'draft';
         }
     }

@@ -108,7 +108,9 @@ class HowToOrderSectionController extends Controller
             }
         }
 
-        $message = $isActive ? 'Section Cara Pesan berhasil dipublikasikan.' : 'Section Cara Pesan berhasil disimpan sebagai draft.';
+        $message = $isActive
+            ? 'Panduan Cara Pesan berhasil disimpan dan ditampilkan di website.'
+            : 'Panduan Cara Pesan berhasil disimpan sebagai draf.';
 
         return redirect()->route('admin.how-to-orders.index')->with('success', $message);
     }
@@ -234,7 +236,9 @@ class HowToOrderSectionController extends Controller
 
         $howToOrder->touch();
 
-        $message = $isActive ? 'Section Cara Pesan berhasil diperbarui.' : 'Section Cara Pesan berhasil disimpan sebagai draft.';
+        $message = $isActive
+            ? 'Panduan Cara Pesan berhasil diperbarui dan ditampilkan di website.'
+            : 'Panduan Cara Pesan berhasil disimpan sebagai draf.';
 
         return redirect()->route('admin.how-to-orders.index')->with('success', $message);
     }
@@ -249,7 +253,7 @@ class HowToOrderSectionController extends Controller
 
         $howToOrder->delete();
 
-        return redirect()->route('admin.how-to-orders.index')->with('success', 'Section Cara Pesan berhasil dihapus.');
+        return redirect()->route('admin.how-to-orders.index')->with('success', 'Panduan Cara Pesan berhasil dihapus.');
     }
 
     public function toggleStatus(HowToOrderSection $howToOrder): RedirectResponse
@@ -270,7 +274,9 @@ class HowToOrderSectionController extends Controller
         ]);
         $howToOrder->touch();
 
-        $message = $newStatus ? 'Section Cara Pesan berhasil diaktifkan.' : 'Section Cara Pesan berhasil dinonaktifkan.';
+        $message = $newStatus
+            ? 'Panduan Cara Pesan berhasil diaktifkan dan ditampilkan di website.'
+            : 'Panduan Cara Pesan berhasil dinonaktifkan (disimpan sebagai draf).';
 
         return back()->with('success', $message);
     }

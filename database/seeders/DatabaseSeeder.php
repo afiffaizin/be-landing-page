@@ -31,6 +31,17 @@ class DatabaseSeeder extends Seeder
 
         $admin->assignRole('super_admin');
 
+        $testAdmin = User::updateOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('password'),
+                'is_active' => true,
+            ]
+        );
+
+        $testAdmin->assignRole('super_admin');
+
         // Seed landing page content
         $this->call([
             HomeSectionSeeder::class,

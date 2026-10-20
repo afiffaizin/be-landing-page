@@ -117,8 +117,8 @@ class AboutSectionController extends Controller
         }
 
         $message = $isActive
-            ? 'About section berhasil dipublikasikan.'
-            : 'About section berhasil disimpan sebagai draft.';
+            ? 'Konten Tentang Kami berhasil disimpan dan ditampilkan di website.'
+            : 'Konten Tentang Kami berhasil disimpan sebagai draf.';
 
         return redirect()->route('admin.about-sections.index')
             ->with('success', $message);
@@ -257,8 +257,8 @@ class AboutSectionController extends Controller
         $aboutSection->touch();
 
         $message = $isActive
-            ? 'About section berhasil diperbarui.'
-            : 'About section berhasil disimpan sebagai draft.';
+            ? 'Konten Tentang Kami berhasil diperbarui dan ditampilkan di website.'
+            : 'Konten Tentang Kami berhasil diperbarui.';
 
         return redirect()->route('admin.about-sections.index')
             ->with('success', $message);
@@ -284,7 +284,7 @@ class AboutSectionController extends Controller
         $aboutSection->delete();
 
         return redirect()->route('admin.about-sections.index')
-            ->with('success', 'About section berhasil dihapus.');
+            ->with('success', 'Konten Tentang Kami berhasil dihapus.');
     }
 
     /**
@@ -310,8 +310,8 @@ class AboutSectionController extends Controller
         $aboutSection->touch();
 
         $message = $newStatus
-            ? 'About section berhasil diaktifkan.'
-            : 'About section berhasil dinonaktifkan.';
+            ? 'Konten Tentang Kami berhasil diaktifkan dan ditampilkan di website.'
+            : 'Konten Tentang Kami berhasil dinonaktifkan (disimpan sebagai draf).';
 
         return back()->with('success', $message);
     }

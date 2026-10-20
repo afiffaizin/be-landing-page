@@ -41,7 +41,7 @@ class AuthController extends Controller
                 $request->session()->regenerateToken();
 
                 return back()->withErrors([
-                    'email' => 'Akun Anda telah dinonaktifkan. Silakan hubungi Super Admin.',
+                    'email' => 'Akun Anda sedang dinonaktifkan. Silakan hubungi Pengelola Utama.',
                 ])->onlyInput('email');
             }
 
@@ -52,7 +52,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Kredensial yang diberikan tidak cocok dengan data kami.',
+            'email' => 'Alamat email atau kata sandi yang Anda masukkan salah. Silakan periksa kembali isian Anda.',
         ])->onlyInput('email');
     }
 
@@ -66,6 +66,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Anda telah berhasil keluar.');
+        return redirect()->route('login')->with('success', 'Anda telah berhasil keluar dari akun.');
     }
 }

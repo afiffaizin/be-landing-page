@@ -90,7 +90,7 @@ class TestimonialSectionController extends Controller
         });
 
         return redirect()->route('admin.testimonials.index')
-            ->with('success', "Berhasil menambahkan {$insertedCount} testimoni baru.");
+            ->with('success', "Berhasil menambahkan {$insertedCount} ulasan testimoni baru.");
     }
 
     /**
@@ -119,7 +119,7 @@ class TestimonialSectionController extends Controller
         $testimonialItem->touch();
 
         return redirect()->route('admin.testimonials.index')
-            ->with('success', 'Testimoni berhasil diperbarui.');
+            ->with('success', 'Ulasan testimoni berhasil diperbarui.');
     }
 
     /**
@@ -130,7 +130,7 @@ class TestimonialSectionController extends Controller
         $testimonialItem->delete();
 
         return redirect()->route('admin.testimonials.index')
-            ->with('success', 'Testimoni berhasil dihapus.');
+            ->with('success', 'Ulasan testimoni berhasil dihapus.');
     }
 
     /**
@@ -201,7 +201,7 @@ class TestimonialSectionController extends Controller
         });
 
         return redirect()->route('admin.testimonials.index')
-            ->with('success', 'Pengaturan judul dan statistik berhasil diperbarui.');
+            ->with('success', 'Pengaturan judul dan angka statistik berhasil diperbarui.');
     }
 
     /**
@@ -267,7 +267,7 @@ class TestimonialSectionController extends Controller
             }
         }
 
-        return redirect()->route('admin.testimonials.index')->with('success', 'Section berhasil disimpan.');
+        return redirect()->route('admin.testimonials.index')->with('success', 'Konten testimoni berhasil disimpan.');
     }
 
     /**
@@ -287,7 +287,7 @@ class TestimonialSectionController extends Controller
             'is_active' => true,
         ]);
 
-        return redirect()->route('admin.testimonials.index')->with('success', 'Section berhasil diperbarui.');
+        return redirect()->route('admin.testimonials.index')->with('success', 'Konten testimoni berhasil diperbarui.');
     }
 
     /**
@@ -297,7 +297,7 @@ class TestimonialSectionController extends Controller
     {
         $testimonialSection->delete();
 
-        return redirect()->route('admin.testimonials.index')->with('success', 'Section berhasil dihapus.');
+        return redirect()->route('admin.testimonials.index')->with('success', 'Konten testimoni berhasil dihapus.');
     }
 
     /**
@@ -309,6 +309,6 @@ class TestimonialSectionController extends Controller
             'is_active' => ! $testimonialSection->is_active,
         ]);
 
-        return back()->with('success', 'Status section berhasil diubah.');
+        return back()->with('success', 'Status tampilan testimoni berhasil diubah.');
     }
 }

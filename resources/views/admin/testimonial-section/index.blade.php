@@ -76,16 +76,15 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-bold text-slate-700">Angka Statistik & Dampak</span>
-                        <span
-                            class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
                             {{ $section->statistics->count() }}
                         </span>
                     </div>
                 </div>
 
-                @if($section->statistics->isNotEmpty())
+                @if ($section->statistics->isNotEmpty())
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2.5">
-                        @foreach($section->statistics as $stat)
+                        @foreach ($section->statistics as $stat)
                             <div
                                 class="bg-white/95 border border-emerald-100 hover:border-emerald-300 rounded-xl p-3 shadow-2xs transition-all flex flex-col justify-center min-w-0 group hover:shadow-xs">
                                 <div class="text-sm sm:text-base font-black text-emerald-700 tracking-tight truncate"
@@ -100,9 +99,9 @@
                         @endforeach
                     </div>
                 @else
-                    <div
-                        class="py-4 px-3 text-center border border-dashed border-emerald-200/80 rounded-xl bg-white/50">
-                        <span class="text-xs text-slate-400 italic">Belum ada angka statistik dampak yang ditambahkan.</span>
+                    <div class="py-4 px-3 text-center border border-dashed border-emerald-200/80 rounded-xl bg-white/50">
+                        <span class="text-xs text-slate-400 italic">Belum ada angka statistik dampak yang
+                            ditambahkan.</span>
                     </div>
                 @endif
             </div>
@@ -297,7 +296,8 @@
                     </div>
                     <div>
                         <h3 class="text-base font-bold text-slate-900">Tambah Beberapa Ulasan Sekaligus</h3>
-                        <p class="text-xs text-slate-500">Tulis beberapa ulasan dari pelanggan sekaligus di formulir ini.</p>
+                        <p class="text-xs text-slate-500">Tulis beberapa ulasan dari pelanggan sekaligus di formulir ini.
+                        </p>
                     </div>
                 </div>
                 <button type="button" onclick="closeBatchModal()"
@@ -451,7 +451,8 @@
                     </div>
                     <div>
                         <h3 class="text-base font-bold text-slate-900">Pengaturan Judul & Statistik</h3>
-                        <p class="text-xs text-slate-500">Atur judul bagian testimoni serta angka-angka pencapaian program.</p>
+                        <p class="text-xs text-slate-500">Atur judul bagian testimoni serta angka-angka pencapaian program.
+                        </p>
                     </div>
                 </div>
                 <button type="button" onclick="closeHeaderModal()"
@@ -490,7 +491,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 4v16m8-8H4"></path>
                                 </svg>
-                                <span>+ Tambah Angka</span>
+                                <span>Tambah Angka</span>
                             </button>
                         </div>
 

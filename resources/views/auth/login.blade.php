@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Masuk - Eco-Enzyme Admin</title>
+    <title>Masuk ke Panel Pengelola - Eco-Enzyme Desa Jeruklegi</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,16 +29,17 @@
         <!-- Logo & Header -->
         <div class="text-center mb-6 sm:mb-8">
             <div class="inline-block p-1.5 rounded-2xl bg-white shadow-sm border border-gray-100 mb-4">
-                <img src="{{ asset('images/logo.png') }}" alt="Eco-Enzyme Logo" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo Eco-Enzyme Desa Jeruklegi" class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover">
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Eco-Enzyme</h1>
-            <p class="mt-1.5 text-xs sm:text-sm text-slate-500 font-medium">Portal Manajemen Admin</p>
+            <p class="mt-1 text-sm sm:text-base text-slate-700 font-semibold">Halaman Masuk Pengelola Desa</p>
+            <p class="mt-1 text-xs text-slate-500 max-w-xs mx-auto">Silakan masukkan email dan kata sandi Anda untuk mengelola konten website Desa Jeruklegi.</p>
         </div>
 
         <!-- Login Card -->
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl shadow-slate-200/50 border border-white p-6 sm:p-8 md:p-10">
+        <div class="bg-white/90 backdrop-blur-xl rounded-3xl shadow-xl shadow-slate-200/60 border border-white p-6 sm:p-8 md:p-10">
             @if(session('success'))
-                <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-800 text-sm font-medium flex items-center gap-3">
+                <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-medium flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
                         <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
@@ -49,7 +50,7 @@
             @endif
 
             @if($errors->any())
-                <div class="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-800 text-sm font-medium flex items-center gap-3">
+                <div class="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-medium flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center shrink-0">
                         <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -63,8 +64,8 @@
                 @csrf
 
                 <div>
-                    <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5">
-                        Alamat Email
+                    <label for="email" class="block text-sm font-bold text-slate-800 mb-2">
+                        Alamat Email Masuk
                     </label>
                     <div class="relative group">
                         <input id="email"
@@ -74,8 +75,8 @@
                                required
                                autofocus
                                autocomplete="off"
-                               placeholder="admin@pengabdian.id"
-                               class="w-full pl-4 pr-11 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white transition-all">
+                               placeholder="Contoh: pengelola@desa.id"
+                               class="w-full pl-4 pr-11 py-3.5 bg-gray-50/70 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white transition-all">
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-slate-400 group-focus-within:text-emerald-600 transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
@@ -85,8 +86,8 @@
                 </div>
 
                 <div>
-                    <div class="flex items-center justify-between mb-2.5">
-                        <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="password" class="block text-sm font-bold text-slate-800">
                             Kata Sandi
                         </label>
                     </div>
@@ -96,14 +97,14 @@
                                name="password"
                                required
                                autocomplete="current-password"
-                               placeholder="Masukkan kata sandi"
-                               class="w-full pl-4 pr-11 py-3.5 bg-gray-50/50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white transition-all">
+                               placeholder="Ketik kata sandi Anda di sini"
+                               class="w-full pl-4 pr-11 py-3.5 bg-gray-50/70 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 focus:bg-white transition-all">
                         <button type="button"
                                 id="togglePasswordBtn"
                                 onclick="togglePasswordVisibility()"
                                 class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-emerald-600 focus:outline-none focus:text-emerald-600 transition-colors cursor-pointer"
                                 aria-label="Tampilkan kata sandi"
-                                title="Tampilkan kata sandi">
+                                title="Klik untuk melihat atau menyembunyikan kata sandi Anda">
                             <!-- Eye-slash icon (when password is closed/hidden) -->
                             <svg id="eyeSlashIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
@@ -115,6 +116,7 @@
                             </svg>
                         </button>
                     </div>
+                    <p class="mt-1.5 text-xs text-slate-500">Petunjuk: Klik gambar mata di sebelah kanan untuk memeriksa kata sandi yang Anda ketik.</p>
                 </div>
 
                 <div class="flex items-center justify-between">
@@ -126,22 +128,22 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                             </svg>
                         </div>
-                        <span class="text-sm font-medium text-slate-600 group-hover:text-slate-800 transition-colors">Ingat saya</span>
+                        <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900 transition-colors">Tetap masuk di perangkat ini (Ingat saya)</span>
                     </label>
                 </div>
 
                 <button type="submit"
-                        class="w-full py-4 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.5">
-                    <span>Masuk ke Dashboard</span>
-                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base rounded-xl shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.5">
+                    <span>Masuk ke Halaman Pengelola</span>
+                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                     </svg>
                 </button>
             </form>
         </div>
 
-        <p class="text-center text-xs font-medium text-slate-400 mt-8">
-            &copy; {{ date('Y') }} Platform Pengabdian Dosen.<br>All rights reserved.
+        <p class="text-center text-xs font-medium text-slate-500 mt-8 leading-relaxed">
+            &copy; {{ date('Y') }} Program Pengabdian Kepada Masyarakat Dosen • Desa Jeruklegi.<br>Seluruh hak cipta dilindungi.
         </p>
     </div>
 

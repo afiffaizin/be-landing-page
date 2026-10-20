@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Admin Portal') - Eco-Enzyme Admin</title>
+    <title>@yield('title', 'Halaman Utama') - Panel Pengelola Eco-Enzyme Desa Jeruklegi</title>
 
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,13 +74,13 @@
     <!-- Mobile Header / Nav Toggle -->
     <div class="md:hidden flex items-center justify-between bg-emerald-900 px-4 py-3 sticky top-0 z-40">
         <div class="flex items-center gap-3">
-            <img src="{{ asset('images/logo.png') }}" alt="Eco-Enzyme Logo" class="w-9 h-9 rounded-xl shadow-md shadow-emerald-500/30 object-cover shrink-0">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo Eco-Enzyme Desa Jeruklegi" class="w-9 h-9 rounded-xl shadow-md shadow-emerald-500/30 object-cover shrink-0">
             <div>
-                <h1 class="text-sm font-bold text-white leading-tight">Eco-Enzyme Admin</h1>
-                <p class="text-[11px] text-emerald-300 font-medium">Pengabdian Dosen</p>
+                <h1 class="text-sm font-bold text-white leading-tight">Eco-Enzyme Desa Jeruklegi</h1>
+                <p class="text-[11px] text-emerald-300 font-medium">Panel Pengelola Desa</p>
             </div>
         </div>
-        <button type="button" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-backdrop')?.classList.toggle('hidden')" class="p-2 rounded-lg text-emerald-300 hover:bg-emerald-800" title="Buka Menu">
+        <button type="button" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-backdrop')?.classList.toggle('hidden')" class="p-2 rounded-lg text-emerald-300 hover:bg-emerald-800 focus:outline-none" aria-label="Buka Menu Navigasi" title="Buka Menu Navigasi">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
             </svg>
@@ -95,14 +95,14 @@
         <!-- Brand Header -->
         <div class="p-5 border-b border-emerald-700/50 flex items-center justify-between">
             <div class="flex items-center gap-3 min-w-0">
-                <img src="{{ asset('images/logo.png') }}" alt="Eco-Enzyme Logo" class="w-10 h-10 rounded-xl shadow-md shadow-emerald-500/30 object-cover shrink-0">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo Eco-Enzyme Desa Jeruklegi" class="w-10 h-10 rounded-xl shadow-md shadow-emerald-500/30 object-cover shrink-0">
                 <div class="min-w-0">
                     <span class="text-base font-bold text-white tracking-tight block truncate">Eco-Enzyme</span>
-                    <span class="text-[11px] font-medium text-emerald-300 bg-emerald-800/60 border border-emerald-600/40 px-2 py-0.5 rounded-md inline-block mt-0.5">Admin Portal</span>
+                    <span class="text-[11px] font-semibold text-emerald-300 bg-emerald-800/70 border border-emerald-600/40 px-2 py-0.5 rounded-md inline-block mt-0.5">Panel Pengelola</span>
                 </div>
             </div>
             <!-- Mobile Close Button inside Sidebar -->
-            <button type="button" onclick="document.getElementById('sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-backdrop')?.classList.add('hidden')" class="md:hidden p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-emerald-800 transition-colors" title="Tutup Menu">
+            <button type="button" onclick="document.getElementById('sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-backdrop')?.classList.add('hidden')" class="md:hidden p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-emerald-800 transition-colors" aria-label="Tutup Menu Navigasi" title="Tutup Menu Navigasi">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -118,11 +118,11 @@
                     <svg class="w-5 h-5 {{ request()->routeIs('admin.dashboard') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                     </svg>
-                    <span>Dashboard</span>
+                    <span>Halaman Utama</span>
                 </a>
             </div>
 
-            <!-- Group: Landing Page -->
+            <!-- Group: Pengaturan Halaman Depan Web -->
             @php
                 $user = Auth::user();
                 $isSuperAdmin = $user?->hasRole('super_admin');
@@ -131,7 +131,7 @@
             @if($isSuperAdmin || $user?->hasAnyPermission(['manage_home_sections', 'manage_about_sections', 'manage_product_sections', 'manage_how_to_order', 'manage_testimonials', 'manage_contact_sections']))
             <div>
                 <p class="px-3 text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-2">
-                    Landing Page
+                    Pengaturan Halaman Depan Web
                 </p>
                 <div class="space-y-1">
                     @if($isSuperAdmin || $user?->hasPermissionTo('manage_home_sections'))
@@ -141,7 +141,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.home-sections.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
                             </svg>
-                            <span>Beranda</span>
+                            <span>Banner Utama (Beranda)</span>
                         </div>
                         @if(request()->routeIs('admin.home-sections.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -156,7 +156,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.about-sections.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span>Tentang Kami</span>
+                            <span>Tentang Kami (Kegiatan)</span>
                         </div>
                         @if(request()->routeIs('admin.about-sections.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -171,7 +171,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.product-sections.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                             </svg>
-                            <span>Produk</span>
+                            <span>Katalog Produk Desa</span>
                         </div>
                         @if(request()->routeIs('admin.product-sections.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -186,7 +186,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.how-to-orders.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                             </svg>
-                            <span>Cara Pesan</span>
+                            <span>Panduan Cara Pesan</span>
                         </div>
                         @if(request()->routeIs('admin.how-to-orders.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -201,7 +201,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.testimonials.*', 'admin.testimonial-sections.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                             </svg>
-                            <span>Testimoni</span>
+                            <span>Ulasan & Testimoni</span>
                         </div>
                         @if(request()->routeIs('admin.testimonials.*', 'admin.testimonial-sections.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -216,7 +216,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.contact-sections.*', 'admin.contact-section.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                             </svg>
-                            <span>Kontak</span>
+                            <span>Informasi Kontak</span>
                         </div>
                         @if(request()->routeIs('admin.contact-sections.*', 'admin.contact-section.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -227,11 +227,11 @@
             </div>
             @endif
 
-            <!-- Group: Pengaturan (Super Admin Only) -->
+            <!-- Group: Pengaturan Petugas Pengelola (Super Admin Only) -->
             @if($isSuperAdmin)
             <div>
                 <p class="px-3 text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-2">
-                    Pengaturan
+                    Pengaturan Petugas Pengelola
                 </p>
                 <div class="space-y-1">
                     <a href="{{ route('admin.users.index') }}"
@@ -240,7 +240,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.users.*') ? 'text-amber-300' : 'text-amber-400/70' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
-                            <span>Manajemen Pengguna</span>
+                            <span>Daftar Petugas Pengelola</span>
                         </div>
                         @if(request()->routeIs('admin.users.*'))
                             <span class="w-2 h-2 rounded-full bg-amber-400"></span>
@@ -262,7 +262,7 @@
                             <svg class="w-5 h-5 {{ request()->routeIs('admin.profile.*') ? 'text-emerald-300' : 'text-emerald-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            <span>Edit Profil</span>
+                            <span>Ubah Profil Saya</span>
                         </div>
                         @if(request()->routeIs('admin.profile.*'))
                             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -273,28 +273,27 @@
         </nav>
 
         <!-- User Profile & Logout Bottom Card -->
-        <div class="p-4 border-t border-emerald-700/50 bg-emerald-950/50">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full {{ Auth::user()?->hasRole('super_admin') ? 'bg-amber-600/80 text-amber-100' : 'bg-emerald-700 text-emerald-200' }} font-bold flex items-center justify-center text-xs border border-emerald-600/50">
-                        {{ strtoupper(substr(Auth::user()->name ?? 'Admin', 0, 2)) }}
-                    </div>
-                    <div class="truncate max-w-27.5">
-                        <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name ?? 'Admin Kreatif' }}</p>
-                        <p class="text-[10px] font-medium truncate {{ Auth::user()?->hasRole('super_admin') ? 'text-amber-300' : 'text-emerald-400' }}">
-                            {{ Auth::user()?->hasRole('super_admin') ? 'Super Admin' : 'Admin' }}
-                        </p>
-                    </div>
+        <div class="p-3.5 border-t border-emerald-700/50 bg-emerald-950/60 space-y-2.5">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full {{ Auth::user()?->hasRole('super_admin') ? 'bg-amber-600/90 text-amber-100 ring-2 ring-amber-400/40' : 'bg-emerald-700 text-emerald-100 ring-2 ring-emerald-500/40' }} font-bold flex items-center justify-center text-sm shrink-0">
+                    {{ strtoupper(substr(Auth::user()->name ?? 'Pengelola', 0, 2)) }}
                 </div>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" title="Keluar" class="p-2 text-emerald-400 hover:text-rose-400 hover:bg-emerald-800 rounded-lg transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                        </svg>
-                    </button>
-                </form>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold text-white truncate" title="{{ Auth::user()->name }}">{{ Auth::user()->name ?? 'Petugas Pengelola' }}</p>
+                    <span class="inline-block text-[11px] font-medium px-2 py-0.5 rounded-md mt-0.5 {{ Auth::user()?->hasRole('super_admin') ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' }}">
+                        {{ Auth::user()?->hasRole('super_admin') ? 'Pengelola Utama' : 'Petugas Pengelola' }}
+                    </span>
+                </div>
             </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold text-rose-200 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/50 rounded-xl transition-all cursor-pointer" title="Keluar dari akun Anda">
+                    <svg class="w-4 h-4 text-rose-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span>Keluar Akun</span>
+                </button>
+            </form>
         </div>
     </aside>
 
@@ -309,7 +308,7 @@
                 </nav>
                 <!-- Page Title -->
                 <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
-                    @yield('page_title', 'Dashboard')
+                    @yield('page_title', 'Halaman Utama')
                 </h1>
             </div>
 
@@ -336,13 +335,13 @@
 
             @if($errors->any())
                 <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 shadow-xs">
-                    <div class="flex items-center gap-2 mb-2 font-semibold text-sm text-amber-800">
+                    <div class="flex items-center gap-2 mb-2 font-bold text-sm text-amber-900">
                         <svg class="w-5 h-5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                         </svg>
-                        <span>Mohon periksa kembali isian formulir:</span>
+                        <span>Mohon periksa kembali isian formulir Anda:</span>
                     </div>
-                    <ul class="list-disc list-inside text-xs space-y-1 text-amber-700 pl-5">
+                    <ul class="list-disc list-inside text-sm space-y-1.5 text-amber-800 pl-3">
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -427,12 +426,12 @@
                         </svg>
                     </div>
                 `,
-                title: 'Hapus data?',
-                html: '<p class="swal-delete-text">Data yang dihapus tidak dapat dikembalikan.</p>',
+                title: 'Apakah Anda yakin ingin menghapus data ini?',
+                html: '<p class="swal-delete-text text-sm leading-relaxed">Data yang sudah dihapus akan hilang secara permanen dan tidak dapat dikembalikan. Pastikan data ini memang sudah tidak diperlukan.</p>',
                 iconColor: 'transparent',
                 showCancelButton: true,
-                confirmButtonText: 'Ya, Hapus',
-                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, Hapus Data',
+                cancelButtonText: 'Batal (Kembali)',
                 reverseButtons: true,
                 focusCancel: true,
                 buttonsStyling: false

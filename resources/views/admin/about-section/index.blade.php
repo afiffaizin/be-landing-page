@@ -16,12 +16,13 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>+ Buat Konten Baru</span>
+        <span>Buat Konten Baru</span>
     </a>
 @endsection
 
 @section('page_headline', 'Daftar Konten Tentang Kami')
-@section('page_subtitle', 'Kelola informasi pengenalan dan kartu kegiatan program di halaman depan website. Anda dapat mengaktifkan 1 konten untuk ditampilkan kepada pengunjung.')
+@section('page_subtitle', 'Kelola informasi pengenalan dan kartu kegiatan program di halaman depan website. Anda dapat
+    mengaktifkan 1 konten untuk ditampilkan kepada pengunjung.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
@@ -35,39 +36,47 @@
 
         <!-- Kolom Pencarian & Penyaring Status -->
         <div class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs">
-            <form action="{{ route('admin.about-sections.index') }}" method="GET" class="flex flex-col sm:flex-row items-center gap-3 w-full">
+            <form action="{{ route('admin.about-sections.index') }}" method="GET"
+                class="flex flex-col sm:flex-row items-center gap-3 w-full">
                 <div class="relative flex-1 w-full">
-                    <input type="text"
-                           name="search"
-                           value="{{ request('search') }}"
-                           placeholder="Cari judul atau isi penjelasan..."
-                           class="w-full pl-10 pr-4 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Cari judul atau isi penjelasan..."
+                        class="w-full pl-10 pr-4 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
                 </div>
 
                 <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto shrink-0">
-                    <select name="status" onchange="this.form.submit()" class="w-full sm:w-auto py-2.5 px-3 pr-8 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 cursor-pointer">
+                    <select name="status" onchange="this.form.submit()"
+                        class="w-full sm:w-auto py-2.5 px-3 pr-8 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 cursor-pointer">
                         <option value="">Semua Status</option>
-                        <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif di Website</option>
-                        <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Draf (Belum Tampil)</option>
+                        <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif di Website
+                        </option>
+                        <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Draf (Belum
+                            Tampil)</option>
                     </select>
 
                     <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <button type="submit" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-sm transition-all">
+                        <button type="submit"
+                            class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-sm transition-all">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                             <span>Cari</span>
                         </button>
 
-                        @if(request('search') || request('status'))
-                            <a href="{{ route('admin.about-sections.index') }}" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl transition-all" title="Atur Ulang Pencarian">
+                        @if (request('search') || request('status'))
+                            <a href="{{ route('admin.about-sections.index') }}"
+                                class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl transition-all"
+                                title="Atur Ulang Pencarian">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                                 <span>Atur Ulang</span>
                             </a>
@@ -124,16 +133,20 @@
                                         </button>
                                     </form>
                                 </td>
-                                <td class="py-3.5 px-5 whitespace-nowrap text-slate-500 text-[11px]" title="{{ $section->updated_at->diffForHumans() }}">
-                                    <div class="font-medium text-slate-700">{{ $section->updated_at->translatedFormat('d M Y, H:i') }} WIB</div>
-                                    <div class="text-[10px] text-slate-400">{{ $section->updated_at->diffForHumans() }}</div>
+                                <td class="py-3.5 px-5 whitespace-nowrap text-slate-500 text-[11px]"
+                                    title="{{ $section->updated_at->diffForHumans() }}">
+                                    <div class="font-medium text-slate-700">
+                                        {{ $section->updated_at->translatedFormat('d M Y, H:i') }} WIB</div>
+                                    <div class="text-[10px] text-slate-400">{{ $section->updated_at->diffForHumans() }}
+                                    </div>
                                 </td>
                                 <td class="py-3.5 px-5 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-1.5">
                                         <a href="{{ route('admin.about-sections.edit', $section) }}"
                                             class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                                             title="Ubah Konten">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                                 </path>
@@ -171,7 +184,8 @@
                                     </div>
                                     <h4 class="text-sm font-bold text-slate-800">Belum Ada Konten Tentang Kami</h4>
                                     <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                                        Tambahkan penjelasan tentang program atau kegiatan untuk ditampilkan di halaman depan website.
+                                        Tambahkan penjelasan tentang program atau kegiatan untuk ditampilkan di halaman
+                                        depan website.
                                     </p>
                                     <a href="{{ route('admin.about-sections.create') }}"
                                         class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
@@ -179,7 +193,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
-                                        <span>+ Buat Konten Baru</span>
+                                        <span>Buat Konten Baru</span>
                                     </a>
                                 </td>
                             </tr>

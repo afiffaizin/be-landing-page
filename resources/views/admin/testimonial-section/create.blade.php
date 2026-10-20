@@ -209,7 +209,7 @@
                     <button type="button" id="add-testimonial-btn"
                         class="mt-5 w-full py-3 border-2 border-dashed border-blue-300 hover:border-blue-500 bg-blue-50/30 hover:bg-blue-50/80 rounded-xl text-xs font-bold text-blue-800 hover:text-blue-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
                         <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                        <span>+ Tambah Ulasan Pelanggan</span>
+                        <span>Tambah Ulasan Pelanggan</span>
                     </button>
                 </div>
             </div>

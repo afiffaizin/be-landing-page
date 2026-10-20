@@ -36,7 +36,7 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
-        return back()->with('success', 'Profil berhasil diperbarui.');
+        return back()->with('success', 'Data profil Anda berhasil diperbarui.');
     }
 
     /**
@@ -52,13 +52,13 @@ class ProfileController extends Controller
         $user = $request->user();
 
         if (! Hash::check($validated['current_password'], $user->password)) {
-            return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
+            return back()->withErrors(['current_password' => 'Kata sandi saat ini yang Anda masukkan salah.']);
         }
 
         $user->update([
             'password' => $validated['new_password'],
         ]);
 
-        return back()->with('success', 'Password berhasil diperbarui.');
+        return back()->with('success', 'Kata sandi Anda berhasil diperbarui.');
     }
 }

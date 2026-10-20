@@ -123,8 +123,8 @@ class ContactSectionController extends Controller
         });
 
         $message = $isActive
-            ? 'Section kontak berhasil dipublikasikan.'
-            : 'Section kontak berhasil disimpan sebagai draft.';
+            ? 'Informasi Kontak berhasil disimpan dan ditampilkan di website.'
+            : 'Informasi Kontak berhasil disimpan sebagai draf.';
 
         return redirect()->route('admin.contact-sections.index')
             ->with('success', $message);
@@ -266,8 +266,8 @@ class ContactSectionController extends Controller
         });
 
         $message = $isActive
-            ? 'Section kontak berhasil diperbarui.'
-            : 'Section kontak berhasil disimpan sebagai draft.';
+            ? 'Informasi Kontak berhasil diperbarui dan ditampilkan di website.'
+            : 'Informasi Kontak berhasil disimpan sebagai draf.';
 
         return redirect()->route('admin.contact-sections.index')
             ->with('success', $message);
@@ -287,7 +287,7 @@ class ContactSectionController extends Controller
         $contactSection->delete();
 
         return redirect()->route('admin.contact-sections.index')
-            ->with('success', 'Section kontak berhasil dihapus.');
+            ->with('success', 'Informasi Kontak berhasil dihapus.');
     }
 
     /**
@@ -312,8 +312,8 @@ class ContactSectionController extends Controller
         $contactSection->touch();
 
         $message = $newStatus
-            ? 'Section kontak berhasil diaktifkan.'
-            : 'Section kontak berhasil dinonaktifkan.';
+            ? 'Informasi Kontak berhasil diaktifkan dan ditampilkan di website.'
+            : 'Informasi Kontak berhasil dinonaktifkan (disimpan sebagai draf).';
 
         return back()->with('success', $message);
     }

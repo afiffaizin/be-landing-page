@@ -273,7 +273,7 @@ class AdminPanelTest extends TestCase
         ]);
 
         $response->assertRedirect(route('admin.about-sections.index'))
-            ->assertSessionHas('success', 'About section berhasil disimpan sebagai draft.');
+            ->assertSessionHas('success', 'Konten Tentang Kami berhasil disimpan sebagai draf.');
 
         $this->assertDatabaseHas('about_sections', [
             'title' => 'About Section Draft',

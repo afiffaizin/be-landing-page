@@ -88,7 +88,7 @@ class UserManagementController extends Controller
         }
 
         return redirect()->route('admin.users.index')
-            ->with('success', "User \"{$user->name}\" berhasil dibuat.");
+            ->with('success', "Pengelola \"{$user->name}\" berhasil ditambahkan.");
     }
 
     /**
@@ -117,7 +117,7 @@ class UserManagementController extends Controller
         ]);
 
         if ($user->id === $request->user()->id && $validated['role'] !== 'super_admin') {
-            return back()->with('error', 'Anda tidak dapat mengubah role akun Anda sendiri.');
+            return back()->with('error', 'Anda tidak dapat mengubah peran akun Anda sendiri.');
         }
 
         $user->update([
@@ -129,7 +129,7 @@ class UserManagementController extends Controller
         $user->syncPermissions($validated['permissions'] ?? []);
 
         return redirect()->route('admin.users.index')
-            ->with('success', "User \"{$user->name}\" berhasil diperbarui.");
+            ->with('success', "Data pengelola \"{$user->name}\" berhasil diperbarui.");
     }
 
     /**
@@ -145,7 +145,7 @@ class UserManagementController extends Controller
         $user->delete();
 
         return redirect()->route('admin.users.index')
-            ->with('success', "User \"{$userName}\" berhasil dihapus.");
+            ->with('success', "Pengelola \"{$userName}\" berhasil dihapus.");
     }
 
     /**
@@ -161,7 +161,7 @@ class UserManagementController extends Controller
 
         $status = $user->is_active ? 'diaktifkan' : 'dinonaktifkan';
 
-        return back()->with('success', "User \"{$user->name}\" berhasil {$status}.");
+        return back()->with('success', "Akun pengelola \"{$user->name}\" berhasil {$status}.");
     }
 
     /**
@@ -170,7 +170,7 @@ class UserManagementController extends Controller
     public function resetPassword(Request $request, User $user): RedirectResponse
     {
         if ($user->id === $request->user()->id) {
-            return back()->with('error', 'Gunakan menu Profil Saya untuk mengubah password Anda sendiri.');
+            return back()->with('error', 'Gunakan menu Ubah Profil Saya untuk mengganti kata sandi Anda sendiri.');
         }
 
         $validated = $request->validate([
@@ -181,6 +181,6 @@ class UserManagementController extends Controller
             'password' => $validated['new_password'],
         ]);
 
-        return back()->with('success', "Password user \"{$user->name}\" berhasil direset.");
+        return back()->with('success', "Kata sandi pengelola \"{$user->name}\" berhasil diatur ulang.");
     }
 }

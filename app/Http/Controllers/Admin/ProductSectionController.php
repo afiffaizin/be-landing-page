@@ -150,8 +150,8 @@ class ProductSectionController extends Controller
         }
 
         $message = $isActive
-            ? 'Product section berhasil dipublikasikan.'
-            : 'Product section berhasil disimpan sebagai draft.';
+            ? 'Katalog Produk berhasil disimpan dan ditampilkan di website.'
+            : 'Katalog Produk berhasil disimpan sebagai draf.';
 
         return redirect()->route('admin.product-sections.index')
             ->with('success', $message);
@@ -362,8 +362,8 @@ class ProductSectionController extends Controller
         $productSection->touch();
 
         $message = $isActive
-            ? 'Product section berhasil diperbarui.'
-            : 'Product section berhasil disimpan sebagai draft.';
+            ? 'Katalog Produk berhasil diperbarui dan ditampilkan di website.'
+            : 'Katalog Produk berhasil disimpan sebagai draf.';
 
         return redirect()->route('admin.product-sections.index')
             ->with('success', $message);
@@ -389,7 +389,7 @@ class ProductSectionController extends Controller
         $productSection->delete();
 
         return redirect()->route('admin.product-sections.index')
-            ->with('success', 'Product section berhasil dihapus.');
+            ->with('success', 'Katalog Produk berhasil dihapus.');
     }
 
     /**
@@ -415,8 +415,8 @@ class ProductSectionController extends Controller
         $productSection->touch();
 
         $message = $newStatus
-            ? 'Product section berhasil diaktifkan.'
-            : 'Product section berhasil dinonaktifkan.';
+            ? 'Katalog Produk berhasil diaktifkan dan ditampilkan di website.'
+            : 'Katalog Produk berhasil dinonaktifkan (disimpan sebagai draf).';
 
         return back()->with('success', $message);
     }

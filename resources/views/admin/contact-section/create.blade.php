@@ -240,21 +240,19 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Pengaturan Tampilan</h3>
-                            <p class="text-xs text-slate-500">Pengaturan apakah bagian kontak ini langsung ditampilkan di
-                                website.</p>
+                            <h3 class="text-base font-bold text-slate-900">Status Penayangan</h3>
+                            <p class="text-xs text-slate-500">Pilih apakah informasi kontak ini langsung tampil atau disimpan sebagai draf.</p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between py-2">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-slate-800">Status Penayangan</span>
+                                <span class="text-xs font-bold text-slate-800">Tayangkan di Website?</span>
                                 <span id="status-badge"
-                                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
+                                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif di Website</span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah bagian kontak ini langsung tampil
-                                atau disimpan sebagai draf.</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Jika aktif, pengunjung langsung dapat melihat nomor WhatsApp, email, dan alamat desa.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1" checked
@@ -274,10 +272,8 @@
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <span class="font-bold block text-emerald-900">Aturan Penayangan Website</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 bagian kontak
-                                    yang aktif di website. Bagian kontak lama yang aktif otomatis disimpan sebagai
-                                    <strong>Draf</strong>.</p>
+                                <span class="font-bold block text-emerald-900">Kebijakan 1 Informasi Kontak Aktif</span>
+                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Halaman depan hanya menampilkan 1 data kontak aktif. Jika bagian ini diaktifkan, data kontak lama otomatis dijadikan <strong>Draf</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -349,11 +345,11 @@
             const formAction = document.getElementById('form-action');
             if (elem.checked) {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                badge.innerText = 'Aktif';
+                badge.innerText = 'Aktif di Website';
                 if (formAction) formAction.value = 'publish';
             } else {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-                badge.innerText = 'Draf';
+                badge.innerText = 'Draf (Belum Tampil)';
                 if (formAction) formAction.value = 'draft';
             }
         }

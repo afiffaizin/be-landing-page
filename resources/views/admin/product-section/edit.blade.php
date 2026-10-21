@@ -617,22 +617,21 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Pengaturan Tampilan</h3>
-                            <p class="text-xs text-slate-500">Atur penayangan produk di website.</p>
+                            <h3 class="text-base font-bold text-slate-900">Status Penayangan</h3>
+                            <p class="text-xs text-slate-500">Pilih apakah katalog produk ini langsung tampil atau disimpan sebagai draf.</p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between py-2">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-slate-800">Status Tayang</span>
+                                <span class="text-xs font-bold text-slate-800">Tayangkan di Website?</span>
                                 <span id="status-badge"
                                     class="px-2.5 py-0.5 rounded-full text-[11px] font-bold {{ $productSection->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-200 text-slate-700' }}">
-                                    {{ $productSection->is_active ? 'Aktif' : 'Draf' }}
+                                    {{ $productSection->is_active ? 'Aktif di Website' : 'Disimpan Sebagai Draf' }}
                                 </span>
                             </div>
-                            <p class="text-[11px] text-slate-500 mt-0.5">Tentukan apakah produk langsung tampil atau
-                                disimpan sementara.</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Jika aktif, pengunjung langsung dapat melihat katalog produk ini.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1"
@@ -653,10 +652,8 @@
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <span class="font-bold block text-emerald-900">Hanya 1 Katalog Produk Aktif</span>
-                                <p class="text-[11px] text-emerald-800 mt-0.5">Halaman depan website menampilkan 1 katalog
-                                    produk aktif. Saat bagian ini diaktifkan, katalog produk lain otomatis disimpan sebagai
-                                    <strong>Draf</strong>.
+                                <span class="font-bold block text-emerald-900">Kebijakan 1 Katalog Aktif</span>
+                                <p class="text-[11px] text-emerald-800 mt-0.5">Halaman depan hanya menampilkan 1 katalog produk utama. Jika katalog ini diaktifkan, katalog lama yang sebelumnya aktif otomatis dijadikan <strong>Draf</strong>.
                                 </p>
                             </div>
                         </div>
@@ -728,13 +725,13 @@
                 if (toggle) toggle.checked = false;
                 if (badge) {
                     badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-                    badge.innerText = 'Draft';
+                    badge.innerText = 'Draf (Belum Tampil)';
                 }
             } else if (action === 'publish') {
                 if (toggle) toggle.checked = true;
                 if (badge) {
                     badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                    badge.innerText = 'Aktif';
+                    badge.innerText = 'Aktif di Website';
                 }
             }
 
@@ -749,11 +746,11 @@
             const formAction = document.getElementById('form-action');
             if (elem.checked) {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                badge.innerText = 'Aktif';
+                badge.innerText = 'Aktif di Website';
                 if (formAction) formAction.value = 'publish';
             } else {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-                badge.innerText = 'Draft';
+                badge.innerText = 'Draf (Belum Tampil)';
                 if (formAction) formAction.value = 'draft';
             }
         }

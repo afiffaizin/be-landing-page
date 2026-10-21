@@ -23,11 +23,22 @@
 @section('page_headline', 'Daftar Katalog Produk')
 @section('page_subtitle', 'Atur daftar produk desa yang ditampilkan di halaman depan website.')
 @section('status_badge')
-    <span
-        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        1 Bagian Aktif di Website
-    </span>
+    @php
+        $activeCount = $activeCount ?? \App\Models\ProductSection::where('is_active', true)->count();
+    @endphp
+    @if ($activeCount > 0)
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            {{ $activeCount }} Bagian Aktif di Website
+        </span>
+    @else
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Belum Ada Bagian Aktif
+        </span>
+    @endif
 @endsection
 
 @section('content')

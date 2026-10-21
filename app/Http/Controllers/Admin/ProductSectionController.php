@@ -35,8 +35,9 @@ class ProductSectionController extends Controller
         }
 
         $productSections = $query->paginate(10)->withQueryString();
+        $activeCount = ProductSection::where('is_active', true)->count();
 
-        return view('admin.product-section.index', compact('productSections'));
+        return view('admin.product-section.index', compact('productSections', 'activeCount'));
     }
 
     /**

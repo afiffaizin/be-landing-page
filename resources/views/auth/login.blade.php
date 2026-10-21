@@ -160,7 +160,7 @@
         </div>
 
         <p class="text-center text-xs font-medium text-slate-500 mt-8 leading-relaxed">
-            &copy; {{ date('Y') }} Program Pengabdian Kepada Masyarakat Dosen • Desa Jeruklegi.<br>Seluruh hak cipta
+            &copy; {{ date('Y') }} Program Pengabdian Kepada Masyarakat, Desa Jeruklegi.<br>Seluruh hak cipta
             dilindungi.
         </p>
     </div>

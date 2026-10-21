@@ -24,11 +24,22 @@
 @section('page_subtitle', 'Kelola banner utama di bagian paling atas halaman depan website. Anda dapat menentukan 1
     banner aktif untuk ditampilkan kepada pengunjung.')
 @section('status_badge')
-    <span
-        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        1 Banner Aktif Utama
-    </span>
+    @php
+        $activeCount = $activeCount ?? \App\Models\HomeSection::where('is_active', true)->count();
+    @endphp
+    @if ($activeCount > 0)
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            {{ $activeCount }} Banner Aktif Utama
+        </span>
+    @else
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Belum Ada Banner Aktif
+        </span>
+    @endif
 @endsection
 
 @section('content')

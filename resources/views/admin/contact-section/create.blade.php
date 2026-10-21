@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Buat Section Kontak Baru')
+@section('title', 'Buat Kontak Baru')
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Halaman Utama</a>
@@ -36,11 +36,12 @@
     </div>
 @endsection
 
-@section('page_headline', 'Buat Section Kontak Baru')
+@section('page_headline', 'Buat Kontak Baru')
 @section('page_subtitle', 'Masukkan judul, narasi deskripsi, dan saluran kontak yang akan ditampilkan pada website.')
 
 @section('status_badge')
-    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
+    <span
+        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
         <span class="w-2 h-2 rounded-full bg-amber-500"></span>
         Status: Pembuatan Baru
     </span>
@@ -69,7 +70,8 @@
                         </div>
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Konten Utama Section</h3>
-                            <p class="text-xs text-slate-500">Tentukan judul utama dan narasi pengantar pada bagian kontak website.</p>
+                            <p class="text-xs text-slate-500">Tentukan judul utama dan narasi pengantar pada bagian kontak
+                                website.</p>
                         </div>
                     </div>
 
@@ -80,11 +82,11 @@
                                 <label for="title" class="block text-xs font-bold text-slate-700">
                                     Judul Bagian Kontak <span class="text-rose-500">*</span>
                                 </label>
-                                <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255 Karakter</span>
+                                <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255
+                                    Karakter</span>
                             </div>
-                            <input type="text" id="title" name="title"
-                                value="{{ old('title') }}" required maxlength="255"
-                                placeholder="Contoh: Ada Pertanyaan? Kami Siap Membantu."
+                            <input type="text" id="title" name="title" value="{{ old('title') }}" required
+                                maxlength="255" placeholder="Contoh: Ada Pertanyaan? Kami Siap Membantu."
                                 oninput="document.getElementById('title-counter').innerText = this.value.length + ' / 255 Karakter'"
                                 class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                             @error('title')
@@ -126,7 +128,8 @@
                             </div>
                             <div>
                                 <h3 class="text-base font-bold text-slate-900">Daftar Saluran Kontak</h3>
-                                <p class="text-xs text-slate-500">Masukkan saluran komunikasi seperti Alamat Lokasi, Nomor WhatsApp, dan Alamat Email.</p>
+                                <p class="text-xs text-slate-500">Masukkan saluran komunikasi seperti Alamat Lokasi, Nomor
+                                    WhatsApp, dan Alamat Email.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -146,8 +149,10 @@
                             <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer"
                                 onclick="toggleCardAccordion(this)">
                                 <div class="flex items-center gap-2.5">
-                                    <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center contact-badge-num">1</span>
-                                    <span class="contact-header-title text-xs font-bold text-slate-800">Saluran Kontak 1</span>
+                                    <span
+                                        class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center contact-badge-num">1</span>
+                                    <span class="contact-header-title text-xs font-bold text-slate-800">Saluran Kontak
+                                        1</span>
                                 </div>
                                 <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                                     <button type="button" onclick="removeContactItem(this)" title="Hapus Saluran Kontak"
@@ -201,14 +206,9 @@
                                 </div>
 
                                 <!-- Icon Picker Component (Lucide + Upload) -->
-                                <x-form.icon-picker
-                                    name="items[0][icon_name]"
-                                    value=""
-                                    label="Ikon Kontak (Pilih Simbol atau Unggah Gambar)"
-                                    :with-upload="true"
-                                    upload-name="items[0][icon_image]"
-                                    remove-name="items[0][remove_icon_image]"
-                                />
+                                <x-form.icon-picker name="items[0][icon_name]" value=""
+                                    label="Ikon Kontak (Pilih Simbol atau Unggah Gambar)" :with-upload="true"
+                                    upload-name="items[0][icon_image]" remove-name="items[0][remove_icon_image]" />
                             </div>
                         </div>
                     </div>
@@ -217,7 +217,8 @@
                     <button type="button" onclick="addContactCard()"
                         class="mt-5 w-full py-3 border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/30 hover:bg-emerald-50/80 rounded-xl text-xs font-bold text-emerald-800 hover:text-emerald-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
                         <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
+                            </path>
                         </svg>
                         <span>Tambah Saluran Kontak</span>
                     </button>
@@ -240,7 +241,8 @@
                         </div>
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Pengaturan Tampilan</h3>
-                            <p class="text-xs text-slate-500">Pengaturan apakah bagian kontak ini langsung ditampilkan di website.</p>
+                            <p class="text-xs text-slate-500">Pengaturan apakah bagian kontak ini langsung ditampilkan di
+                                website.</p>
                         </div>
                     </div>
 
@@ -251,7 +253,8 @@
                                 <span id="status-badge"
                                     class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah bagian kontak ini langsung tampil atau disimpan sebagai draf.</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah bagian kontak ini langsung tampil
+                                atau disimpan sebagai draf.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1" checked
@@ -272,7 +275,9 @@
                             </svg>
                             <div>
                                 <span class="font-bold block text-emerald-900">Aturan Penayangan Website</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 bagian kontak yang aktif di website. Bagian kontak lama yang aktif otomatis disimpan sebagai <strong>Draf</strong>.</p>
+                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 bagian kontak
+                                    yang aktif di website. Bagian kontak lama yang aktif otomatis disimpan sebagai
+                                    <strong>Draf</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -281,7 +286,8 @@
                         <div class="flex justify-between items-start text-slate-500">
                             <span>Terakhir Diperbarui:</span>
                             <div class="text-right">
-                                <span class="text-slate-700 font-medium">{{ now()->translatedFormat('d M Y, H:i') }} WIB</span>
+                                <span class="text-slate-700 font-medium">{{ now()->translatedFormat('d M Y, H:i') }}
+                                    WIB</span>
                                 <span class="text-[11px] text-emerald-600 font-medium block">Saat disimpan (Baru)</span>
                             </div>
                         </div>
@@ -326,118 +332,119 @@
 @endsection
 
 @push('scripts')
-<script>
-    function submitWithAction(action) {
-        const formAction = document.getElementById('form-action');
-        const toggle = document.getElementById('is_active_toggle');
-        if (formAction) formAction.value = action;
-        if (toggle) toggle.checked = (action === 'publish');
-        const form = document.getElementById('contact-section-form');
-        if (form.reportValidity()) {
-            form.submit();
-        }
-    }
-
-    function toggleStatusBadge(elem) {
-        const badge = document.getElementById('status-badge');
-        const formAction = document.getElementById('form-action');
-        if (elem.checked) {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-            badge.innerText = 'Aktif';
-            if (formAction) formAction.value = 'publish';
-        } else {
-            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-            badge.innerText = 'Draf';
-            if (formAction) formAction.value = 'draft';
-        }
-    }
-
-    function toggleCardAccordion(headerEl) {
-        const itemEl = headerEl.closest('.contact-card-item');
-        const bodyEl = itemEl.querySelector('.contact-card-body');
-        const iconEl = itemEl.querySelector('.contact-accordion-icon');
-
-        if (bodyEl.style.display === 'none') {
-            bodyEl.style.display = 'block';
-            if (iconEl) iconEl.style.transform = 'rotate(0deg)';
-        } else {
-            bodyEl.style.display = 'none';
-            if (iconEl) iconEl.style.transform = 'rotate(180deg)';
-        }
-    }
-
-    function collapseAllCards() {
-        document.querySelectorAll('.contact-card-item').forEach(card => {
-            const body = card.querySelector('.contact-card-body');
-            const icon = card.querySelector('.contact-accordion-icon');
-            if (body) body.style.display = 'none';
-            if (icon) icon.style.transform = 'rotate(180deg)';
-        });
-    }
-
-    function expandAllCards() {
-        document.querySelectorAll('.contact-card-item').forEach(card => {
-            const body = card.querySelector('.contact-card-body');
-            const icon = card.querySelector('.contact-accordion-icon');
-            if (body) body.style.display = 'block';
-            if (icon) icon.style.transform = 'rotate(0deg)';
-        });
-    }
-
-    function updateContactHeaderTitle(input) {
-        const itemEl = input.closest('.contact-card-item');
-        const titleEl = itemEl.querySelector('.contact-header-title');
-        const index = parseInt(itemEl.getAttribute('data-index') || '0', 10) + 1;
-        titleEl.textContent = input.value.trim() ? input.value.trim() : 'Saluran Kontak ' + index;
-    }
-
-    function removeContactItem(btn) {
-        const container = document.getElementById('contacts-container');
-        const items = container.querySelectorAll('.contact-card-item');
-        if (items.length <= 1) {
-            alert('Minimal harus ada 1 saluran kontak.');
-            return;
-        }
-        btn.closest('.contact-card-item').remove();
-        reindexContactCards();
-    }
-
-    function reindexContactCards() {
-        const container = document.getElementById('contacts-container');
-        const cards = container.querySelectorAll('.contact-card-item');
-        cards.forEach((card, index) => {
-            card.setAttribute('data-index', index);
-            card.querySelector('.contact-badge-num').textContent = index + 1;
-
-            const labelInput = card.querySelector('input[name*="[label]"]');
-            if (labelInput) {
-                labelInput.name = `items[${index}][label]`;
-                const titleEl = card.querySelector('.contact-header-title');
-                titleEl.textContent = labelInput.value.trim() ? labelInput.value.trim() : `Saluran Kontak ${index + 1}`;
+    <script>
+        function submitWithAction(action) {
+            const formAction = document.getElementById('form-action');
+            const toggle = document.getElementById('is_active_toggle');
+            if (formAction) formAction.value = action;
+            if (toggle) toggle.checked = (action === 'publish');
+            const form = document.getElementById('contact-section-form');
+            if (form.reportValidity()) {
+                form.submit();
             }
+        }
 
-            const typeInput = card.querySelector('input[name*="[type]"]');
-            if (typeInput) typeInput.name = `items[${index}][type]`;
+        function toggleStatusBadge(elem) {
+            const badge = document.getElementById('status-badge');
+            const formAction = document.getElementById('form-action');
+            if (elem.checked) {
+                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
+                badge.innerText = 'Aktif';
+                if (formAction) formAction.value = 'publish';
+            } else {
+                badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
+                badge.innerText = 'Draf';
+                if (formAction) formAction.value = 'draft';
+            }
+        }
 
-            const valInput = card.querySelector('input[name*="[value]"]');
-            if (valInput) valInput.name = `items[${index}][value]`;
+        function toggleCardAccordion(headerEl) {
+            const itemEl = headerEl.closest('.contact-card-item');
+            const bodyEl = itemEl.querySelector('.contact-card-body');
+            const iconEl = itemEl.querySelector('.contact-accordion-icon');
 
-            const iconInput = card.querySelector('input[name*="[icon_name]"]');
-            if (iconInput) iconInput.name = `items[${index}][icon_name]`;
+            if (bodyEl.style.display === 'none') {
+                bodyEl.style.display = 'block';
+                if (iconEl) iconEl.style.transform = 'rotate(0deg)';
+            } else {
+                bodyEl.style.display = 'none';
+                if (iconEl) iconEl.style.transform = 'rotate(180deg)';
+            }
+        }
 
-            const fileInput = card.querySelector('input[type="file"]');
-            if (fileInput) fileInput.name = `items[${index}][icon_image]`;
+        function collapseAllCards() {
+            document.querySelectorAll('.contact-card-item').forEach(card => {
+                const body = card.querySelector('.contact-card-body');
+                const icon = card.querySelector('.contact-accordion-icon');
+                if (body) body.style.display = 'none';
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            });
+        }
 
-            const removeIconInput = card.querySelector('input[name*="[remove_icon_image]"]');
-            if (removeIconInput) removeIconInput.name = `items[${index}][remove_icon_image]`;
-        });
-    }
+        function expandAllCards() {
+            document.querySelectorAll('.contact-card-item').forEach(card => {
+                const body = card.querySelector('.contact-card-body');
+                const icon = card.querySelector('.contact-accordion-icon');
+                if (body) body.style.display = 'block';
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            });
+        }
 
-    function addContactCard() {
-        const container = document.getElementById('contacts-container');
-        const newIndex = container.querySelectorAll('.contact-card-item').length;
+        function updateContactHeaderTitle(input) {
+            const itemEl = input.closest('.contact-card-item');
+            const titleEl = itemEl.querySelector('.contact-header-title');
+            const index = parseInt(itemEl.getAttribute('data-index') || '0', 10) + 1;
+            titleEl.textContent = input.value.trim() ? input.value.trim() : 'Saluran Kontak ' + index;
+        }
 
-        const cardHtml = `
+        function removeContactItem(btn) {
+            const container = document.getElementById('contacts-container');
+            const items = container.querySelectorAll('.contact-card-item');
+            if (items.length <= 1) {
+                alert('Minimal harus ada 1 saluran kontak.');
+                return;
+            }
+            btn.closest('.contact-card-item').remove();
+            reindexContactCards();
+        }
+
+        function reindexContactCards() {
+            const container = document.getElementById('contacts-container');
+            const cards = container.querySelectorAll('.contact-card-item');
+            cards.forEach((card, index) => {
+                card.setAttribute('data-index', index);
+                card.querySelector('.contact-badge-num').textContent = index + 1;
+
+                const labelInput = card.querySelector('input[name*="[label]"]');
+                if (labelInput) {
+                    labelInput.name = `items[${index}][label]`;
+                    const titleEl = card.querySelector('.contact-header-title');
+                    titleEl.textContent = labelInput.value.trim() ? labelInput.value.trim() :
+                        `Saluran Kontak ${index + 1}`;
+                }
+
+                const typeInput = card.querySelector('input[name*="[type]"]');
+                if (typeInput) typeInput.name = `items[${index}][type]`;
+
+                const valInput = card.querySelector('input[name*="[value]"]');
+                if (valInput) valInput.name = `items[${index}][value]`;
+
+                const iconInput = card.querySelector('input[name*="[icon_name]"]');
+                if (iconInput) iconInput.name = `items[${index}][icon_name]`;
+
+                const fileInput = card.querySelector('input[type="file"]');
+                if (fileInput) fileInput.name = `items[${index}][icon_image]`;
+
+                const removeIconInput = card.querySelector('input[name*="[remove_icon_image]"]');
+                if (removeIconInput) removeIconInput.name = `items[${index}][remove_icon_image]`;
+            });
+        }
+
+        function addContactCard() {
+            const container = document.getElementById('contacts-container');
+            const newIndex = container.querySelectorAll('.contact-card-item').length;
+
+            const cardHtml = `
             <div class="contact-card-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs"
                 data-index="${newIndex}">
                 <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer"
@@ -496,41 +503,71 @@
                             class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                     </div>
 
-                    <div class="space-y-3 pt-2 border-t border-slate-100">
-                        <label class="block text-xs font-semibold text-slate-700">Ikon Kontak (Pilih Simbol atau Unggah Gambar)</label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <!-- Lucide Icon Picker -->
-                            <div class="flex items-center gap-3 p-3 bg-gray-50/80 rounded-xl border border-gray-200/80">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
-                                    <i data-lucide="help-circle" class="w-5 h-5 selected-icon-preview"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <input type="hidden" name="items[${newIndex}][icon_name]" value="" class="selected-icon-input">
-                                    <div class="text-xs font-bold text-slate-800 selected-icon-name truncate">Belum dipilih</div>
-                                    <div class="text-[10px] text-slate-400">Pilih simbol ikon</div>
-                                </div>
-                                <button type="button" onclick="openIconPickerModal(this)"
-                                    class="px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors cursor-pointer shrink-0">
-                                    Pilih
+                    <!-- Icon Picker Component (Lucide + Upload) -->
+                    <div class="icon-picker-component">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+                            Ikon Kontak (Pilih Simbol atau Unggah Gambar)
+                        </label>
+                        <input type="hidden" name="items[${newIndex}][icon_name]" class="icon-picker-input card-icon-name-input" value="">
+                        <input type="hidden" name="items[${newIndex}][remove_icon_image]" value="0" class="icon-remove-flag card-remove-icon-flag">
+                        <div class="flex items-start gap-3">
+                            <!-- Lucide Picker Trigger Button -->
+                            <div class="flex-1">
+                                <button type="button" onclick="openIconPicker(this)" data-placeholder="Pilih Icon Lucide..."
+                                    class="icon-picker-trigger w-full flex items-center gap-2.5 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-600 hover:border-emerald-400 hover:bg-emerald-50/30 transition-all cursor-pointer">
+                                    <span class="icon-picker-preview w-5 h-5 text-slate-400 flex items-center justify-center shrink-0">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="icon-picker-label flex-1 text-left truncate text-slate-600">
+                                        Pilih Icon Lucide...
+                                    </span>
+                                    <span class="icon-picker-clear hidden text-rose-400 hover:text-rose-600 p-0.5 rounded transition-colors"
+                                          onclick="event.stopPropagation(); clearSelectedIcon(this)" title="Hapus Icon">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </span>
                                 </button>
                             </div>
 
-                            <!-- Upload Icon Custom -->
-                            <div class="p-3 bg-gray-50/80 rounded-xl border border-gray-200/80 flex flex-col justify-center">
-                                <label class="text-[11px] font-medium text-slate-600 mb-1">Atau Unggah Gambar / Logo (Opsional)</label>
-                                <input type="file" name="items[${newIndex}][icon_image]" accept="image/*,.svg"
-                                    class="text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                            <!-- Upload Custom Icon / Image Zone -->
+                            <div class="flex-1">
+                                <div class="icon-upload-zone border border-dashed border-gray-200 hover:border-emerald-400 rounded-xl px-3.5 py-2.5 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-emerald-50/30"
+                                     onclick="this.querySelector('.card-icon-image-input, .icon-image-input').click()">
+                                    <input type="file" name="items[${newIndex}][icon_image]"
+                                           accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+                                           onchange="handleIconImagePreview(this)"
+                                           class="card-icon-image-input icon-image-input hidden">
+                                    <div class="icon-upload-preview hidden flex items-center gap-2">
+                                        <img src="#" alt="Icon Preview" class="icon-upload-preview-img w-6 h-6 object-contain rounded">
+                                        <span class="text-xs text-slate-700 font-medium truncate flex-1">Custom Icon</span>
+                                        <button type="button" onclick="event.stopPropagation(); removeIconImage(this)" class="text-rose-400 hover:text-rose-600 p-0.5 shrink-0" title="Hapus Custom Image">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="icon-upload-placeholder flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                        </svg>
+                                        <span class="text-xs text-slate-500 truncate">Upload Custom</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <p class="text-[10px] text-slate-400 mt-1">Pilih icon Lucide atau upload gambar custom (PNG, SVG, maks 512KB).</p>
                     </div>
                 </div>
             </div>
         `;
 
-        container.insertAdjacentHTML('beforeend', cardHtml);
-        if (window.lucide) {
-            window.lucide.createIcons();
+            container.insertAdjacentHTML('beforeend', cardHtml);
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
         }
-    }
-</script>
+    </script>
 @endpush

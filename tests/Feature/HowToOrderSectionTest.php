@@ -35,7 +35,7 @@ class HowToOrderSectionTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Cara Pesan');
-        $response->assertSee('Buat Section Cara Pesan');
+        $response->assertSee('Tambah Panduan Baru');
     }
 
     public function test_admin_can_access_how_to_orders_create_page(): void
@@ -43,7 +43,7 @@ class HowToOrderSectionTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.how-to-orders.create'));
 
         $response->assertStatus(200);
-        $response->assertSee('Buat Section Cara Pesan');
+        $response->assertSee('Tambah Panduan Cara Pesan');
         $response->assertSee('Daftar Langkah (Steps)');
     }
 

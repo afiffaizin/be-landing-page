@@ -24,11 +24,22 @@
 @section('page_subtitle', 'Kelola informasi pengenalan dan kartu kegiatan program di halaman depan website. Anda dapat
     mengaktifkan 1 konten untuk ditampilkan kepada pengunjung.')
 @section('status_badge')
-    <span
-        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        1 Konten Aktif di Website
-    </span>
+    @php
+        $activeCount = $activeCount ?? \App\Models\AboutSection::where('is_active', true)->count();
+    @endphp
+    @if ($activeCount > 0)
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            {{ $activeCount }} Konten Aktif di Website
+        </span>
+    @else
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Belum Ada Konten Aktif
+        </span>
+    @endif
 @endsection
 
 @section('content')

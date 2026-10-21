@@ -23,24 +23,13 @@ class DatabaseSeeder extends Seeder
         $admin = User::updateOrCreate(
             ['email' => 'superadmin@admin.com'],
             [
-                'name' => 'Admin',
+                'name' => 'Super Admin',
                 'password' => Hash::make('admin123'),
                 'is_active' => true,
             ]
         );
 
         $admin->assignRole('super_admin');
-
-        $testAdmin = User::updateOrCreate(
-            ['email' => 'admin@admin.com'],
-            [
-                'name' => 'Admin',
-                'password' => Hash::make('password'),
-                'is_active' => true,
-            ]
-        );
-
-        $testAdmin->assignRole('super_admin');
 
         // Seed landing page content
         $this->call([

@@ -53,7 +53,7 @@
                             "{{ $section->title }}"
                         </h2>
                         <p class="text-xs text-slate-500 mt-0.5">
-                            Judul utama section yang tampil pada slider ulasan landing page.
+                           Judul ulasan pembeli yang tampil di halaman depan website.
                         </p>
                     </div>
                 </div>

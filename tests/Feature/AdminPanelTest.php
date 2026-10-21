@@ -101,6 +101,33 @@ class AdminPanelTest extends TestCase
             ->assertSee('3 Poin Pilar');
     }
 
+    public function test_home_sections_index_displays_correct_badge_when_no_active_banner(): void
+    {
+        HomeSection::query()->delete();
+
+        $response = $this->actingAs($this->user)->get(route('admin.home-sections.index'));
+
+        $response->assertStatus(200)
+            ->assertSee('Belum Ada Banner Aktif')
+            ->assertDontSee('1 Banner Aktif Utama');
+    }
+
+    public function test_home_sections_index_displays_correct_badge_when_active_banner_exists(): void
+    {
+        HomeSection::query()->delete();
+        HomeSection::create([
+            'title' => 'Banner Aktif',
+            'description' => 'Deskripsi banner',
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('admin.home-sections.index'));
+
+        $response->assertStatus(200)
+            ->assertSee('1 Banner Aktif Utama')
+            ->assertDontSee('Belum Ada Banner Aktif');
+    }
+
     public function test_authenticated_user_can_create_home_section(): void
     {
         $file = UploadedFile::fake()->image('hero.jpg');

@@ -33,7 +33,7 @@ class ContactSectionTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Section Kontak');
-        $response->assertSee('Buat Section Kontak Baru');
+        $response->assertSee('Buat Kontak Baru');
     }
 
     public function test_admin_can_access_contact_sections_create_page(): void
@@ -41,7 +41,7 @@ class ContactSectionTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('admin.contact-sections.create'));
 
         $response->assertStatus(200);
-        $response->assertSee('Buat Section Kontak Baru');
+        $response->assertSee('Buat Kontak Baru');
         $response->assertSee('Konten Utama Section');
     }
 

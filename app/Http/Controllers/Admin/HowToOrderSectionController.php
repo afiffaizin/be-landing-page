@@ -32,8 +32,9 @@ class HowToOrderSectionController extends Controller
         }
 
         $howToOrderSections = $query->paginate(10)->withQueryString();
+        $activeCount = HowToOrderSection::where('is_active', true)->count();
 
-        return view('admin.how-to-order.index', compact('howToOrderSections'));
+        return view('admin.how-to-order.index', compact('howToOrderSections', 'activeCount'));
     }
 
     public function create(): View

@@ -23,11 +23,22 @@
 @section('page_headline', 'Daftar Panduan Cara Pesan')
 @section('page_subtitle', 'Kelola informasi alur dan langkah pemesanan produk di halaman depan website.')
 @section('status_badge')
-    <span
-        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        {{ \App\Models\HowToOrderSection::where('is_active', true)->count() }} Panduan Sedang Aktif
-    </span>
+    @php
+        $activeCount = $activeCount ?? \App\Models\HowToOrderSection::where('is_active', true)->count();
+    @endphp
+    @if ($activeCount > 0)
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            {{ $activeCount }} Panduan Sedang Aktif
+        </span>
+    @else
+        <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Belum Ada Panduan Aktif
+        </span>
+    @endif
 @endsection
 
 @section('content')

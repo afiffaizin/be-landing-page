@@ -351,7 +351,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>+ Tambah Produk Baru ke Daftar</span>
+                        <span>Tambah Produk Baru ke Daftar</span>
                     </button>
                 </div>
 

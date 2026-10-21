@@ -38,8 +38,9 @@ class ContactSectionController extends Controller
         }
 
         $contactSections = $query->paginate(10)->withQueryString();
+        $activeCount = ContactSection::where('is_active', true)->count();
 
-        return view('admin.contact-section.index', compact('contactSections'));
+        return view('admin.contact-section.index', compact('contactSections', 'activeCount'));
     }
 
     /**

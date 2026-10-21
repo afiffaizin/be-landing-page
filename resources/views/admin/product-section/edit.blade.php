@@ -37,7 +37,8 @@
 @endsection
 
 @section('page_headline', 'Edit Konten Produk')
-@section('page_subtitle', 'Kelola informasi judul katalog, penjelasan singkat, nomor WhatsApp pemesanan, serta daftar rincian produk desa.')
+@section('page_subtitle', 'Kelola informasi judul katalog, penjelasan singkat, nomor WhatsApp pemesanan, serta daftar
+    rincian produk desa.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $productSection->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-slate-100 text-slate-700 border border-slate-200/60' }}">
@@ -71,7 +72,8 @@
                         </div>
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Konten Utama Katalog Produk</h3>
-                            <p class="text-xs text-slate-500">Kelola judul katalog dan narasi pengantar produk desa di halaman depan.</p>
+                            <p class="text-xs text-slate-500">Kelola judul katalog dan narasi pengantar produk desa di
+                                halaman depan.</p>
                         </div>
                     </div>
 
@@ -108,7 +110,8 @@
                                 placeholder="Contoh: 081234567890 atau 6281234567890"
                                 class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                             <p class="text-[11px] text-slate-500 mt-1.5">
-                                Nomor WhatsApp petugas yang akan dihubungi pembeli saat menekan tombol pesan. Berlaku untuk seluruh produk di bawah ini.
+                                Nomor WhatsApp petugas yang akan dihubungi pembeli saat menekan tombol pesan. Berlaku untuk
+                                seluruh produk di bawah ini.
                             </p>
                         </div>
 
@@ -141,15 +144,18 @@
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Daftar Produk / Katalog</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap produk berisi nama produk, harga, keunggulan, deskripsi singkat, rincian lengkap, dan foto produk.</p>
+                                <p class="text-xs text-slate-500">Setiap produk berisi nama produk, harga, keunggulan,
+                                    deskripsi singkat, rincian lengkap, dan foto produk.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-semibold">
                             <button type="button" onclick="collapseAllproducts()"
-                                class="text-slate-600 hover:text-emerald-700 hover:underline cursor-pointer">Tutup Semua Rincian</button>
+                                class="text-slate-600 hover:text-emerald-700 hover:underline cursor-pointer">Tutup Semua
+                                Rincian</button>
                             <span class="text-slate-300">|</span>
                             <button type="button" onclick="expandAllproducts()"
-                                class="text-slate-600 hover:text-emerald-700 hover:underline cursor-pointer">Buka Semua Rincian</button>
+                                class="text-slate-600 hover:text-emerald-700 hover:underline cursor-pointer">Buka Semua
+                                Rincian</button>
                         </div>
                     </div>
 
@@ -326,13 +332,16 @@
                                         <div class="flex items-center justify-between mb-2">
                                             <div>
                                                 <label class="block text-xs font-semibold text-slate-700">
-                                                    Detail Gambar Produk <span class="text-[11px] font-normal text-slate-400">(Maksimal 5 Gambar)</span>
+                                                    Detail Gambar Produk <span
+                                                        class="text-[11px] font-normal text-slate-400">(Maksimal 5
+                                                        Gambar)</span>
                                                 </label>
                                                 <p class="text-[11px] text-slate-400 mt-0.5">
                                                     Unggah foto detail, varian, atau rincian tambahan untuk produk ini.
                                                 </p>
                                             </div>
-                                            <span class="product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full {{ $product->detailImages->count() >= 5 ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-100 text-slate-600 border border-slate-200' }}">
+                                            <span
+                                                class="product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full {{ $product->detailImages->count() >= 5 ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-100 text-slate-600 border border-slate-200' }}">
                                                 {{ $product->detailImages->count() }} / 5 Gambar
                                             </span>
                                         </div>
@@ -342,21 +351,28 @@
 
                                         <!-- Grid Preview Detail Images (Existing + New) -->
                                         <div class="product-detail-images-grid grid grid-cols-2 sm:grid-cols-5 gap-3 mb-3">
-                                            @foreach($product->detailImages as $dIdx => $detailImg)
+                                            @foreach ($product->detailImages as $dIdx => $detailImg)
                                                 <div class="existing-detail-image relative group aspect-square rounded-xl border border-slate-200 bg-slate-50 overflow-hidden shadow-2xs flex items-center justify-center"
-                                                     data-id="{{ $detailImg->id }}">
-                                                    <img src="{{ Storage::disk('public')->url($detailImg->image) }}" alt="Detail Image" class="w-full h-full object-cover">
-                                                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
+                                                    data-id="{{ $detailImg->id }}">
+                                                    <img src="{{ Storage::disk('public')->url($detailImg->image) }}"
+                                                        alt="Detail Image" class="w-full h-full object-cover">
+                                                    <div
+                                                        class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
                                                         <button type="button"
-                                                                onclick="removeExistingDetailImage(this, {{ $detailImg->id }})"
-                                                                class="p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow-sm transition-transform transform hover:scale-110 cursor-pointer"
-                                                                title="Hapus Foto">
-                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                            onclick="removeExistingDetailImage(this, {{ $detailImg->id }})"
+                                                            class="p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow-sm transition-transform transform hover:scale-110 cursor-pointer"
+                                                            title="Hapus Foto">
+                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                                </path>
                                                             </svg>
                                                         </button>
                                                     </div>
-                                                    <span class="absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/60 text-white backdrop-blur-xs">
+                                                    <span
+                                                        class="absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/60 text-white backdrop-blur-xs">
                                                         Foto {{ $dIdx + 1 }}
                                                     </span>
                                                 </div>
@@ -364,19 +380,18 @@
                                         </div>
 
                                         <!-- File input for detail images -->
-                                        <input type="file"
-                                               name="products[{{ $idx }}][detail_images][]"
-                                               multiple
-                                               accept="image/png,image/jpeg,image/jpg,image/webp"
-                                               onchange="handleDetailImagesSelected(this)"
-                                               class="product-detail-images-input hidden">
+                                        <input type="file" name="products[{{ $idx }}][detail_images][]"
+                                            multiple accept="image/png,image/jpeg,image/jpg,image/webp"
+                                            onchange="handleDetailImagesSelected(this)"
+                                            class="product-detail-images-input hidden">
 
                                         <!-- Add button trigger -->
-                                        <button type="button"
-                                                onclick="triggerDetailImageUpload(this)"
-                                                class="product-detail-images-add-trigger {{ $product->detailImages->count() >= 5 ? 'hidden' : '' }} w-full py-2.5 px-3 border border-dashed border-gray-300 hover:border-emerald-500 rounded-xl bg-gray-50/60 hover:bg-emerald-50/40 text-slate-600 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
-                                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        <button type="button" onclick="triggerDetailImageUpload(this)"
+                                            class="product-detail-images-add-trigger {{ $product->detailImages->count() >= 5 ? 'hidden' : '' }} w-full py-2.5 px-3 border border-dashed border-gray-300 hover:border-emerald-500 rounded-xl bg-gray-50/60 hover:bg-emerald-50/40 text-slate-600 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 4v16m8-8H4"></path>
                                             </svg>
                                             <span>Tambah Detail Gambar</span>
                                         </button>
@@ -516,7 +531,8 @@
                                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                                                     </path>
                                                 </svg>
-                                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar utama untuk
+                                                <p class="text-xs font-medium text-slate-700">Klik atau seret gambar utama
+                                                    untuk
                                                     produk ini</p>
                                                 <p class="text-[10px] text-slate-400 mt-0.5">Format: PNG, JPG, WEBP • Maks
                                                     2MB</p>
@@ -531,13 +547,16 @@
                                         <div class="flex items-center justify-between mb-2">
                                             <div>
                                                 <label class="block text-xs font-semibold text-slate-700">
-                                                    Detail Gambar Produk <span class="text-[11px] font-normal text-slate-400">(Maksimal 5 Gambar)</span>
+                                                    Detail Gambar Produk <span
+                                                        class="text-[11px] font-normal text-slate-400">(Maksimal 5
+                                                        Gambar)</span>
                                                 </label>
                                                 <p class="text-[11px] text-slate-400 mt-0.5">
                                                     Unggah foto detail, varian, atau rincian tambahan untuk produk ini.
                                                 </p>
                                             </div>
-                                            <span class="product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                                            <span
+                                                class="product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
                                                 0 / 5 Gambar
                                             </span>
                                         </div>
@@ -545,22 +564,22 @@
                                         <div class="removed-detail-images-container"></div>
 
                                         <!-- Grid Preview Detail Images -->
-                                        <div class="product-detail-images-grid grid grid-cols-2 sm:grid-cols-5 gap-3 mb-3"></div>
+                                        <div class="product-detail-images-grid grid grid-cols-2 sm:grid-cols-5 gap-3 mb-3">
+                                        </div>
 
                                         <!-- File input for detail images -->
-                                        <input type="file"
-                                               name="products[0][detail_images][]"
-                                               multiple
-                                               accept="image/png,image/jpeg,image/jpg,image/webp"
-                                               onchange="handleDetailImagesSelected(this)"
-                                               class="product-detail-images-input hidden">
+                                        <input type="file" name="products[0][detail_images][]" multiple
+                                            accept="image/png,image/jpeg,image/jpg,image/webp"
+                                            onchange="handleDetailImagesSelected(this)"
+                                            class="product-detail-images-input hidden">
 
                                         <!-- Add button trigger -->
-                                        <button type="button"
-                                                onclick="triggerDetailImageUpload(this)"
-                                                class="product-detail-images-add-trigger w-full py-2.5 px-3 border border-dashed border-gray-300 hover:border-emerald-500 rounded-xl bg-gray-50/60 hover:bg-emerald-50/40 text-slate-600 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
-                                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        <button type="button" onclick="triggerDetailImageUpload(this)"
+                                            class="product-detail-images-add-trigger w-full py-2.5 px-3 border border-dashed border-gray-300 hover:border-emerald-500 rounded-xl bg-gray-50/60 hover:bg-emerald-50/40 text-slate-600 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 4v16m8-8H4"></path>
                                             </svg>
                                             <span>Tambah Detail Gambar</span>
                                         </button>
@@ -577,7 +596,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>+ Tambah Produk Baru ke Daftar</span>
+                        <span>Tambah Produk Baru ke Daftar</span>
                     </button>
                 </div>
 
@@ -612,7 +631,8 @@
                                     {{ $productSection->is_active ? 'Aktif' : 'Draf' }}
                                 </span>
                             </div>
-                            <p class="text-[11px] text-slate-500 mt-0.5">Tentukan apakah produk langsung tampil atau disimpan sementara.</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Tentukan apakah produk langsung tampil atau
+                                disimpan sementara.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1"
@@ -634,7 +654,9 @@
                             </svg>
                             <div>
                                 <span class="font-bold block text-emerald-900">Hanya 1 Katalog Produk Aktif</span>
-                                <p class="text-[11px] text-emerald-800 mt-0.5">Halaman depan website menampilkan 1 katalog produk aktif. Saat bagian ini diaktifkan, katalog produk lain otomatis disimpan sebagai <strong>Draf</strong>.
+                                <p class="text-[11px] text-emerald-800 mt-0.5">Halaman depan website menampilkan 1 katalog
+                                    produk aktif. Saat bagian ini diaktifkan, katalog produk lain otomatis disimpan sebagai
+                                    <strong>Draf</strong>.
                                 </p>
                             </div>
                         </div>
@@ -1188,7 +1210,8 @@
 
             files.forEach((file, fIdx) => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'new-detail-image-preview relative group aspect-square rounded-xl border border-slate-200 bg-slate-50 overflow-hidden shadow-2xs flex items-center justify-center';
+                itemDiv.className =
+                    'new-detail-image-preview relative group aspect-square rounded-xl border border-slate-200 bg-slate-50 overflow-hidden shadow-2xs flex items-center justify-center';
                 itemDiv.setAttribute('data-fidx', fIdx);
 
                 const img = document.createElement('img');
@@ -1196,20 +1219,24 @@
                 img.src = URL.createObjectURL(file);
 
                 const overlay = document.createElement('div');
-                overlay.className = 'absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5';
+                overlay.className =
+                    'absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5';
 
                 const delBtn = document.createElement('button');
                 delBtn.type = 'button';
-                delBtn.className = 'p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow-sm transition-transform transform hover:scale-110 cursor-pointer';
+                delBtn.className =
+                    'p-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow-sm transition-transform transform hover:scale-110 cursor-pointer';
                 delBtn.title = 'Hapus Foto';
-                delBtn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>`;
+                delBtn.innerHTML =
+                    `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>`;
                 delBtn.onclick = function(e) {
                     e.stopPropagation();
                     removeNewDetailImage(productItem, pIndex, fIdx);
                 };
 
                 const badge = document.createElement('span');
-                badge.className = 'absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/60 text-white backdrop-blur-xs';
+                badge.className =
+                    'absolute top-1 left-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-black/60 text-white backdrop-blur-xs';
                 badge.innerText = 'Foto ' + (existingCount + fIdx + 1);
 
                 overlay.appendChild(delBtn);
@@ -1239,9 +1266,11 @@
             if (counter) {
                 counter.innerText = total + ' / 5 Gambar';
                 if (total >= 5) {
-                    counter.className = 'product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200';
+                    counter.className =
+                        'product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200';
                 } else {
-                    counter.className = 'product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200';
+                    counter.className =
+                        'product-detail-images-counter text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200';
                 }
             }
 

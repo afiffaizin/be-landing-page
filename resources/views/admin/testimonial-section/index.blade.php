@@ -53,7 +53,7 @@
                             "{{ $section->title }}"
                         </h2>
                         <p class="text-xs text-slate-500 mt-0.5">
-                           Judul ulasan pembeli yang tampil di halaman depan website.
+                            Judul ulasan pembeli yang tampil di halaman depan website.
                         </p>
                     </div>
                 </div>
@@ -327,7 +327,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>+ Tambah Baris Ulasan Baru</span>
+                        <span>Tambah Baris Ulasan Baru</span>
                     </button>
                     <span id="batchCountBadge"
                         class="text-xs font-medium text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-lg">

@@ -34,8 +34,9 @@ class HomeSectionController extends Controller
         }
 
         $homeSections = $query->paginate(10)->withQueryString();
+        $activeCount = HomeSection::where('is_active', true)->count();
 
-        return view('admin.home-section.index', compact('homeSections'));
+        return view('admin.home-section.index', compact('homeSections', 'activeCount'));
     }
 
     /**

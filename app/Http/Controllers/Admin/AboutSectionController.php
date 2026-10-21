@@ -35,8 +35,9 @@ class AboutSectionController extends Controller
         }
 
         $aboutSections = $query->paginate(10)->withQueryString();
+        $activeCount = AboutSection::where('is_active', true)->count();
 
-        return view('admin.about-section.index', compact('aboutSections'));
+        return view('admin.about-section.index', compact('aboutSections', 'activeCount'));
     }
 
     /**

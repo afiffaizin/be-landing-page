@@ -38,14 +38,16 @@
 @section('page_headline', 'Ubah Panduan Cara Pesan')
 @section('page_subtitle', 'Perbarui informasi judul, penjelasan, serta langkah-langkah pemesanan.')
 @section('status_badge')
-    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200/60">
+    <span
+        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200/60">
         <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
         Sedang Mengubah Data
     </span>
 @endsection
 
 @section('content')
-    <form action="{{ route('admin.how-to-orders.update', $howToOrder) }}" method="POST" id="howToOrderForm" enctype="multipart/form-data">
+    <form action="{{ route('admin.how-to-orders.update', $howToOrder) }}" method="POST" id="howToOrderForm"
+        enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <input type="hidden" name="action" id="formAction" value="publish">
@@ -57,7 +59,8 @@
                 <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
                     <div class="border-b border-gray-100 bg-gray-50/50 px-5 py-4 flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 6h16M4 12h16M4 18h7">
@@ -76,7 +79,8 @@
                                     Judul Panduan <span class="text-rose-500">*</span>
                                 </label>
                                 <span id="title-counter"
-                                    class="text-[11px] text-slate-400 font-mono">{{ strlen(old('title', $howToOrder->title)) }} / 255 Karakter</span>
+                                    class="text-[11px] text-slate-400 font-mono">{{ strlen(old('title', $howToOrder->title)) }}
+                                    / 255 Karakter</span>
                             </div>
                             <input type="text" id="title" name="title"
                                 value="{{ old('title', $howToOrder->title) }}" required maxlength="255"
@@ -114,7 +118,8 @@
                                 <label for="button_text" class="block text-xs font-bold text-slate-700 mb-2">
                                     Tulisan pada Tombol (Pilihan)
                                 </label>
-                                <input type="text" id="button_text" name="button_text" value="{{ old('button_text', $howToOrder->button_text) }}"
+                                <input type="text" id="button_text" name="button_text"
+                                    value="{{ old('button_text', $howToOrder->button_text) }}"
                                     placeholder="Contoh: Pesan Sekarang Lewat WhatsApp" maxlength="255"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                                 <p class="text-[11px] text-slate-400 mt-1.5">
@@ -125,7 +130,8 @@
                                 <label for="button_link" class="block text-xs font-bold text-slate-700 mb-2">
                                     Tautan Tombol (Link WhatsApp / Web)
                                 </label>
-                                <input type="text" id="button_link" name="button_link" value="{{ old('button_link', $howToOrder->button_link) }}"
+                                <input type="text" id="button_link" name="button_link"
+                                    value="{{ old('button_link', $howToOrder->button_link) }}"
                                     placeholder="Contoh: https://wa.me/6281234567890" maxlength="255"
                                     class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                             </div>
@@ -137,7 +143,8 @@
                 <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
                     <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
@@ -146,7 +153,8 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-slate-800 text-sm">Daftar Langkah (Steps)</h3>
-                                <p class="text-[11px] text-slate-500 mt-0.5">Urutan langkah akan tampil dari atas ke bawah</p>
+                                <p class="text-[11px] text-slate-500 mt-0.5">Urutan langkah akan tampil dari atas ke bawah
+                                </p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
@@ -169,33 +177,39 @@
                                     <!-- Step Item -->
                                     <div class="step-item rounded-xl border border-slate-200 bg-slate-50/40 overflow-hidden transition-all shadow-2xs"
                                         data-index="{{ $idx }}">
-                                        
-                                        @if(isset($step['id']))
-                                            <input type="hidden" name="steps[{{ $idx }}][id]" value="{{ $step['id'] }}">
+
+                                        @if (isset($step['id']))
+                                            <input type="hidden" name="steps[{{ $idx }}][id]"
+                                                value="{{ $step['id'] }}">
                                         @endif
 
                                         <!-- Step Item Header -->
                                         <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer"
                                             onclick="toggleStepAccordion(this)">
                                             <div class="flex items-center gap-2.5">
-                                                <span class="step-number w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">{{ $idx + 1 }}</span>
-                                                <span class="step-header-title text-xs font-bold text-slate-800">{{ $step['title'] ?? 'Langkah Baru' }}</span>
+                                                <span
+                                                    class="step-number w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">{{ $idx + 1 }}</span>
+                                                <span
+                                                    class="step-header-title text-xs font-bold text-slate-800">{{ $step['title'] ?? 'Langkah Baru' }}</span>
                                             </div>
                                             <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                                                 <button type="button" onclick="removeStep(this)" title="Hapus Langkah"
                                                     class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                                                         </path>
                                                     </svg>
                                                 </button>
-                                                <button type="button" onclick="toggleStepAccordion(this.parentElement.parentElement)"
+                                                <button type="button"
+                                                    onclick="toggleStepAccordion(this.parentElement.parentElement)"
                                                     class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition-colors cursor-pointer">
                                                     <svg class="w-4 h-4 step-accordion-icon transform transition-transform"
                                                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M19 9l-7 7-7-7"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                                     </svg>
                                                 </button>
                                             </div>
@@ -216,15 +230,20 @@
                                             </div>
 
                                             <!-- Icon Selection -->
-                                            <x-form.icon-picker
-                                                name="steps[{{ $idx }}][icon_name]"
-                                                :value="old('steps.' . $idx . '.icon_name', $step['icon_name'] ?? null)"
-                                                label="Ikon Langkah (Pilih Ikon atau Unggah Sendiri)"
-                                                :with-upload="true"
-                                                upload-name="steps[{{ $idx }}][icon_image]"
-                                                :upload-value="isset($step['icon_image_url']) ? $step['icon_image_url'] : (isset($step['icon_image']) ? \Illuminate\Support\Facades\Storage::disk('public')->url($step['icon_image']) : null)"
-                                                remove-name="steps[{{ $idx }}][remove_icon_image]"
-                                            />
+                                            <x-form.icon-picker name="steps[{{ $idx }}][icon_name]"
+                                                :value="old(
+                                                    'steps.' . $idx . '.icon_name',
+                                                    $step['icon_name'] ?? null,
+                                                )" label="Ikon Langkah (Pilih Ikon atau Unggah Sendiri)"
+                                                :with-upload="true" upload-name="steps[{{ $idx }}][icon_image]"
+                                                :upload-value="isset($step['icon_image_url'])
+                                                    ? $step['icon_image_url']
+                                                    : (isset($step['icon_image'])
+                                                        ? \Illuminate\Support\Facades\Storage::disk('public')->url(
+                                                            $step['icon_image'],
+                                                        )
+                                                        : null)"
+                                                remove-name="steps[{{ $idx }}][remove_icon_image]" />
 
                                             <!-- Deskripsi Step -->
                                             <div>
@@ -252,18 +271,21 @@
                                 </svg>
                             </div>
                             <h4 class="text-sm font-bold text-slate-700">Belum Ada Langkah Pemesanan</h4>
-                            <p class="text-[11px] text-slate-500 mt-1 max-w-xs mx-auto">Klik tombol "+ Tambah Langkah Baru" di bawah
+                            <p class="text-[11px] text-slate-500 mt-1 max-w-xs mx-auto">Klik tombol "Tambah Langkah Baru"
+                                di bawah
                                 untuk mulai menyusun panduan pemesanan.</p>
                         </div>
-                        
+
                         <!-- Add Button -->
                         <button type="button" id="add-step-btn"
                             class="mt-5 w-full py-3 border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/30 hover:bg-emerald-50/80 rounded-xl text-xs font-bold text-emerald-800 hover:text-emerald-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
-                            <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
+                            <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M12 4v16m8-8H4">
                                 </path>
                             </svg>
-                            <span>+ Tambah Langkah Baru</span>
+                            <span>Tambah Langkah Baru</span>
                         </button>
                     </div>
                 </div>
@@ -295,11 +317,13 @@
                                 <span id="status-badge"
                                     class="px-2 py-0.5 rounded text-[10px] font-bold {{ $howToOrder->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-200 text-slate-700' }}">{{ $howToOrder->is_active ? 'Aktif' : 'Draf' }}</span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Pilih apakah langsung aktif di website atau disimpan sementara.</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Pilih apakah langsung aktif di website atau
+                                disimpan sementara.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" name="is_active" id="is_active_toggle" value="1" {{ $howToOrder->is_active ? 'checked' : '' }}
-                                onchange="toggleStatusBadge(this)" class="sr-only peer">
+                            <input type="checkbox" name="is_active" id="is_active_toggle" value="1"
+                                {{ $howToOrder->is_active ? 'checked' : '' }} onchange="toggleStatusBadge(this)"
+                                class="sr-only peer">
                             <div
                                 class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600">
                             </div>
@@ -316,7 +340,9 @@
                             </svg>
                             <div>
                                 <span class="font-bold block text-emerald-900">Aturan Penayangan Website</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Hanya 1 panduan Cara Pesan yang dapat aktif di website. Saat panduan ini diaktifkan, panduan sebelumnya otomatis dijadikan <strong>Draf</strong>.</p>
+                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Hanya 1 panduan Cara Pesan yang dapat
+                                    aktif di website. Saat panduan ini diaktifkan, panduan sebelumnya otomatis dijadikan
+                                    <strong>Draf</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -325,8 +351,11 @@
                         <div class="flex justify-between items-start text-slate-500">
                             <span>Terakhir Diperbarui:</span>
                             <div class="text-right">
-                                <span class="text-slate-700 font-medium">{{ $howToOrder->updated_at->translatedFormat('d M Y, H:i') }} WIB</span>
-                                <span class="text-[11px] text-slate-400 block">({{ $howToOrder->updated_at->diffForHumans() }})</span>
+                                <span
+                                    class="text-slate-700 font-medium">{{ $howToOrder->updated_at->translatedFormat('d M Y, H:i') }}
+                                    WIB</span>
+                                <span
+                                    class="text-[11px] text-slate-400 block">({{ $howToOrder->updated_at->diffForHumans() }})</span>
                             </div>
                         </div>
                     </div>
@@ -364,12 +393,10 @@
 
 @push('scripts')
     <script>
-
-
         // ─── FORM SUBMIT ────────────────────────────────────────────────
         function submitWithAction(action) {
             document.getElementById('formAction').value = action;
-            
+
             const toggle = document.getElementById('is_active_toggle');
             const badge = document.getElementById('status-badge');
             if (action === 'draft') {
@@ -385,7 +412,7 @@
                     badge.innerText = 'Aktif';
                 }
             }
-            
+
             document.getElementById('howToOrderForm').submit();
         }
 
@@ -413,9 +440,9 @@
             const items = stepsContainer.querySelectorAll('.step-item');
             items.forEach((item, index) => {
                 const numberEl = item.querySelector('.step-number');
-                if(numberEl) numberEl.textContent = index + 1;
+                if (numberEl) numberEl.textContent = index + 1;
             });
-            if(items.length > 0) {
+            if (items.length > 0) {
                 emptySteps.classList.add('hidden');
                 emptySteps.classList.remove('flex');
             } else {
@@ -438,7 +465,7 @@
             const item = headerElem.closest('.step-item');
             const body = item.querySelector('.step-body');
             const icon = item.querySelector('.step-accordion-icon');
-            
+
             if (body.style.display === 'none') {
                 body.style.display = 'block';
                 icon.style.transform = 'rotate(0deg)';
@@ -564,12 +591,12 @@
 
             stepsContainer.insertAdjacentHTML('beforeend', template);
             const newItem = stepsContainer.lastElementChild;
-            
+
             // Trigger reflow for animation
             void newItem.offsetWidth;
             newItem.style.opacity = '1';
             newItem.style.transform = 'translateY(0)';
-            
+
             stepIndex++;
             updateStepNumbers();
         });

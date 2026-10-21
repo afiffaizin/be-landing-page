@@ -11,12 +11,12 @@
 @section('page_title', 'Profil Saya')
 
 @section('page_headline', 'Kelola Informasi Akun')
-@section('page_subtitle', 'Ubah data profil dan password akun Anda.')
+@section('page_subtitle', 'Ubah data profil dan kata sandi akun Anda.')
 
 @section('content')
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-    <!-- KOLOM KIRI: Profil & Password -->
+    <!-- KOLOM KIRI: Profil & Kata Sandi -->
     <div class="lg:col-span-8 space-y-6">
 
         <!-- CARD 1: Informasi Profil -->
@@ -65,7 +65,7 @@
             </div>
         </form>
 
-        <!-- CARD 2: Ganti Password -->
+        <!-- CARD 2: Ubah Kata Sandi -->
         <form action="{{ route('admin.profile.update-password') }}" method="POST">
             @csrf
             @method('PUT')
@@ -78,32 +78,32 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Ganti Password</h3>
-                        <p class="text-xs text-slate-500">Perbarui password akun Anda. Pastikan menggunakan password yang kuat.</p>
+                        <h3 class="text-base font-bold text-slate-900">Ubah Kata Sandi</h3>
+                        <p class="text-xs text-slate-500">Ganti kata sandi secara berkala demi keamanan akun Anda. Gunakan minimal 8 karakter yang aman dan sulit ditebak orang lain.</p>
                     </div>
                 </div>
 
                 <div class="space-y-5">
                     <div>
                         <label for="current_password" class="block text-xs font-bold text-slate-700 mb-2">
-                            Password Lama <span class="text-rose-500">*</span>
+                            Kata Sandi Saat Ini <span class="text-rose-500">*</span>
                         </label>
-                        <input type="password" id="current_password" name="current_password" required placeholder="Masukkan password saat ini"
+                        <input type="password" id="current_password" name="current_password" required placeholder="Masukkan kata sandi Anda saat ini"
                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label for="new_password" class="block text-xs font-bold text-slate-700 mb-2">
-                                Password Baru <span class="text-rose-500">*</span>
+                                Kata Sandi Baru <span class="text-rose-500">*</span>
                             </label>
                             <input type="password" id="new_password" name="new_password" required placeholder="Minimal 8 karakter"
                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         </div>
                         <div>
                             <label for="new_password_confirmation" class="block text-xs font-bold text-slate-700 mb-2">
-                                Konfirmasi Password <span class="text-rose-500">*</span>
+                                Ulangi Kata Sandi Baru <span class="text-rose-500">*</span>
                             </label>
-                            <input type="password" id="new_password_confirmation" name="new_password_confirmation" required placeholder="Ulangi password baru"
+                            <input type="password" id="new_password_confirmation" name="new_password_confirmation" required placeholder="Ketik ulang kata sandi baru Anda"
                                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                         </svg>
-                        <span>Perbarui Password</span>
+                        <span>Simpan Kata Sandi Baru</span>
                     </button>
                 </div>
             </div>

@@ -42,7 +42,7 @@ class ProfileTest extends TestCase
         $response->assertStatus(200)
             ->assertSee('Profil Saya')
             ->assertSee('Informasi Profil')
-            ->assertSee('Ganti Password')
+            ->assertSee('Ubah Kata Sandi')
             ->assertSee($this->user->name)
             ->assertSee($this->user->email);
     }

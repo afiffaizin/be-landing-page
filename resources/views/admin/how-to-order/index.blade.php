@@ -3,7 +3,7 @@
 @section('title', 'Cara Pesan')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Halaman Depan</a>
     <span>/</span>
     <span class="text-slate-800">Cara Pesan</span>
 @endsection
@@ -16,12 +16,12 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>Buat Section Cara Pesan</span>
+        <span>Tambah Panduan Baru</span>
     </a>
 @endsection
 
 @section('page_headline', 'Daftar Panduan Cara Pesan')
-@section('page_subtitle', 'Kelola informasi alur dan langkah pemesanan produk di landing page.')
+@section('page_subtitle', 'Kelola informasi alur dan langkah pemesanan produk di halaman depan website.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
@@ -169,9 +169,9 @@
                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                     </div>
-                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Section Cara Pesan</h4>
+                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Panduan Cara Pesan</h4>
                                     <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                                        Tambahkan section Cara Pesan pertama Anda untuk menjelaskan alur pemesanan di landing page.
+                                        Tambahkan panduan cara pesan pertama Anda agar pembeli memahami langkah-langkah pemesanan produk di website desa.
                                     </p>
                                     <a href="{{ route('admin.how-to-orders.create') }}"
                                         class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
@@ -179,7 +179,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
-                                        <span>Buat Section Cara Pesan</span>
+                                        <span>Tambah Panduan Baru</span>
                                     </a>
                                 </td>
                             </tr>

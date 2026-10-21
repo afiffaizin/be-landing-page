@@ -1,16 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Section Cara Pesan')
+@section('title', 'Ubah Panduan Cara Pesan')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Halaman Depan</a>
     <span>/</span>
     <a href="{{ route('admin.how-to-orders.index') }}" class="text-slate-500 hover:text-slate-900">Cara Pesan</a>
     <span>/</span>
-    <span class="text-slate-800">Edit Section</span>
+    <span class="text-slate-800">Ubah Panduan</span>
 @endsection
 
-@section('page_title', 'Edit Section Cara Pesan')
+@section('page_title', 'Ubah Panduan Cara Pesan')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">

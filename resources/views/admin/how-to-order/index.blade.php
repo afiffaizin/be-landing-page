@@ -3,12 +3,12 @@
 @section('title', 'Cara Pesan')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Halaman Depan</a>
     <span>/</span>
     <span class="text-slate-800">Cara Pesan</span>
 @endsection
 
-@section('page_title', 'Kelola Section Cara Pesan')
+@section('page_title', 'Kelola Cara Pesan')
 
 @section('header_actions')
     <a href="{{ route('admin.how-to-orders.create') }}"
@@ -16,17 +16,17 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>Buat Section Cara Pesan</span>
+        <span>Tambah Panduan Baru</span>
     </a>
 @endsection
 
-@section('page_headline', 'Daftar Section Cara Pesan')
-@section('page_subtitle', 'Kelola informasi cara pemesanan di landing page.')
+@section('page_headline', 'Daftar Panduan Cara Pesan')
+@section('page_subtitle', 'Kelola informasi alur dan langkah pemesanan produk di halaman depan website.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        {{ \App\Models\HowToOrderSection::where('is_active', true)->count() }} Section Aktif Utama
+        {{ \App\Models\HowToOrderSection::where('is_active', true)->count() }} Panduan Sedang Aktif
     </span>
 @endsection
 
@@ -40,7 +40,7 @@
                     <input type="text"
                            name="search"
                            value="{{ request('search') }}"
-                           placeholder="Cari judul atau isi deskripsi..."
+                           placeholder="Cari berdasarkan judul atau isi panduan..."
                            class="w-full pl-10 pr-4 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,11 +53,11 @@
                     <select name="status" onchange="this.form.submit()" class="w-full sm:w-auto py-2.5 px-3 pr-8 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 cursor-pointer">
                         <option value="">Semua Status</option>
                         <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Hanya Aktif</option>
-                        <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Hanya Draft</option>
+                        <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Hanya Draf</option>
                     </select>
 
                     <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <button type="submit" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-sm transition-all">
+                        <button type="submit" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-sm transition-all cursor-pointer">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
@@ -65,7 +65,7 @@
                         </button>
 
                         @if(request('search') || request('status'))
-                            <a href="{{ route('admin.how-to-orders.index') }}" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl transition-all" title="Reset Filter">
+                            <a href="{{ route('admin.how-to-orders.index') }}" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl transition-all" title="Hapus Filter Pencarian">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
@@ -84,8 +84,8 @@
                     <thead>
                         <tr
                             class="bg-gray-50/80 border-b border-gray-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                            <th class="py-3.5 px-5">Judul Section</th>
-                            <th class="py-3.5 px-5">Langkah (Steps)</th>
+                            <th class="py-3.5 px-5">Judul Panduan</th>
+                            <th class="py-3.5 px-5">Jumlah Langkah</th>
                             <th class="py-3.5 px-5 text-center">Status</th>
                             <th class="py-3.5 px-5">Terakhir Diperbarui</th>
                             <th class="py-3.5 px-5 text-right">Aksi</th>
@@ -116,11 +116,11 @@
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit"
-                                            title="{{ $section->is_active ? 'Klik untuk ubah menjadi Draft' : 'Klik untuk Publikasikan' }}"
+                                            title="{{ $section->is_active ? 'Klik untuk simpan sebagai draf' : 'Klik untuk tampilkan di website' }}"
                                             class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold transition-all cursor-pointer {{ $section->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100' : 'bg-gray-100 text-slate-600 border border-gray-200 hover:bg-gray-200' }}">
                                             <span
                                                 class="w-1.5 h-1.5 rounded-full {{ $section->is_active ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
-                                            {{ $section->is_active ? 'Aktif' : 'Draft' }}
+                                            {{ $section->is_active ? 'Aktif' : 'Draf' }}
                                         </button>
                                     </form>
                                 </td>
@@ -132,7 +132,7 @@
                                     <div class="flex items-center justify-end gap-1.5">
                                         <a href="{{ route('admin.how-to-orders.edit', $section) }}"
                                             class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
-                                            title="Edit Section">
+                                            title="Ubah Panduan">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
@@ -146,8 +146,8 @@
                                             @method('DELETE')
                                             <button type="button"
                                                 onclick="confirmDelete(document.getElementById('delete-form-{{ $section->id }}'))"
-                                                class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
-                                                title="Hapus Section">
+                                                class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                                                title="Hapus Panduan">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -169,10 +169,9 @@
                                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                     </div>
-                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Section Cara Pesan</h4>
+                                    <h4 class="text-sm font-bold text-slate-800">Belum Ada Panduan Cara Pesan</h4>
                                     <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                                        Tambahkan section Cara Pesan pertama Anda untuk menjelaskan alur pemesanan di landing
-                                        page.
+                                        Tambahkan panduan cara pesan pertama Anda agar pembeli memahami langkah-langkah pemesanan produk di website desa.
                                     </p>
                                     <a href="{{ route('admin.how-to-orders.create') }}"
                                         class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150">
@@ -180,7 +179,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
-                                        <span>Buat Section Baru</span>
+                                        <span>Tambah Panduan Baru</span>
                                     </a>
                                 </td>
                             </tr>

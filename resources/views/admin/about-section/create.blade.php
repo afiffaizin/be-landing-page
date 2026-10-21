@@ -3,20 +3,20 @@
 @section('title', 'Buat Konten Baru - Tentang Kami')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Halaman Depan</a>
     <span>/</span>
     <a href="{{ route('admin.about-sections.index') }}" class="text-slate-500 hover:text-slate-900">Tentang Kami</a>
     <span>/</span>
     <span class="text-slate-800">Buat Baru</span>
 @endsection
 
-@section('page_title', 'Kelola Tentang Kami')
+@section('page_title', 'Buat Konten Tentang Kami')
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
         <a href="{{ route('admin.about-sections.index') }}"
             class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors shrink-0">
-            Batalkan
+            Kembali
         </a>
         <button type="button" onclick="submitWithAction('draft')"
             class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer shrink-0">
@@ -24,27 +24,25 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
             </svg>
-            <span>Simpan Draft</span>
+            <span>Simpan Sebagai Draf</span>
         </button>
         <button type="button" onclick="submitWithAction('publish')"
             class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span>Publikasikan</span>
+            <span>Simpan & Tampilkan di Website</span>
         </button>
     </div>
 @endsection
 
 @section('page_headline', 'Buat Konten Tentang Kami')
-@section('page_subtitle',
-    'Kelola informasi judul, deskripsi utama tentang program, serta daftar kartu (cards)
-    kegiatan.')
+@section('page_subtitle', 'Tuliskan informasi pengenalan dan kartu kegiatan program untuk ditampilkan di halaman depan website.')
 @section('status_badge')
     <span
         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
         <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-        Status Section: Mode Edit Baru
+        Mode Tambah Baru
     </span>
 @endsection
 
@@ -70,9 +68,8 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Konten Utama Section</h3>
-                            <p class="text-xs text-slate-500">Kelola judul utama dan narasi deskripsi section tentang
-                                program.</p>
+                            <h3 class="text-base font-bold text-slate-900">Informasi Utama Tentang Kami</h3>
+                            <p class="text-xs text-slate-500">Tulis judul dan cerita ringkas mengenai latar belakang atau tujuan program.</p>
                         </div>
                     </div>
 
@@ -81,27 +78,27 @@
                         <div>
                             <div class="flex items-center justify-between mb-2">
                                 <label for="title" class="block text-xs font-bold text-slate-700">
-                                    Judul <span class="text-rose-500">*</span>
+                                    Judul Konten <span class="text-rose-500">*</span>
                                 </label>
                                 <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255 Karakter</span>
                             </div>
                             <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                                maxlength="255" placeholder="Contoh: Tentang Program Pengabdian"
+                                maxlength="255" placeholder="Contoh: Mengenal Lebih Dekat Pengabdian Masyarakat Kami"
                                 oninput="document.getElementById('title-counter').innerText = this.value.length + ' / 255 Karakter'"
                                 class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                             <p class="text-[11px] text-slate-400 mt-1.5">
-                                Gunakan judul yang jelas dan mencerminkan esensi program.
+                                Gunakan judul yang ramah, jelas, dan mudah dipahami pengunjung.
                             </p>
                         </div>
 
                         <!-- Deskripsi Rich Editor -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-2">
-                                Deskripsi <span class="text-rose-500">*</span>
+                                Deskripsi Lengkap <span class="text-rose-500">*</span>
                             </label>
-                            <x-form.rich-editor name="description" :value="old('description')" placeholder="Tulis latar belakang, visi, atau penjelasan rinci tentang program..." />
+                            <x-form.rich-editor name="description" :value="old('description')" placeholder="Tuliskan latar belakang, tujuan, atau manfaat kegiatan pengabdian ini..." />
                             <p class="text-[11px] text-slate-400 mt-1.5">
-                                Tulis latar belakang dan tujuan program secara lengkap.
+                                Tuliskan penjelasan tentang program dengan kalimat yang santun dan mudah dibaca.
                             </p>
                         </div>
                     </div>
@@ -120,17 +117,17 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <h3 class="text-base font-bold text-slate-900">Cards Program</h3>
+                                    <h3 class="text-base font-bold text-slate-900">Kartu Program & Kegiatan</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap card berisi judul, icon, dan deskripsi.</p>
+                                <p class="text-xs text-slate-500">Tambahkan poin-poin kegiatan atau keunggulan program (dilengkapi ikon dan penjelasan singkat).</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
                             <button type="button" onclick="collapseAllCards()"
-                                class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
+                                class="text-slate-500 hover:text-slate-900 underline">Tutup Semua Rincian</button>
                             <span class="text-slate-300">|</span>
                             <button type="button" onclick="expandAllCards()"
-                                class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
+                                class="text-slate-500 hover:text-slate-900 underline">Buka Semua Rincian</button>
                         </div>
                     </div>
 
@@ -145,10 +142,10 @@
                                 <div class="flex items-center gap-2.5">
                                     <span
                                         class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">1</span>
-                                    <span class="card-header-title text-xs font-bold text-slate-800">Card 1</span>
+                                    <span class="card-header-title text-xs font-bold text-slate-800">Kartu 1</span>
                                 </div>
                                 <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                                    <button type="button" onclick="removeCardItem(this)" title="Hapus Card"
+                                    <button type="button" onclick="removeCardItem(this)" title="Hapus Kartu"
                                         class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -172,10 +169,10 @@
                                 <!-- Judul Card -->
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                        Judul Card <span class="text-rose-500">*</span>
+                                        Judul Kartu Kegiatan <span class="text-rose-500">*</span>
                                     </label>
                                     <input type="text" name="cards[0][title]" value="{{ old('cards.0.title') }}"
-                                        required placeholder="Contoh: Pemberdayaan Masyarakat"
+                                        required placeholder="Contoh: Pemberdayaan Petani Lokal"
                                         oninput="updateCardHeaderTitle(this)"
                                         class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                 </div>
@@ -184,7 +181,7 @@
                                 <x-form.icon-picker
                                     name="cards[0][icon_name]"
                                     :value="old('cards.0.icon_name')"
-                                    label="Icon Card (Opsional)"
+                                    label="Ikon Kartu (Pilihan)"
                                     :with-upload="true"
                                     upload-name="cards[0][icon_image]"
                                     remove-name="cards[0][remove_icon_image]"
@@ -193,10 +190,10 @@
                                 <!-- Deskripsi Card -->
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                        Deskripsi Card <span class="text-rose-500">*</span>
+                                        Penjelasan Singkat <span class="text-rose-500">*</span>
                                     </label>
                                     <textarea name="cards[0][description]" rows="3" required
-                                        placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                        placeholder="Jelaskan secara ringkas kegiatan, fokus, atau manfaat pada poin ini..."
                                         class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">{{ old('cards.0.description') }}</textarea>
                                 </div>
                             </div>
@@ -210,7 +207,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>Tambah Card Baru</span>
+                        <span>+ Tambah Kartu Kegiatan Baru</span>
                     </button>
                 </div>
 
@@ -231,20 +228,19 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Visibilitas</h3>
-                            <p class="text-xs text-slate-500">Pengaturan status publikasi section.</p>
+                            <h3 class="text-base font-bold text-slate-900">Status Penayangan</h3>
+                            <p class="text-xs text-slate-500">Pilih apakah modul ini langsung tampil di website atau disimpan sebagai draf.</p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between py-2">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-slate-800">Status Section</span>
+                                <span class="text-xs font-bold text-slate-800">Tayangkan di Website?</span>
                                 <span id="status-badge"
-                                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
+                                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif di Website</span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah section ini langsung tampil atau
-                                draft.</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Jika aktif, pengunjung langsung dapat membaca modul ini.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1" checked
@@ -264,10 +260,8 @@
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <span class="font-bold block text-emerald-900">Kebijakan 1 Section Aktif</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 about section
-                                    yang aktif. Saat section ini dipublikasikan, section lama yang sedang aktif otomatis
-                                    dijadikan <strong>Draft</strong>.</p>
+                                <span class="font-bold block text-emerald-900">Kebijakan 1 Konten Aktif</span>
+                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Halaman depan website menampilkan 1 konten Tentang Kami aktif. Saat konten baru ini ditayangkan, konten lama otomatis tersimpan sebagai <strong>Draf</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -297,19 +291,19 @@
                             d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
                         </path>
                     </svg>
-                    <span>Simpan Draft</span>
+                    <span>Simpan Sebagai Draf</span>
                 </button>
                 <button type="button" onclick="submitWithAction('publish')"
                     class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span>Publikasikan</span>
+                    <span>Simpan & Tampilkan di Website</span>
                 </button>
             </div>
             <a href="{{ route('admin.about-sections.index') }}"
                 class="w-full inline-flex items-center justify-center py-2.5 px-4 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
-                Batalkan & Kembali
+                Kembali ke Daftar Konten
             </a>
         </div>
     </form>
@@ -318,13 +312,11 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Set initial counter
             const titleInput = document.getElementById('title');
             if (titleInput) {
                 document.getElementById('title-counter').innerText = titleInput.value.length + ' / 255 Karakter';
             }
 
-            // Initialize lucide icons
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
@@ -338,13 +330,13 @@
                 if (toggle) toggle.checked = false;
                 if (badge) {
                     badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-                    badge.innerText = 'Draft';
+                    badge.innerText = 'Draf (Belum Tampil)';
                 }
             } else if (action === 'publish') {
                 if (toggle) toggle.checked = true;
                 if (badge) {
                     badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                    badge.innerText = 'Aktif';
+                    badge.innerText = 'Aktif di Website';
                 }
             }
 
@@ -359,11 +351,11 @@
             const formAction = document.getElementById('form-action');
             if (elem.checked) {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                badge.innerText = 'Aktif';
+                badge.innerText = 'Aktif di Website';
                 if (formAction) formAction.value = 'publish';
             } else {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-                badge.innerText = 'Draft';
+                badge.innerText = 'Draf (Belum Tampil)';
                 if (formAction) formAction.value = 'draft';
             }
         }
@@ -374,7 +366,7 @@
         function updateCardBadgeCount() {
             const count = document.querySelectorAll('#cards-container .card-item').length;
             const el = document.getElementById('card-count-badge');
-            if (el) el.innerText = count + (count === 1 ? ' Card' : ' Cards');
+            if (el) el.innerText = count + ' Kartu Kegiatan';
         }
 
         function reindexCards() {
@@ -386,7 +378,7 @@
                 const headerTitle = item.querySelector('.card-header-title');
                 const titleInput = item.querySelector('.card-title-input');
                 if (headerTitle) {
-                    const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'Card ' + (idx + 1);
+                    const val = titleInput && titleInput.value.trim() ? titleInput.value.trim() : 'Kartu ' + (idx + 1);
                     headerTitle.innerText = val;
                 }
             });
@@ -398,7 +390,7 @@
             const headerTitle = item.querySelector('.card-header-title');
             const idx = Array.from(document.querySelectorAll('#cards-container .card-item')).indexOf(item) + 1;
             if (headerTitle) {
-                headerTitle.innerText = input.value.trim() ? input.value.trim() : 'Card ' + idx;
+                headerTitle.innerText = input.value.trim() ? input.value.trim() : 'Kartu ' + idx;
             }
         }
 
@@ -443,10 +435,10 @@
                 <div class="p-3.5 bg-slate-100/70 border-b border-slate-200/70 flex items-center justify-between cursor-pointer" onclick="toggleCardAccordion(this)">
                     <div class="flex items-center gap-2.5">
                         <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center card-badge-num">${newNum}</span>
-                        <span class="card-header-title text-xs font-bold text-slate-800">Card ${newNum}</span>
+                        <span class="card-header-title text-xs font-bold text-slate-800">Kartu ${newNum}</span>
                     </div>
                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                        <button type="button" onclick="removeCardItem(this)" title="Hapus Card" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
+                        <button type="button" onclick="removeCardItem(this)" title="Hapus Kartu" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
@@ -461,12 +453,12 @@
                 <div class="card-body p-4 space-y-4 bg-white">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Judul Card <span class="text-rose-500">*</span>
+                            Judul Kartu Kegiatan <span class="text-rose-500">*</span>
                         </label>
                         <input type="text"
                                name="cards[${index}][title]"
                                required
-                               placeholder="Contoh: Pemberdayaan Masyarakat"
+                               placeholder="Contoh: Pemberdayaan Petani Lokal"
                                oninput="updateCardHeaderTitle(this)"
                                class="card-title-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                     </div>
@@ -474,7 +466,7 @@
                     <!-- Icon Selection -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1.5">
-                            Icon Card (Opsional)
+                            Ikon Kartu (Pilihan)
                         </label>
                         <input type="hidden" name="cards[${index}][icon_name]" class="card-icon-name-input" value="">
                         <input type="hidden" name="cards[${index}][remove_icon_image]" value="0" class="card-remove-icon-flag">
@@ -486,7 +478,7 @@
                                     <span class="icon-picker-preview w-5 h-5 text-slate-400 flex items-center justify-center">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                     </span>
-                                    <span class="icon-picker-label flex-1 text-left">Pilih Icon Lucide...</span>
+                                    <span class="icon-picker-label flex-1 text-left">Pilih Ikon...</span>
                                     <span class="icon-picker-clear hidden text-rose-400 hover:text-rose-600 p-0.5" onclick="event.stopPropagation(); clearSelectedIcon(this)">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                     </span>
@@ -502,29 +494,29 @@
                                            class="card-icon-image-input hidden">
                                     <div class="icon-upload-preview hidden flex items-center gap-2">
                                         <img src="#" alt="Icon Preview" class="icon-upload-preview-img w-6 h-6 object-contain rounded">
-                                        <span class="text-xs text-slate-700 font-medium truncate flex-1">Custom Icon</span>
+                                        <span class="text-xs text-slate-700 font-medium truncate flex-1">Ikon Sendiri</span>
                                         <button type="button" onclick="event.stopPropagation(); removeIconImage(this)" class="text-rose-400 hover:text-rose-600 p-0.5 shrink-0">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         </button>
                                     </div>
                                     <div class="icon-upload-placeholder flex items-center gap-2">
                                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                        <span class="text-xs text-slate-500">Upload Custom</span>
+                                        <span class="text-xs text-slate-500">Unggah Ikon Sendiri</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <p class="text-[10px] text-slate-400 mt-1">Pilih icon Lucide atau upload gambar custom (PNG, SVG, maks 512KB).</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Pilih ikon dari daftar atau unggah file gambar Anda sendiri (PNG, SVG, maks 512 KB).</p>
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Deskripsi Card <span class="text-rose-500">*</span>
+                            Penjelasan Singkat <span class="text-rose-500">*</span>
                         </label>
                         <textarea name="cards[${index}][description]"
                                   rows="3"
                                   required
-                                  placeholder="Jelaskan secara ringkas kegiatan atau manfaat dari program pada card ini..."
+                                  placeholder="Jelaskan secara ringkas kegiatan, fokus, atau manfaat pada poin ini..."
                                   class="w-full px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                     </div>
                 </div>
@@ -534,7 +526,6 @@
             container.insertAdjacentHTML('beforeend', cardHtml);
             reindexCards();
 
-            // Scroll smoothly to newly added card
             const newCard = container.lastElementChild;
             newCard.scrollIntoView({
                 behavior: 'smooth',
@@ -549,7 +540,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Perhatian',
-                    text: 'Minimal harus ada 1 card di dalam About Section.',
+                    text: 'Minimal harus ada 1 kartu kegiatan di dalam modul Tentang Kami.',
                     confirmButtonColor: '#10b981',
                     confirmButtonText: 'Mengerti'
                 });

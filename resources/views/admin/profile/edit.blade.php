@@ -138,17 +138,17 @@
 
             <div class="space-y-3 text-xs">
                 <div class="flex justify-between items-center text-slate-500">
-                    <span>Role:</span>
+                    <span>Peran Akun:</span>
                     @if($user->isSuperAdmin())
                         <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
-                            Super Admin
+                            Pengelola Utama
                         </span>
                     @else
                         <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-                            Admin
+                            Petugas Pengelola
                         </span>
                     @endif
                 </div>
@@ -166,7 +166,7 @@
             </div>
         </div>
 
-        <!-- Card: Permissions -->
+        <!-- Card: Hak Akses Modul Website -->
         <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
             <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
                 <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
@@ -175,25 +175,25 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-base font-bold text-slate-900">Permission Anda</h3>
-                    <p class="text-xs text-slate-500">Modul yang dapat Anda akses.</p>
+                    <h3 class="text-base font-bold text-slate-900">Hak Akses Modul Website</h3>
+                    <p class="text-xs text-slate-500">Daftar bagian website desa yang dapat Anda kelola.</p>
                 </div>
             </div>
 
             @if($user->isSuperAdmin())
                 <div class="p-3 bg-amber-50/70 border border-amber-100 rounded-xl text-xs text-amber-800">
-                    <span class="font-bold">Semua Akses</span> — Anda memiliki akses penuh ke seluruh modul.
+                    <span class="font-bold">Wewenang Penuh</span> — Anda memiliki wewenang penuh untuk mengatur seluruh website desa dan pengelolaan akun petugas.
                 </div>
             @else
                 <div class="space-y-2">
                     @php
                         $permissionLabels = [
-                            'manage_home_sections' => 'Beranda',
+                            'manage_home_sections' => 'Banner Beranda',
                             'manage_about_sections' => 'Tentang Kami',
-                            'manage_product_sections' => 'Produk',
-                            'manage_how_to_order' => 'Cara Pesan',
-                            'manage_testimonials' => 'Testimoni',
-                            'manage_contact_sections' => 'Kontak',
+                            'manage_product_sections' => 'Katalog Produk',
+                            'manage_how_to_order' => 'Panduan Cara Pesan',
+                            'manage_testimonials' => 'Ulasan & Testimoni',
+                            'manage_contact_sections' => 'Informasi Kontak',
                         ];
                     @endphp
                     @forelse($user->getAllPermissions() as $perm)
@@ -204,7 +204,7 @@
                             <span>{{ $permissionLabels[$perm->name] ?? $perm->name }}</span>
                         </div>
                     @empty
-                        <p class="text-xs text-slate-400">Belum ada permission yang diberikan.</p>
+                        <p class="text-xs text-slate-400">Belum ada hak akses modul yang diberikan.</p>
                     @endforelse
                 </div>
             @endif

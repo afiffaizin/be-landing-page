@@ -3,11 +3,11 @@
 @section('title', 'Buat Section Kontak Baru')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Halaman Utama</a>
     <span>/</span>
     <a href="{{ route('admin.contact-sections.index') }}" class="text-slate-500 hover:text-slate-900">Kontak</a>
     <span>/</span>
-    <span class="text-slate-800">Buat Baru</span>
+    <span class="text-slate-800">Tambah Baru</span>
 @endsection
 
 @section('page_title', 'Kelola Section Kontak')
@@ -16,7 +16,7 @@
     <div class="hidden sm:flex items-center gap-2.5">
         <a href="{{ route('admin.contact-sections.index') }}"
             class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors shrink-0">
-            Batalkan
+            Batal
         </a>
         <button type="button" onclick="submitWithAction('draft')"
             class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer shrink-0">
@@ -24,25 +24,25 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
             </svg>
-            <span>Simpan Draft</span>
+            <span>Simpan sebagai Draf</span>
         </button>
         <button type="button" onclick="submitWithAction('publish')"
             class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span>Publikasikan</span>
+            <span>Simpan & Tampilkan</span>
         </button>
     </div>
 @endsection
 
 @section('page_headline', 'Buat Section Kontak Baru')
-@section('page_subtitle', 'Masukkan judul, narasi deskripsi, dan item informasi kontak untuk landing page.')
+@section('page_subtitle', 'Masukkan judul, narasi deskripsi, dan saluran kontak yang akan ditampilkan pada website.')
 
 @section('status_badge')
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
         <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-        Status: Mode Pembuatan Baru
+        Status: Pembuatan Baru
     </span>
 @endsection
 
@@ -69,7 +69,7 @@
                         </div>
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Konten Utama Section</h3>
-                            <p class="text-xs text-slate-500">Kelola judul utama dan narasi deskripsi section kontak.</p>
+                            <p class="text-xs text-slate-500">Tentukan judul utama dan narasi pengantar pada bagian kontak website.</p>
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                         <div>
                             <div class="flex items-center justify-between mb-2">
                                 <label for="title" class="block text-xs font-bold text-slate-700">
-                                    Judul <span class="text-rose-500">*</span>
+                                    Judul Bagian Kontak <span class="text-rose-500">*</span>
                                 </label>
                                 <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255 Karakter</span>
                             </div>
@@ -91,23 +91,23 @@
                                 <p class="text-xs text-rose-500 mt-1.5">{{ $message }}</p>
                             @enderror
                             <p class="text-[11px] text-slate-400 mt-1.5">
-                                Gunakan judul yang jelas dan menarik untuk pengunjung.
+                                Gunakan kalimat sapaan yang ramah dan mengajak pengunjung untuk menghubungi.
                             </p>
                         </div>
 
                         <!-- Deskripsi -->
                         <div>
                             <label for="description" class="block text-xs font-bold text-slate-700 mb-2">
-                                Deskripsi <span class="text-slate-400 font-normal">(Opsional)</span>
+                                Pesan / Keterangan Pengantar <span class="text-slate-400 font-normal">(Boleh Kosong)</span>
                             </label>
                             <textarea id="description" name="description" rows="3"
-                                placeholder="Contoh: Ingin tahu lebih banyak tentang produk, cara pembuatan, atau peluang kolaborasi? Jangan ragu untuk menghubungi kami."
+                                placeholder="Contoh: Ingin tahu lebih banyak tentang produk, cara pemesanan, atau peluang kerja sama? Hubungi kami langsung."
                                 class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed">{{ old('description') }}</textarea>
                             @error('description')
                                 <p class="text-xs text-rose-500 mt-1.5">{{ $message }}</p>
                             @enderror
                             <p class="text-[11px] text-slate-400 mt-1.5">
-                                Berikan pesan pengantar atau ajakan kepada calon mitra/pelanggan.
+                                Berikan pesan pengantar atau ajakan kepada calon pembeli atau mitra kerja sama.
                             </p>
                         </div>
                     </div>
@@ -125,16 +125,16 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-base font-bold text-slate-900">Daftar Item Kontak</h3>
-                                <p class="text-xs text-slate-500">Setiap item berisi label, nilai kontak, dan icon (Lucide atau upload).</p>
+                                <h3 class="text-base font-bold text-slate-900">Daftar Saluran Kontak</h3>
+                                <p class="text-xs text-slate-500">Masukkan saluran komunikasi seperti Alamat Lokasi, Nomor WhatsApp, dan Alamat Email.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 text-xs font-medium">
                             <button type="button" onclick="collapseAllCards()"
-                                class="text-slate-500 hover:text-slate-900 underline cursor-pointer">Collapse All</button>
+                                class="text-slate-500 hover:text-slate-900 underline cursor-pointer">Tutup Semua</button>
                             <span class="text-slate-300">|</span>
                             <button type="button" onclick="expandAllCards()"
-                                class="text-slate-500 hover:text-slate-900 underline cursor-pointer">Expand All</button>
+                                class="text-slate-500 hover:text-slate-900 underline cursor-pointer">Buka Semua</button>
                         </div>
                     </div>
 
@@ -147,10 +147,10 @@
                                 onclick="toggleCardAccordion(this)">
                                 <div class="flex items-center gap-2.5">
                                     <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center contact-badge-num">1</span>
-                                    <span class="contact-header-title text-xs font-bold text-slate-800">Item Kontak 1</span>
+                                    <span class="contact-header-title text-xs font-bold text-slate-800">Saluran Kontak 1</span>
                                 </div>
                                 <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                                    <button type="button" onclick="removeContactItem(this)" title="Hapus Item"
+                                    <button type="button" onclick="removeContactItem(this)" title="Hapus Saluran Kontak"
                                         class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -174,29 +174,29 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Label Kontak <span class="text-rose-500">*</span>
+                                            Nama Saluran / Label Kontak <span class="text-rose-500">*</span>
                                         </label>
                                         <input type="text" name="items[0][label]" value="" required
-                                            placeholder="Contoh: LOKASI, EMAIL, WHATSAPP"
+                                            placeholder="Contoh: WhatsApp Kami, Alamat Kantor, Email Resmi"
                                             oninput="updateContactHeaderTitle(this)"
                                             class="contact-label-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                            Tipe Teknis (Opsional)
+                                            Jenis Kontak (Boleh Kosong)
                                         </label>
                                         <input type="text" name="items[0][type]" value=""
-                                            placeholder="location, email, whatsapp"
+                                            placeholder="Contoh: whatsapp, lokasi, email"
                                             class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                     </div>
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                        Nilai Kontak / Informasi <span class="text-rose-500">*</span>
+                                        Isi Kontak / Nomor / Alamat <span class="text-rose-500">*</span>
                                     </label>
                                     <input type="text" name="items[0][value]" value="" required
-                                        placeholder="Contoh: Desa Jeruklegi, Jawa Tengah atau +62 888 0245 7102"
+                                        placeholder="Contoh: 081234567890 atau Desa Jeruklegi, Jawa Tengah"
                                         class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                 </div>
 
@@ -204,7 +204,7 @@
                                 <x-form.icon-picker
                                     name="items[0][icon_name]"
                                     value=""
-                                    label="Icon Kontak (Pilih Lucide Icon atau Upload Custom)"
+                                    label="Ikon Kontak (Pilih Simbol atau Unggah Gambar)"
                                     :with-upload="true"
                                     upload-name="items[0][icon_image]"
                                     remove-name="items[0][remove_icon_image]"
@@ -219,7 +219,7 @@
                         <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
                         </svg>
-                        <span>Tambah Item Kontak</span>
+                        <span>Tambah Saluran Kontak</span>
                     </button>
                 </div>
             </div>
@@ -239,19 +239,19 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Visibilitas</h3>
-                            <p class="text-xs text-slate-500">Pengaturan status publikasi section.</p>
+                            <h3 class="text-base font-bold text-slate-900">Pengaturan Tampilan</h3>
+                            <p class="text-xs text-slate-500">Pengaturan apakah bagian kontak ini langsung ditampilkan di website.</p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between py-2">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-slate-800">Status Section</span>
+                                <span class="text-xs font-bold text-slate-800">Status Penayangan</span>
                                 <span id="status-badge"
                                     class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah section ini langsung tampil atau draft.</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah bagian kontak ini langsung tampil atau disimpan sebagai draf.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1" checked
@@ -271,8 +271,8 @@
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <span class="font-bold block text-emerald-900">Kebijakan 1 Section Aktif</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 section kontak yang aktif. Saat section ini dipublikasikan, section lama yang sedang aktif otomatis dijadikan <strong>Draft</strong>.</p>
+                                <span class="font-bold block text-emerald-900">Aturan Penayangan Website</span>
+                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 bagian kontak yang aktif di website. Bagian kontak lama yang aktif otomatis disimpan sebagai <strong>Draf</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -302,19 +302,19 @@
                             d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
                         </path>
                     </svg>
-                    <span>Simpan Draft</span>
+                    <span>Simpan sebagai Draf</span>
                 </button>
                 <button type="button" onclick="submitWithAction('publish')"
                     class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span>Publikasikan</span>
+                    <span>Simpan & Tampilkan</span>
                 </button>
             </div>
             <a href="{{ route('admin.contact-sections.index') }}"
                 class="w-full inline-flex items-center justify-center py-2.5 px-4 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
-                Batalkan & Kembali
+                Batal & Kembali
             </a>
         </div>
     </form>
@@ -347,7 +347,7 @@
             if (formAction) formAction.value = 'publish';
         } else {
             badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-            badge.innerText = 'Draft';
+            badge.innerText = 'Draf';
             if (formAction) formAction.value = 'draft';
         }
     }
@@ -388,14 +388,14 @@
         const itemEl = input.closest('.contact-card-item');
         const titleEl = itemEl.querySelector('.contact-header-title');
         const index = parseInt(itemEl.getAttribute('data-index') || '0', 10) + 1;
-        titleEl.textContent = input.value.trim() ? input.value.trim() : 'Item Kontak ' + index;
+        titleEl.textContent = input.value.trim() ? input.value.trim() : 'Saluran Kontak ' + index;
     }
 
     function removeContactItem(btn) {
         const container = document.getElementById('contacts-container');
         const items = container.querySelectorAll('.contact-card-item');
         if (items.length <= 1) {
-            alert('Minimal harus ada 1 item kontak.');
+            alert('Minimal harus ada 1 saluran kontak.');
             return;
         }
         btn.closest('.contact-card-item').remove();
@@ -413,7 +413,7 @@
             if (labelInput) {
                 labelInput.name = `items[${index}][label]`;
                 const titleEl = card.querySelector('.contact-header-title');
-                titleEl.textContent = labelInput.value.trim() ? labelInput.value.trim() : `Item Kontak ${index + 1}`;
+                titleEl.textContent = labelInput.value.trim() ? labelInput.value.trim() : `Saluran Kontak ${index + 1}`;
             }
 
             const typeInput = card.querySelector('input[name*="[type]"]');
@@ -444,10 +444,10 @@
                     onclick="toggleCardAccordion(this)">
                     <div class="flex items-center gap-2.5">
                         <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center contact-badge-num">${newIndex + 1}</span>
-                        <span class="contact-header-title text-xs font-bold text-slate-800">Item Kontak ${newIndex + 1}</span>
+                        <span class="contact-header-title text-xs font-bold text-slate-800">Saluran Kontak ${newIndex + 1}</span>
                     </div>
                     <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                        <button type="button" onclick="removeContactItem(this)" title="Hapus Item"
+                        <button type="button" onclick="removeContactItem(this)" title="Hapus Saluran Kontak"
                             class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -470,34 +470,34 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                Label Kontak <span class="text-rose-500">*</span>
+                                Nama Saluran / Label Kontak <span class="text-rose-500">*</span>
                             </label>
                             <input type="text" name="items[${newIndex}][label]" value="" required
-                                placeholder="Contoh: LOKASI, EMAIL, WHATSAPP"
+                                placeholder="Contoh: WhatsApp Kami, Alamat Kantor, Email Resmi"
                                 oninput="updateContactHeaderTitle(this)"
                                 class="contact-label-input w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">
-                                Tipe Teknis (Opsional)
+                                Jenis Kontak (Boleh Kosong)
                             </label>
                             <input type="text" name="items[${newIndex}][type]" value=""
-                                placeholder="location, email, whatsapp"
+                                placeholder="Contoh: whatsapp, lokasi, email"
                                 class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">
-                            Nilai Kontak / Informasi <span class="text-rose-500">*</span>
+                            Isi Kontak / Nomor / Alamat <span class="text-rose-500">*</span>
                         </label>
                         <input type="text" name="items[${newIndex}][value]" value="" required
-                            placeholder="Contoh: Desa Jeruklegi, Jawa Tengah atau +62 888 0245 7102"
+                            placeholder="Contoh: 081234567890 atau Desa Jeruklegi, Jawa Tengah"
                             class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                     </div>
 
                     <div class="space-y-3 pt-2 border-t border-slate-100">
-                        <label class="block text-xs font-semibold text-slate-700">Icon Kontak (Pilih Lucide Icon atau Upload Custom)</label>
+                        <label class="block text-xs font-semibold text-slate-700">Ikon Kontak (Pilih Simbol atau Unggah Gambar)</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- Lucide Icon Picker -->
                             <div class="flex items-center gap-3 p-3 bg-gray-50/80 rounded-xl border border-gray-200/80">
@@ -507,7 +507,7 @@
                                 <div class="flex-1 min-w-0">
                                     <input type="hidden" name="items[${newIndex}][icon_name]" value="" class="selected-icon-input">
                                     <div class="text-xs font-bold text-slate-800 selected-icon-name truncate">Belum dipilih</div>
-                                    <div class="text-[10px] text-slate-400">Pilih icon dari Lucide</div>
+                                    <div class="text-[10px] text-slate-400">Pilih simbol ikon</div>
                                 </div>
                                 <button type="button" onclick="openIconPickerModal(this)"
                                     class="px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors cursor-pointer shrink-0">
@@ -517,7 +517,7 @@
 
                             <!-- Upload Icon Custom -->
                             <div class="p-3 bg-gray-50/80 rounded-xl border border-gray-200/80 flex flex-col justify-center">
-                                <label class="text-[11px] font-medium text-slate-600 mb-1">Atau Upload Gambar/SVG</label>
+                                <label class="text-[11px] font-medium text-slate-600 mb-1">Atau Unggah Gambar / Logo (Opsional)</label>
                                 <input type="file" name="items[${newIndex}][icon_image]" accept="image/*,.svg"
                                     class="text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
                             </div>

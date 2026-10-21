@@ -1,21 +1,21 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Pengguna - ' . $user->name)
+@section('title', 'Ubah Data Petugas - ' . $user->name)
 
 @section('breadcrumbs')
     <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Pengaturan</a>
     <span>/</span>
-    <a href="{{ route('admin.users.index') }}" class="text-slate-500 hover:text-slate-900">Manajemen Pengguna</a>
+    <a href="{{ route('admin.users.index') }}" class="text-slate-500 hover:text-slate-900">Daftar Petugas Pengelola</a>
     <span>/</span>
-    <span class="text-slate-800">Edit</span>
+    <span class="text-slate-800 font-semibold">Ubah Data Petugas</span>
 @endsection
 
-@section('page_title', 'Edit Pengguna: ' . $user->name)
+@section('page_title', 'Ubah Data Petugas: ' . $user->name)
 
 @section('header_actions')
     <div class="hidden sm:flex items-center gap-2.5">
         <a href="{{ route('admin.users.index') }}" class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shrink-0">
-            Kembali
+            Batalkan & Kembali
         </a>
         <button type="submit" form="user-form" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,8 +26,8 @@
     </div>
 @endsection
 
-@section('page_headline', 'Edit Data & Permission User')
-@section('page_subtitle', 'Ubah informasi akun, role, dan permission akses modul konten.')
+@section('page_headline', 'Ubah Data Petugas & Hak Akses')
+@section('page_subtitle', 'Perbarui informasi akun, peran wewenang, dan hak akses modul website desa.')
 
 @section('content')
 <div class="space-y-6">
@@ -42,7 +42,7 @@
             <!-- KOLOM KIRI: Data Akun & Permissions -->
             <div class="lg:col-span-8 space-y-6">
 
-                <!-- CARD 1: Informasi Akun -->
+                <!-- CARD 1: Informasi Akun Petugas -->
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                     <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
                         <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
@@ -51,30 +51,32 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Informasi Akun</h3>
-                            <p class="text-xs text-slate-500">Data identitas dan email user.</p>
+                            <h3 class="text-base font-bold text-slate-900">Informasi Akun Petugas</h3>
+                            <p class="text-xs text-slate-500">Data identitas dan email masuk petugas desa.</p>
                         </div>
                     </div>
 
                     <div class="space-y-5">
                         <div>
-                            <label for="name" class="block text-xs font-bold text-slate-700 mb-2">
-                                Nama Lengkap <span class="text-rose-500">*</span>
+                            <label for="name" class="block text-sm font-bold text-slate-800 mb-2">
+                                Nama Lengkap Petugas <span class="text-rose-500">*</span>
                             </label>
                             <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required maxlength="255"
-                                   class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                   placeholder="Contoh: Budi Santoso"
+                                   class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         </div>
                         <div>
-                            <label for="email" class="block text-xs font-bold text-slate-700 mb-2">
-                                Email <span class="text-rose-500">*</span>
+                            <label for="email" class="block text-sm font-bold text-slate-800 mb-2">
+                                Alamat Email Masuk <span class="text-rose-500">*</span>
                             </label>
                             <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required maxlength="255"
-                                   class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                                   placeholder="Contoh: pengelola@desa.id"
+                                   class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                         </div>
                     </div>
                 </div>
 
-                <!-- CARD 2: Permission Modul -->
+                <!-- CARD 2: Hak Akses Modul Website -->
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                     <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
                         <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
@@ -83,19 +85,19 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Permission Akses Modul</h3>
-                            <p class="text-xs text-slate-500">Centang modul konten yang boleh diakses user ini.</p>
+                            <h3 class="text-base font-bold text-slate-900">Hak Akses Modul Website</h3>
+                            <p class="text-xs text-slate-500">Pilih bagian website yang boleh diakses dan diubah oleh petugas ini. Pengelola Utama otomatis memiliki seluruh hak akses.</p>
                         </div>
                     </div>
 
                     @php
                         $permissionLabels = [
-                            'manage_home_sections' => ['Beranda', 'Kelola banner dan konten beranda'],
-                            'manage_about_sections' => ['Tentang Kami', 'Kelola bagian tentang program'],
-                            'manage_product_sections' => ['Produk', 'Kelola katalog produk'],
-                            'manage_how_to_order' => ['Cara Pesan', 'Kelola langkah pemesanan'],
-                            'manage_testimonials' => ['Testimoni', 'Kelola testimoni pelanggan'],
-                            'manage_contact_sections' => ['Kontak', 'Kelola info kontak'],
+                            'manage_home_sections' => ['Banner Beranda', 'Kelola foto dan tulisan banner beranda'],
+                            'manage_about_sections' => ['Tentang Kami', 'Kelola penjelasan program dan kegiatan desa'],
+                            'manage_product_sections' => ['Katalog Produk', 'Kelola daftar produk desa dan harga'],
+                            'manage_how_to_order' => ['Panduan Cara Pesan', 'Kelola langkah pemesanan warga'],
+                            'manage_testimonials' => ['Ulasan & Testimoni', 'Kelola ulasan dan pengalaman pembeli'],
+                            'manage_contact_sections' => ['Informasi Kontak', 'Kelola nomor WhatsApp, email, dan alamat'],
                         ];
                         $userPermissions = old('permissions', $user->getDirectPermissions()->pluck('name')->toArray());
                     @endphp
@@ -108,7 +110,7 @@
                                        name="permissions[]"
                                        value="{{ $perm->name }}"
                                        {{ in_array($perm->name, $userPermissions) ? 'checked' : '' }}
-                                       class="mt-0.5 w-4 h-4 text-emerald-600 bg-gray-100 border-gray-300 rounded focus:ring-emerald-500 focus:ring-2">
+                                       class="mt-0.5 w-4 h-4 text-emerald-600 bg-gray-100 border-gray-300 rounded focus:ring-emerald-500 focus:ring-2 cursor-pointer">
                                 <div>
                                     <span class="text-xs font-bold text-slate-800">{{ $label[0] }}</span>
                                     <p class="text-[11px] text-slate-500 mt-0.5">{{ $label[1] }}</p>
@@ -117,22 +119,23 @@
                         @endforeach
                     </div>
 
-                    <div class="mt-4 p-3 bg-amber-50/70 border border-amber-100 rounded-xl flex items-start gap-2.5 text-xs text-amber-800" id="superadmin-info" style="display: none;">
+                    <!-- Info: Pengelola Utama bypass -->
+                    <div class="mt-4 p-3 bg-amber-50/70 border border-amber-200 rounded-xl flex items-start gap-2.5 text-xs text-amber-800" id="superadmin-info" style="display: none;">
                         <svg class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <div>
-                            <span class="font-bold block text-amber-900">Super Admin</span>
-                            <p class="text-[11px] text-amber-700/90 mt-0.5">Role Super Admin secara otomatis mendapat akses ke <strong>semua modul</strong>. Checklist permission di atas tidak berlaku.</p>
+                            <span class="font-bold block text-amber-900">Peran Pengelola Utama</span>
+                            <p class="text-[11px] text-amber-800 mt-0.5">Peran Pengelola Utama secara otomatis mendapat hak akses ke <strong>seluruh bagian website dan pengaturan</strong>. Pilihan centang di atas tidak berlaku.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- KOLOM KANAN: Role & Reset Password -->
+            <!-- KOLOM KANAN: Peran Akun & Ringkasan -->
             <div class="lg:col-span-4 space-y-6">
 
-                <!-- CARD 3: Role -->
+                <!-- CARD 3: Peran Akun Petugas -->
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                     <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
                         <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
@@ -141,8 +144,8 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Role User</h3>
-                            <p class="text-xs text-slate-500">Level akses pengguna.</p>
+                            <h3 class="text-base font-bold text-slate-900">Peran Akun Petugas</h3>
+                            <p class="text-xs text-slate-500">Tentukan tingkat wewenang akun petugas.</p>
                         </div>
                     </div>
 
@@ -153,16 +156,16 @@
                                 <input type="radio" name="role" value="{{ $role->name }}"
                                        {{ $currentRole === $role->name ? 'checked' : '' }}
                                        onchange="handleRoleChange(this.value)"
-                                       class="mt-0.5 w-4 h-4 text-emerald-600 border-gray-300 focus:ring-emerald-500">
+                                       class="mt-0.5 w-4 h-4 text-emerald-600 border-gray-300 focus:ring-emerald-500 cursor-pointer">
                                 <div>
                                     <span class="text-sm font-bold text-slate-900">
-                                        {{ $role->name === 'super_admin' ? 'Super Admin' : 'Admin' }}
+                                        {{ $role->name === 'super_admin' ? 'Pengelola Utama' : 'Petugas Pengelola' }}
                                     </span>
-                                    <p class="text-[11px] text-slate-500 mt-0.5">
+                                    <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
                                         @if($role->name === 'super_admin')
-                                            Akses penuh ke seluruh sistem termasuk manajemen user.
+                                            Wewenang penuh untuk mengatur seluruh website desa, termasuk mengelola akun petugas lainnya.
                                         @else
-                                            Akses terbatas sesuai permission yang diberikan.
+                                            Wewenang terbatas hanya pada bagian website yang Anda beri centang hak aksesnya.
                                         @endif
                                     </p>
                                 </div>
@@ -171,7 +174,7 @@
                     </div>
                 </div>
 
-                <!-- CARD 4: Metadata -->
+                <!-- CARD 4: Ringkasan Akun Petugas -->
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                     <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
                         <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
@@ -180,21 +183,21 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Info Akun</h3>
-                            <p class="text-xs text-slate-500">Metadata akun user.</p>
+                            <h3 class="text-base font-bold text-slate-900">Ringkasan Akun</h3>
+                            <p class="text-xs text-slate-500">Status dan riwayat pendaftaran.</p>
                         </div>
                     </div>
 
                     <div class="space-y-3 text-xs">
                         <div class="flex justify-between items-center text-slate-500">
-                            <span>Status:</span>
+                            <span>Status Akun:</span>
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold {{ $user->is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-rose-50 text-rose-600 border border-rose-200/60' }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $user->is_active ? 'bg-emerald-500' : 'bg-rose-500' }}"></span>
                                 {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}
                             </span>
                         </div>
                         <div class="flex justify-between items-center text-slate-500">
-                            <span>Dibuat:</span>
+                            <span>Terdaftar Sejak:</span>
                             <span class="text-slate-700 font-medium">{{ $user->created_at->translatedFormat('d M Y, H:i') }}</span>
                         </div>
                         <div class="flex justify-between items-center text-slate-500">
@@ -216,7 +219,7 @@
                 <span>Simpan Perubahan</span>
             </button>
             <a href="{{ route('admin.users.index') }}" class="w-full inline-flex items-center justify-center py-2.5 px-4 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
-                Kembali
+                Batalkan & Kembali
             </a>
         </div>
     </form>
@@ -225,14 +228,14 @@
     @if($user->id !== auth()->id())
     <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
         <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
-            <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+            <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
                 </svg>
             </div>
             <div>
-                <h3 class="text-base font-bold text-slate-900">Reset Password</h3>
-                <p class="text-xs text-slate-500">Atur password baru untuk user ini.</p>
+                <h3 class="text-base font-bold text-slate-900">Atur Ulang Kata Sandi Petugas</h3>
+                <p class="text-xs text-slate-500">Ketikkan kata sandi baru jika petugas lupa atau ingin mengganti kata sandi masuk.</p>
             </div>
         </div>
 
@@ -240,26 +243,26 @@
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label for="new_password" class="block text-xs font-bold text-slate-700 mb-2">
-                        Password Baru <span class="text-rose-500">*</span>
+                    <label for="new_password" class="block text-sm font-bold text-slate-800 mb-2">
+                        Kata Sandi Baru <span class="text-rose-500">*</span>
                     </label>
-                    <input type="password" id="new_password" name="new_password" required placeholder="Minimal 8 karakter"
-                           class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                    <input type="password" id="new_password" name="new_password" required placeholder="Minimal 8 karakter kata sandi"
+                           class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                 </div>
                 <div>
-                    <label for="new_password_confirmation" class="block text-xs font-bold text-slate-700 mb-2">
-                        Konfirmasi Password <span class="text-rose-500">*</span>
+                    <label for="new_password_confirmation" class="block text-sm font-bold text-slate-800 mb-2">
+                        Ulangi Kata Sandi Baru <span class="text-rose-500">*</span>
                     </label>
-                    <input type="password" id="new_password_confirmation" name="new_password_confirmation" required placeholder="Ulangi password baru"
-                           class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                    <input type="password" id="new_password_confirmation" name="new_password_confirmation" required placeholder="Ketik ulang kata sandi baru"
+                           class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                 </div>
             </div>
-            <div class="mt-4">
-                <button type="submit" class="inline-flex items-center gap-2 px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            <div class="mt-5">
+                <button type="submit" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-sm transition-all cursor-pointer">
+                    <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
-                    <span>Reset Password</span>
+                    <span>Simpan Kata Sandi Baru</span>
                 </button>
             </div>
         </form>

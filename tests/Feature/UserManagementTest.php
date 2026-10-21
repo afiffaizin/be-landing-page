@@ -60,7 +60,7 @@ class UserManagementTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->get(route('admin.users.index'));
 
         $response->assertStatus(200)
-            ->assertSee('Manajemen Pengguna')
+            ->assertSee('Daftar Petugas Pengelola')
             ->assertSee($this->superAdmin->name)
             ->assertSee($this->admin->name);
     }
@@ -82,9 +82,9 @@ class UserManagementTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->get(route('admin.users.create'));
 
         $response->assertStatus(200)
-            ->assertSee('Tambah Pengguna Baru')
-            ->assertSee('Informasi Akun')
-            ->assertSee('Permission Akses Modul');
+            ->assertSee('Tambah Petugas Baru')
+            ->assertSee('Informasi Akun Petugas')
+            ->assertSee('Hak Akses Modul Website');
     }
 
     public function test_super_admin_can_create_new_user_with_role_and_permissions(): void
@@ -119,7 +119,7 @@ class UserManagementTest extends TestCase
         $response = $this->actingAs($this->superAdmin)->get(route('admin.users.edit', $this->admin));
 
         $response->assertStatus(200)
-            ->assertSee('Edit Pengguna')
+            ->assertSee('Ubah Data Petugas')
             ->assertSee($this->admin->email);
     }
 

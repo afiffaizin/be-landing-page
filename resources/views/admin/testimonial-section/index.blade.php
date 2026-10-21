@@ -3,9 +3,9 @@
 @section('title', 'Testimonial Pelanggan')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900 transition-colors">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900 transition-colors">Halaman Utama</a>
     <span>/</span>
-    <span class="text-slate-800 font-medium">Testimoni</span>
+    <span class="text-slate-800 font-medium">Ulasan & Testimoni</span>
 @endsection
 
 @section('page_title', 'Testimonial Pelanggan')
@@ -16,11 +16,11 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
         </svg>
-        <span>Tambah Testimoni (Batch)</span>
+        <span>Tambah Ulasan Sekarang</span>
     </button>
 @endsection
 
-@section('page_headline', 'Kelola Ulasan Testimonial')
+@section('page_headline', 'Kelola Ulasan Pelanggan')
 @section('page_subtitle',
     'Kelola daftar ulasan kepuasan dan ringkasan angka dampak secara langsung tanpa pindah
     halaman.')
@@ -53,7 +53,7 @@
                             "{{ $section->title }}"
                         </h2>
                         <p class="text-xs text-slate-500 mt-0.5">
-                            Judul utama section yang tampil pada slider ulasan landing page.
+                           Judul ulasan pembeli yang tampil di halaman depan website.
                         </p>
                     </div>
                 </div>
@@ -76,16 +76,15 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-bold text-slate-700">Angka Statistik & Dampak</span>
-                        <span
-                            class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
                             {{ $section->statistics->count() }}
                         </span>
                     </div>
                 </div>
 
-                @if($section->statistics->isNotEmpty())
+                @if ($section->statistics->isNotEmpty())
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2.5">
-                        @foreach($section->statistics as $stat)
+                        @foreach ($section->statistics as $stat)
                             <div
                                 class="bg-white/95 border border-emerald-100 hover:border-emerald-300 rounded-xl p-3 shadow-2xs transition-all flex flex-col justify-center min-w-0 group hover:shadow-xs">
                                 <div class="text-sm sm:text-base font-black text-emerald-700 tracking-tight truncate"
@@ -100,9 +99,9 @@
                         @endforeach
                     </div>
                 @else
-                    <div
-                        class="py-4 px-3 text-center border border-dashed border-emerald-200/80 rounded-xl bg-white/50">
-                        <span class="text-xs text-slate-400 italic">Belum ada angka statistik dampak yang ditambahkan.</span>
+                    <div class="py-4 px-3 text-center border border-dashed border-emerald-200/80 rounded-xl bg-white/50">
+                        <span class="text-xs text-slate-400 italic">Belum ada angka statistik dampak yang
+                            ditambahkan.</span>
                     </div>
                 @endif
             </div>
@@ -137,12 +136,12 @@
                     @if (request('search'))
                         <a href="{{ route('admin.testimonials.index') }}"
                             class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl transition-all"
-                            title="Reset Filter">
+                            title="Atur Ulang Pencarian">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            <span>Reset</span>
+                            <span>Atur Ulang</span>
                         </a>
                     @endif
                 </div>
@@ -156,9 +155,9 @@
                     <thead>
                         <tr
                             class="bg-gray-50/80 border-b border-gray-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                            <th class="py-3.5 px-5">Pemberi Testimoni</th>
-                            <th class="py-3.5 px-5">Isi Ulasan</th>
-                            <th class="py-3.5 px-5">Tanggal Ditambahkan</th>
+                            <th class="py-3.5 px-5">Nama Pelanggan & Asal</th>
+                            <th class="py-3.5 px-5">Isi Ulasan Pelanggan</th>
+                            <th class="py-3.5 px-5">Tanggal Dibuat</th>
                             <th class="py-3.5 px-5 text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -207,7 +206,7 @@
                                         <button type="button"
                                             onclick="openEditModal({{ $item->id }}, @js($item->name), @js($item->location ?? ''), @js($item->quote))"
                                             class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer"
-                                            title="Edit Testimoni">
+                                            title="Ubah Ulasan">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -224,7 +223,7 @@
                                             <button type="button"
                                                 onclick="confirmDelete(document.getElementById('delete-form-{{ $item->id }}'))"
                                                 class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
-                                                title="Hapus Testimoni">
+                                                title="Hapus Ulasan">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -247,10 +246,10 @@
                                             </path>
                                         </svg>
                                     </div>
-                                    <h3 class="text-sm font-bold text-slate-800">Belum ada ulasan testimoni</h3>
+                                    <h3 class="text-sm font-bold text-slate-800">Belum Ada Ulasan Pelanggan</h3>
                                     <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">
-                                        Tambahkan ulasan testimoni dari klien atau pelanggan sekarang. Anda bisa menambahkan
-                                        beberapa ulasan sekaligus dalam satu waktu.
+                                        Tambahkan ulasan kepuasan dari pembeli produk atau warga desa. Anda bisa menambahkan
+                                        beberapa ulasan sekaligus dengan mudah.
                                     </p>
                                     <button type="button" onclick="openBatchModal()"
                                         class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
@@ -258,7 +257,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 4v16m8-8H4"></path>
                                         </svg>
-                                        <span>Tambah Testimoni Sekarang</span>
+                                        <span>Tambah Ulasan Sekarang</span>
                                     </button>
                                 </td>
                             </tr>
@@ -296,8 +295,9 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Tambah Testimoni Sekaligus (Batch)</h3>
-                        <p class="text-xs text-slate-500">Input beberapa ulasan ulasan klien secara langsung di sini.</p>
+                        <h3 class="text-base font-bold text-slate-900">Tambah Beberapa Ulasan Sekaligus</h3>
+                        <p class="text-xs text-slate-500">Tulis beberapa ulasan dari pelanggan sekaligus di formulir ini.
+                        </p>
                     </div>
                 </div>
                 <button type="button" onclick="closeBatchModal()"
@@ -327,11 +327,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>Tambah Baris Testimoni Lagi</span>
+                        <span>+ Tambah Baris Ulasan Baru</span>
                     </button>
                     <span id="batchCountBadge"
                         class="text-xs font-medium text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-lg">
-                        1 baris testimoni
+                        1 ulasan
                     </span>
                 </div>
 
@@ -347,7 +347,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
                             </path>
                         </svg>
-                        <span>Simpan Semua Testimoni</span>
+                        <span>Simpan Semua Ulasan</span>
                     </button>
                 </div>
             </form>
@@ -374,8 +374,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Edit Ulasan Testimoni</h3>
-                        <p class="text-xs text-slate-500">Perbarui data atau kutipan testimoni klien.</p>
+                        <h3 class="text-base font-bold text-slate-900">Ubah Ulasan Pelanggan</h3>
+                        <p class="text-xs text-slate-500">Perbarui nama, asal wilayah, atau kutipan ulasan pelanggan.</p>
                     </div>
                 </div>
                 <button type="button" onclick="closeEditModal()"
@@ -392,23 +392,25 @@
                 @method('PUT')
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Pemberi Testimoni <span
+                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Pelanggan <span
                             class="text-rose-500">*</span></label>
                     <input type="text" id="editItemName" name="name" required
+                        placeholder="Contoh: Ibu Endang Rahayu"
                         class="w-full px-3.5 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Lokasi (Kota / Wilayah) <span
-                            class="text-slate-400 font-normal">(Opsional)</span></label>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Kota / Asal Warga <span
+                            class="text-slate-400 font-normal">(Boleh Kosong)</span></label>
                     <input type="text" id="editItemLocation" name="location" placeholder="Contoh: Cilacap / Banyumas"
                         class="w-full px-3.5 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Isi Ulasan Testimoni <span
+                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Isi Ulasan / Pengalaman <span
                             class="text-rose-500">*</span></label>
                     <textarea id="editItemQuote" name="quote" rows="4" required
+                        placeholder="Contoh: Aromanya sangat segar alami, lantai jadi bersih kesat..."
                         class="w-full px-3.5 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all leading-relaxed"></textarea>
                 </div>
 
@@ -448,8 +450,9 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Kelola Judul & Statistik Dampak</h3>
-                        <p class="text-xs text-slate-500">Atur judul tampilan landing page serta angka pencapaian.</p>
+                        <h3 class="text-base font-bold text-slate-900">Pengaturan Judul & Statistik</h3>
+                        <p class="text-xs text-slate-500">Atur judul bagian testimoni serta angka-angka pencapaian program.
+                        </p>
                     </div>
                 </div>
                 <button type="button" onclick="closeHeaderModal()"
@@ -468,10 +471,10 @@
                 <div class="flex-1 overflow-y-auto p-6 space-y-6">
                     <!-- Judul Section -->
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Judul Utama Section <span
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">Judul Bagian Testimoni <span
                                 class="text-rose-500">*</span></label>
                         <input type="text" name="title" value="{{ old('title', $section->title) }}" required
-                            placeholder="Contoh: Apa Kata Mereka?"
+                            placeholder="Contoh: Apa Kata Warga & Pembeli Kami"
                             class="w-full px-3.5 py-2.5 text-xs bg-gray-50 border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all font-semibold">
                     </div>
 
@@ -479,8 +482,8 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
                             <div>
-                                <label class="text-xs font-bold text-slate-800">Angka Statistik & Dampak</label>
-                                <p class="text-[11px] text-slate-500">Contoh: "100+ Mitra", "4.9/5 Rating Kepuasan"</p>
+                                <label class="text-xs font-bold text-slate-800">Angka Statistik & Pencapaian</label>
+                                <p class="text-[11px] text-slate-500">Contoh: "350+ Kg", "100+ Botol Terjual"</p>
                             </div>
                             <button type="button" onclick="addStatRow()"
                                 class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-lg transition-colors cursor-pointer">
@@ -500,13 +503,13 @@
                                         value="{{ $stat->id }}">
                                     <div class="w-1/3">
                                         <input type="text" name="statistics[{{ $idx }}][value]"
-                                            value="{{ $stat->value }}" placeholder="Nilai (e.g. 500+)"
+                                            value="{{ $stat->value }}" placeholder="Contoh: 350+ Kg"
                                             class="w-full px-3 py-2 text-xs bg-white border border-gray-200 rounded-lg text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                     </div>
                                     <div class="flex-1">
                                         <input type="text" name="statistics[{{ $idx }}][description]"
                                             value="{{ $stat->description }}"
-                                            placeholder="Deskripsi (e.g. Botol Terdistribusi)"
+                                            placeholder="Contoh: Sampah dapur berhasil diolah"
                                             class="w-full px-3 py-2 text-xs bg-white border border-gray-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                                     </div>
                                     <button type="button" onclick="removeStatRow(this)"
@@ -531,7 +534,7 @@
                     </button>
                     <button type="submit"
                         class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
-                        <span>Simpan Pengaturan</span>
+                        <span>Simpan Perubahan</span>
                     </button>
                 </div>
             </form>
@@ -577,7 +580,7 @@
                 <div class="flex items-center justify-between">
                     <span class="row-num text-xs font-bold text-slate-700 flex items-center gap-2">
                         <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold flex items-center justify-center">${displayNum}</span>
-                        Testimoni #${displayNum}
+                        Ulasan #${displayNum}
                     </span>
                     <button type="button"
                         onclick="removeBatchRow(this)"
@@ -591,27 +594,27 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Nama Klien / Pelanggan <span class="text-rose-500">*</span></label>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Nama Pelanggan <span class="text-rose-500">*</span></label>
                         <input type="text"
                                name="items[${currentIndex}][name]"
-                               placeholder="Contoh: Siti Rahmawati"
+                               placeholder="Contoh: Ibu Siti Rahmawati"
                                required
                                class="w-full px-3 py-2 text-xs bg-white border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Lokasi (Kota / Wilayah) <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Kota / Asal Warga <span class="text-slate-400 font-normal">(Boleh Kosong)</span></label>
                         <input type="text"
                                name="items[${currentIndex}][location]"
-                               placeholder="Contoh: Cilacap / Banyumas"
+                               placeholder="Contoh: Cilacap"
                                class="w-full px-3 py-2 text-xs bg-white border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Isi Ulasan Testimoni <span class="text-rose-500">*</span></label>
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Isi Ulasan / Pengalaman <span class="text-rose-500">*</span></label>
                     <textarea name="items[${currentIndex}][quote]"
                               rows="2"
-                              placeholder="Tulis ulasan pelanggan..."
+                              placeholder="Tuliskan pengalaman atau tanggapan pelanggan..."
                               required
                               class="w-full px-3 py-2 text-xs bg-white border border-gray-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"></textarea>
                 </div>
@@ -655,7 +658,7 @@
                 if (rowNum) {
                     rowNum.innerHTML = `
                         <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold flex items-center justify-center">${num}</span>
-                        Testimoni #${num}
+                        Ulasan #${num}
                     `;
                 }
             });
@@ -666,7 +669,7 @@
             const count = container.children.length;
             const badge = document.getElementById('batchCountBadge');
             if (badge) {
-                badge.textContent = `${count} baris testimoni`;
+                badge.textContent = `${count} ulasan`;
             }
         }
 
@@ -715,13 +718,13 @@
                 <div class="w-1/3">
                     <input type="text"
                            name="statistics[${currentIndex}][value]"
-                           placeholder="Nilai (e.g. 500+)"
+                           placeholder="Contoh: 350+ Kg"
                            class="w-full px-3 py-2 text-xs bg-white border border-gray-200 rounded-lg text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                 </div>
                 <div class="flex-1">
                     <input type="text"
                            name="statistics[${currentIndex}][description]"
-                           placeholder="Deskripsi (e.g. Klien Puas)"
+                           placeholder="Contoh: Sampah dapur berhasil diolah"
                            class="w-full px-3 py-2 text-xs bg-white border border-gray-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                 </div>
                 <button type="button"

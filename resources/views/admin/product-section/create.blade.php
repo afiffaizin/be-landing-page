@@ -3,11 +3,11 @@
 @section('title', 'Buat Produk Baru')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Landing Page</a>
+    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Bagian Website</a>
     <span>/</span>
-    <a href="{{ route('admin.product-sections.index') }}" class="text-slate-500 hover:text-slate-900">Produk</a>
+    <a href="{{ route('admin.product-sections.index') }}" class="text-slate-500 hover:text-slate-900">Katalog Produk</a>
     <span>/</span>
-    <span class="text-slate-800">Buat Baru</span>
+    <span class="text-slate-800 font-semibold">Buat Baru</span>
 @endsection
 
 @section('page_title', 'Kelola Produk')
@@ -16,7 +16,7 @@
     <div class="hidden sm:flex items-center gap-2.5">
         <a href="{{ route('admin.product-sections.index') }}"
             class="px-4 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-gray-200 rounded-xl hover:bg-slate-50 transition-colors shrink-0">
-            Batalkan
+            Batalkan & Kembali
         </a>
         <button type="button" onclick="submitWithAction('draft')"
             class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs hover:border-gray-300 transition-all duration-150 cursor-pointer shrink-0">
@@ -24,25 +24,25 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
             </svg>
-            <span>Simpan Draft</span>
+            <span>Simpan Sebagai Draf</span>
         </button>
         <button type="button" onclick="submitWithAction('publish')"
             class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all duration-150 cursor-pointer shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            <span>Publikasikan</span>
+            <span>Simpan & Tampilkan di Website</span>
         </button>
     </div>
 @endsection
 
 @section('page_headline', 'Buat Section Produk')
-@section('page_subtitle', 'Kelola informasi judul, deskripsi utama, kontak WhatsApp, serta daftar katalog produk.')
+@section('page_subtitle', 'Kelola informasi judul katalog, penjelasan singkat, nomor WhatsApp pemesanan, serta daftar rincian produk desa.')
 @section('status_badge')
     <span
-        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
-        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-        Status Section: Mode Edit Baru
+        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        Mode Pengisian Baru
     </span>
 @endsection
 
@@ -54,10 +54,10 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-            <!-- KOLOM KIRI (8 Kolom): Konten Utama & Daftar products -->
+            <!-- KOLOM KIRI (8 Kolom): Konten Utama & Daftar Produk -->
             <div class="lg:col-span-8 space-y-6">
 
-                <!-- product 1: Konten Utama & Deskripsi -->
+                <!-- KARTU 1: Konten Utama & Deskripsi -->
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                     <div class="flex items-center gap-3 pb-5 border-b border-gray-100 mb-5">
                         <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
@@ -68,9 +68,8 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Konten Utama Section</h3>
-                            <p class="text-xs text-slate-500">Kelola judul utama dan narasi deskripsi section tentang
-                                program.</p>
+                            <h3 class="text-base font-bold text-slate-900">Konten Utama Katalog Produk</h3>
+                            <p class="text-xs text-slate-500">Kelola judul katalog dan narasi pengantar produk desa di halaman depan.</p>
                         </div>
                     </div>
 
@@ -78,52 +77,50 @@
                         <!-- Judul Field -->
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <label for="title" class="block text-xs font-bold text-slate-700">
-                                    Judul <span class="text-rose-500">*</span>
+                                <label for="title" class="block text-sm font-bold text-slate-800">
+                                    Judul Katalog Produk <span class="text-rose-500">*</span>
                                 </label>
-                                <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255
-                                    Karakter</span>
+                                <span id="title-counter" class="text-[11px] text-slate-400 font-mono">0 / 255 Karakter</span>
                             </div>
                             <input type="text" id="title" name="title" value="{{ old('title') }}" required
-                                maxlength="255" placeholder="Contoh: Tentang Program Pengabdian"
+                                maxlength="255" placeholder="Contoh: Produk Unggulan & Hasil Olahan Warga Desa"
                                 oninput="document.getElementById('title-counter').innerText = this.value.length + ' / 255 Karakter'"
-                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
-                            <p class="text-[11px] text-slate-400 mt-1.5">
-                                Gunakan judul yang jelas dan mencerminkan esensi program.
+                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                            <p class="text-[11px] text-slate-500 mt-1.5">
+                                Gunakan judul yang menarik perhatian pembeli dan mencerminkan kualitas produk desa.
                             </p>
                         </div>
 
                         <!-- Nomor WhatsApp Field -->
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <label for="whatsapp_number" class="block text-xs font-bold text-slate-700">
-                                    Nomor WhatsApp
+                                <label for="whatsapp_number" class="block text-sm font-bold text-slate-800">
+                                    Nomor WhatsApp Pemesanan
                                 </label>
                             </div>
                             <input type="text" id="whatsapp_number" name="whatsapp_number"
-                                value="{{ old('whatsapp_number') }}" placeholder="Contoh: 6281234567890"
-                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
-                            <p class="text-[11px] text-slate-400 mt-1.5">
-                                Masukkan nomor WhatsApp lengkap dengan kode negara (contoh: 628...). Berlaku untuk semua
-                                produk di section ini.
+                                value="{{ old('whatsapp_number') }}" placeholder="Contoh: 081234567890 atau 6281234567890"
+                                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                            <p class="text-[11px] text-slate-500 mt-1.5">
+                                Nomor WhatsApp petugas yang akan dihubungi pembeli saat menekan tombol pesan. Berlaku untuk seluruh produk di bawah ini.
                             </p>
                         </div>
 
                         <!-- Deskripsi Rich Editor -->
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-2">
-                                Deskripsi <span class="text-rose-500">*</span>
+                            <label class="block text-sm font-bold text-slate-800 mb-2">
+                                Deskripsi Singkat / Pengantar Produk <span class="text-rose-500">*</span>
                             </label>
                             <x-form.rich-editor name="description" :value="old('description')"
-                                placeholder="Tulis latar belakang, visi, atau penjelasan rinci tentang program..." />
-                            <p class="text-[11px] text-slate-400 mt-1.5">
-                                Tulis latar belakang dan tujuan program secara lengkap.
+                                placeholder="Tuliskan pengantar singkat tentang produk-produk berkualitas hasil karya kelompok warga desa kami..." />
+                            <p class="text-[11px] text-slate-500 mt-1.5">
+                                Tuliskan pengantar yang ramah dan mengajak pembeli untuk memesan produk desa.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- product 2: Daftar Products / Fitur (Multiple) -->
+                <!-- KARTU 2: Daftar Produk / Katalog (Repeater) -->
                 <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
                     <div class="flex items-center justify-between pb-5 border-b border-gray-100 mb-5">
                         <div class="flex items-center gap-3">
@@ -138,16 +135,15 @@
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold text-slate-900">Daftar Produk / Katalog</h3>
                                 </div>
-                                <p class="text-xs text-slate-500">Setiap produk berisi judul, harga, benefit keunggulan,
-                                    deskripsi, detail spesifikasi, dan gambar produk.</p>
+                                <p class="text-xs text-slate-500">Setiap produk berisi nama produk, harga, keunggulan, deskripsi singkat, rincian lengkap, dan foto produk.</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 text-xs font-medium">
+                        <div class="flex items-center gap-3 text-xs font-semibold">
                             <button type="button" onclick="collapseAllproducts()"
-                                class="text-slate-500 hover:text-slate-900 underline">Collapse All</button>
+                                class="text-slate-600 hover:text-emerald-700 hover:underline cursor-pointer">Tutup Semua Rincian</button>
                             <span class="text-slate-300">|</span>
                             <button type="button" onclick="expandAllproducts()"
-                                class="text-slate-500 hover:text-slate-900 underline">Expand All</button>
+                                class="text-slate-600 hover:text-emerald-700 hover:underline cursor-pointer">Buka Semua Rincian</button>
                         </div>
                     </div>
 
@@ -350,12 +346,12 @@
 
                     <!-- Add Button -->
                     <button type="button" onclick="addNewproductItem()"
-                        class="mt-5 w-full py-3 border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/30 hover:bg-emerald-50/80 rounded-xl text-xs font-bold text-emerald-800 hover:text-emerald-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
-                        <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="mt-5 w-full py-3.5 border-2 border-dashed border-emerald-400 hover:border-emerald-600 bg-emerald-50/50 hover:bg-emerald-100/80 rounded-xl text-sm font-bold text-emerald-800 hover:text-emerald-900 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
+                        <svg class="w-5 h-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4">
                             </path>
                         </svg>
-                        <span>Tambah Produk Baru</span>
+                        <span>+ Tambah Produk Baru ke Daftar</span>
                     </button>
                 </div>
 
@@ -376,20 +372,19 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-base font-bold text-slate-900">Visibilitas</h3>
-                            <p class="text-xs text-slate-500">Pengaturan status publikasi section.</p>
+                            <h3 class="text-base font-bold text-slate-900">Pengaturan Tampilan</h3>
+                            <p class="text-xs text-slate-500">Atur penayangan produk di website.</p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between py-2">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-slate-800">Status Section</span>
+                                <span class="text-xs font-bold text-slate-800">Status Tayang</span>
                                 <span id="status-badge"
-                                    class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
+                                    class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Tentukan apakah section ini langsung tampil atau
-                                draft.</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Tentukan apakah produk langsung tampil atau disimpan sementara.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1" checked
@@ -409,10 +404,8 @@
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <span class="font-bold block text-emerald-900">Kebijakan 1 Section Aktif</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Sistem memastikan hanya 1 product section
-                                    yang aktif. Saat section ini dipublikasikan, section lama yang sedang aktif otomatis
-                                    dijadikan <strong>Draft</strong>.</p>
+                                <span class="font-bold block text-emerald-900">Hanya 1 Katalog Produk Aktif</span>
+                                <p class="text-[11px] text-emerald-800 mt-0.5">Halaman depan website menampilkan 1 katalog produk aktif. Saat katalog baru ini ditayangkan, katalog lama otomatis tersimpan sebagai <strong>Draf</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -421,8 +414,7 @@
                         <div class="flex justify-between items-start text-slate-500">
                             <span>Terakhir Diperbarui:</span>
                             <div class="text-right">
-                                <span class="text-slate-700 font-medium">{{ now()->translatedFormat('d M Y, H:i') }}
-                                    WIB</span>
+                                <span class="text-slate-700 font-medium">{{ now()->translatedFormat('d M Y, H:i') }} WIB</span>
                                 <span class="text-[11px] text-emerald-600 font-medium block">Saat disimpan (Baru)</span>
                             </div>
                         </div>
@@ -443,14 +435,14 @@
                             d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
                         </path>
                     </svg>
-                    <span>Simpan Draft</span>
+                    <span>Simpan Sebagai Draf</span>
                 </button>
                 <button type="button" onclick="submitWithAction('publish')"
                     class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-sm shadow-emerald-500/20 transition-all cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span>Publikasikan</span>
+                    <span>Simpan & Tampilkan</span>
                 </button>
             </div>
             <a href="{{ route('admin.product-sections.index') }}"
@@ -793,7 +785,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Perhatian',
-                    text: 'Minimal harus ada 1 produk di dalam Product Section.',
+                    text: 'Minimal harus ada 1 produk di dalam katalog.',
                     confirmButtonColor: '#10b981',
                     confirmButtonText: 'Mengerti'
                 });
@@ -820,9 +812,10 @@
             if (file.size > 2 * 1024 * 1024) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Ukuran File Terlalu Besar',
-                    text: 'Maksimal ukuran gambar product adalah 2MB.',
-                    confirmButtonColor: '#e11d48'
+                    title: 'Ukuran Foto Terlalu Besar',
+                    text: 'Ukuran foto produk maksimal adalah 2 MB.',
+                    confirmButtonColor: '#e11d48',
+                    confirmButtonText: 'Tutup'
                 });
                 input.value = '';
                 return;
@@ -882,8 +875,9 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Maksimal 5 Foto',
-                    text: 'Setiap produk maksimal memiliki 5 detail gambar.',
-                    confirmButtonColor: '#10b981'
+                    text: 'Setiap produk maksimal memiliki 5 foto rincian tambahan.',
+                    confirmButtonColor: '#10b981',
+                    confirmButtonText: 'Mengerti'
                 });
                 input.value = '';
                 return;
@@ -912,9 +906,10 @@
             if (invalidSize) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Ukuran Terlalu Besar',
-                    text: 'Beberapa gambar melebihi ukuran maksimal 2MB dan tidak dapat ditambahkan.',
-                    confirmButtonColor: '#e11d48'
+                    title: 'Ukuran Foto Terlalu Besar',
+                    text: 'Beberapa foto melebihi ukuran maksimal 2 MB dan tidak dapat ditambahkan.',
+                    confirmButtonColor: '#e11d48',
+                    confirmButtonText: 'Tutup'
                 });
             }
 

@@ -1,24 +1,23 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Overview')
+@section('title', 'Halaman Utama Pengelola')
 
 @section('breadcrumbs')
-    <a href="{{ route('admin.dashboard') }}" class="text-slate-500 hover:text-slate-900">Home</a>
-    <span>/</span>
-    <span class="text-slate-800">Dashboard</span>
+    <span class="text-slate-800 font-semibold">Halaman Utama Pengelola</span>
 @endsection
 
-@section('page_title', 'Dashboard Overview')
+@section('page_title', 'Halaman Utama')
 
 @section('header_actions')
     <div class="flex items-center gap-2.5">
         <a href="{{ config('app.frontend_url', 'https://sanitasihijau.com/') }}" target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs transition-all duration-150">
+            class="inline-flex items-center gap-2 px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl border border-gray-200 shadow-2xs transition-all duration-150"
+            title="Buka halaman website yang dilihat oleh warga">
             <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
             </svg>
-            <span>Kunjungi Website Publik</span>
+            <span>Lihat Website Publik</span>
         </a>
 
         @if (auth()->user()?->hasRole('super_admin') || auth()->user()?->hasPermissionTo('manage_home_sections'))
@@ -27,14 +26,14 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                <span>Buat Banner Baru</span>
+                <span>Tambah Banner Beranda Baru</span>
             </a>
         @endif
     </div>
 @endsection
 
-@section('page_headline', 'Selamat Datang di Eco-Enzyme Admin')
-@section('page_subtitle', 'Admin Portal • Kelola seluruh modul konten landing page publik Anda secara terpusat.')
+@section('page_headline', 'Selamat Datang di Panel Pengelola Eco-Enzyme')
+@section('page_subtitle', 'Kelola seluruh informasi dan isi halaman website desa secara terpusat dan mudah.')
 
 @section('content')
     <div class="space-y-7">
@@ -48,18 +47,9 @@
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div class="space-y-3 max-w-2xl">
                     <div class="flex flex-wrap items-center gap-2">
-                        {{-- <span
-                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Website Publik Online
-                        </span>
                         <span
-                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200/60">
-                            Admin Portal
-                        </span> --}}
-                        <span
-                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200/60">
-                            Role: {{ auth()->user()->hasRole('super_admin') ? 'Super Admin' : 'Admin' }}
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/70">
+                            Peran: {{ auth()->user()->hasRole('super_admin') ? 'Pengelola Utama' : 'Petugas Pengelola' }}
                         </span>
                     </div>
 
@@ -67,10 +57,10 @@
                         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                             Halo, {{ auth()->user()->name }}
                         </h2>
-                        <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-relaxed">
-                            Kelola seluruh modul konten landing page secara terpusat. Saat ini <strong
-                                class="text-emerald-700 font-semibold">{{ $liveModulesCount }} dari 6 modul</strong> utama
-                            telah aktif dan siap diakses publik.
+                        <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                            Kelola seluruh informasi dan isi website desa secara terpusat. Saat ini <strong
+                                class="text-emerald-700 font-bold">{{ $liveModulesCount }} dari 6 bagian informasi</strong> utama
+                            telah aktif dan siap dilihat oleh warga di website publik.
                         </p>
                     </div>
                 </div>
@@ -78,7 +68,7 @@
                 <div
                     class="shrink-0 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end gap-3 pt-4 lg:pt-0 border-t lg:border-t-0 border-gray-100">
                     <div class="text-left lg:text-right">
-                        <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Pembaruan Terakhir</p>
+                        <p class="text-[11px] uppercase tracking-wider text-slate-500 font-bold">Pembaruan Terakhir</p>
                         <p class="text-xs sm:text-sm font-semibold text-slate-700 mt-0.5">
                             {{ $lastUpdated ? \Carbon\Carbon::parse($lastUpdated)->timezone('Asia/Jakarta')->translatedFormat('d M Y, H:i') . ' WIB' : 'Belum Ada Pembaruan' }}
                         </p>
@@ -97,11 +87,11 @@
 
         <!-- Metric Cards Grid (KPI Overview) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <!-- Card 1: Modul Live -->
+            <!-- Card 1: Bagian Konten Aktif -->
             <div
                 class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-emerald-200 hover:shadow-sm transition-all duration-200">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Modul Live</span>
+                    <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Bagian Konten Aktif</span>
                     <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -111,19 +101,19 @@
                 </div>
                 <div class="mt-2">
                     <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">{{ $liveModulesCount }} <span
-                            class="text-sm font-semibold text-slate-400">/ 6 Modul</span></h3>
-                    <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center gap-1.5">
+                            class="text-sm font-semibold text-slate-400">/ 6 Bagian</span></h3>
+                    <p class="text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                        Aktif di Landing Page
+                        Tampil di Website Publik
                     </p>
                 </div>
             </div>
 
-            <!-- Card 2: Katalog Produk -->
+            <!-- Card 2: Katalog Produk Desa -->
             <div
                 class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-emerald-200 hover:shadow-sm transition-all duration-200">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Katalog Produk</span>
+                    <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Katalog Produk Desa</span>
                     <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -133,16 +123,16 @@
                 </div>
                 <div class="mt-2">
                     <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">{{ $totalProducts }} <span
-                            class="text-sm font-semibold text-slate-400">Item</span></h3>
-                    <p class="text-xs text-slate-500 font-medium mt-1">Siap dipesan via WhatsApp</p>
+                            class="text-sm font-semibold text-slate-400">Jenis Produk</span></h3>
+                    <p class="text-xs text-slate-600 font-medium mt-1">Dapat dipesan warga via WhatsApp</p>
                 </div>
             </div>
 
-            <!-- Card 3: Testimoni & Ulasan -->
+            <!-- Card 3: Ulasan & Testimoni Warga -->
             <div
                 class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-emerald-200 hover:shadow-sm transition-all duration-200">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ulasan Testimoni</span>
+                    <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Ulasan & Testimoni</span>
                     <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -153,16 +143,16 @@
                 </div>
                 <div class="mt-2">
                     <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">{{ $totalTestimonials }} <span
-                            class="text-sm font-semibold text-slate-400">Ulasan</span></h3>
-                    <p class="text-xs text-slate-500 font-medium mt-1">Dari warga & pembeli produk</p>
+                            class="text-sm font-semibold text-slate-400">Ulasan Warga</span></h3>
+                    <p class="text-xs text-slate-600 font-medium mt-1">Penilaian dari warga & pembeli</p>
                 </div>
             </div>
 
-            <!-- Card 4: Saluran Komunikasi Kontak / Admin -->
+            <!-- Card 4: Kontak & Saluran Bantuan -->
             <div
                 class="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-xs hover:border-emerald-200 hover:shadow-sm transition-all duration-200">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Kanal Komunikasi</span>
+                    <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Kontak & Bantuan</span>
                     <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -173,13 +163,13 @@
                 </div>
                 <div class="mt-2">
                     <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">{{ $totalContactItems }} <span
-                            class="text-sm font-semibold text-slate-400">Saluran</span></h3>
-                    <p class="text-xs text-slate-500 font-medium mt-1">WhatsApp, Email & Lokasi</p>
+                            class="text-sm font-semibold text-slate-400">Jalur Kontak</span></h3>
+                    <p class="text-xs text-slate-600 font-medium mt-1">Nomor WhatsApp, Email & Alamat</p>
                 </div>
             </div>
         </div>
 
-        <!-- Status Kesiapan 6 Modul Landing Page (Health Check) -->
+        <!-- Status Kesiapan 6 Bagian Informasi Landing Page (Health Check) -->
         <div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-6 sm:p-7">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-gray-100 gap-3">
                 <div>
@@ -189,15 +179,14 @@
                                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                             </path>
                         </svg>
-                        <span>Status Kesiapan Konten Landing Page</span>
+                        <span>Status Kesiapan Konten Website Warga</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Pantau kesiapan dan kelengkapan 6 modul utama sebelum dilihat
-                        oleh pengunjung publik.</p>
+                    <p class="text-xs text-slate-600 mt-0.5">Periksa kesiapan dan kelengkapan 6 bagian informasi utama sebelum ditampilkan kepada warga dan pengunjung website.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <span
                         class="px-3 py-1 rounded-full text-xs font-semibold {{ $liveModulesCount === 6 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-amber-50 text-amber-700 border border-amber-200/60' }}">
-                        {{ $liveModulesCount }} / 6 Modul Siap
+                        {{ $liveModulesCount }} / 6 Bagian Siap Tampil
                     </span>
                 </div>
             </div>
@@ -217,10 +206,10 @@
                                     class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase {{ $mod['is_ready'] ? 'bg-emerald-100/70 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
                                     <span
                                         class="w-1.5 h-1.5 rounded-full {{ $mod['is_ready'] ? 'bg-emerald-600' : 'bg-amber-600' }}"></span>
-                                    {{ $mod['is_ready'] ? 'Live di Web' : 'Perlu Konten' }}
+                                    {{ $mod['is_ready'] ? 'Tampil di Website' : 'Belum Diisi' }}
                                 </span>
                                 <h4 class="text-sm font-bold text-slate-900 mt-2">{{ $mod['name'] }}</h4>
-                                <p class="text-xs text-slate-500 mt-0.5">{{ $mod['description'] }}</p>
+                                <p class="text-xs text-slate-600 mt-0.5">{{ $mod['description'] }}</p>
                             </div>
                         </div>
 
@@ -231,8 +220,9 @@
                             </span>
                             @if ($canAccess)
                                 <a href="{{ route($mod['route']) }}"
-                                    class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 group">
-                                    <span>Kelola</span>
+                                    class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 group"
+                                    title="Klik untuk membuka dan mengatur isi bagian ini">
+                                    <span>Atur Konten Ini</span>
                                     <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5"
                                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -240,7 +230,7 @@
                                     </svg>
                                 </a>
                             @else
-                                <span class="text-[11px] text-slate-400 font-medium">Khusus Otoritas</span>
+                                <span class="text-[11px] text-slate-400 font-medium">Perlu Izin Khusus</span>
                             @endif
                         </div>
                     </div>
@@ -262,15 +252,14 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-sm sm:text-base font-bold text-slate-900">Katalog Produk Terdaftar</h4>
-                            <p class="text-xs text-slate-500">Preview produk yang dipublikasikan di halaman landing page.
-                            </p>
+                            <h4 class="text-sm sm:text-base font-bold text-slate-900">Daftar Produk Desa Terbaru</h4>
+                            <p class="text-xs text-slate-500">Pratinjau produk Eco-Enzyme yang dapat dilihat dan dipesan oleh warga.</p>
                         </div>
                     </div>
                     @if (auth()->user()?->hasRole('super_admin') || auth()->user()?->hasPermissionTo('manage_product_sections'))
                         <a href="{{ route('admin.product-sections.index') }}"
                             class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 shrink-0">
-                            <span>Lihat Semua</span>
+                            <span>Lihat Semua Produk</span>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                                 </path>
@@ -295,15 +284,14 @@
                                     </div>
                                 @endif
                                 <div class="min-w-0">
-                                    <h5 class="text-xs sm:text-sm font-bold text-slate-900 truncate">{{ $prod->name }}
-                                    </h5>
+                                    <h5 class="text-xs sm:text-sm font-bold text-slate-900 truncate">{{ $prod->name }}</h5>
                                     <p class="text-xs font-semibold text-emerald-600 mt-0.5">
-                                        {{ $prod->price ?: 'Hubungi Kami' }}</p>
+                                        {{ $prod->price ?: 'Hubungi Petugas' }}</p>
                                 </div>
                             </div>
                             <span
-                                class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white border border-gray-200 text-slate-600 shrink-0">
-                                Produk Aktif
+                                class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 border border-emerald-200 text-emerald-700 shrink-0">
+                                Siap Dipesan
                             </span>
                         </div>
                     @empty
@@ -316,8 +304,8 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="text-xs font-semibold text-slate-700">Belum ada produk di katalog</p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Tambahkan produk pertama melalui modul Produk.</p>
+                            <p class="text-xs font-semibold text-slate-700">Belum ada produk yang didaftarkan</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Tambahkan produk pertama melalui menu Katalog Produk Desa.</p>
                         </div>
                     @endforelse
                 </div>
@@ -335,14 +323,14 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-sm sm:text-base font-bold text-slate-900">Ulasan Testimoni Terbaru</h4>
-                            <p class="text-xs text-slate-500">Pendapat warga dan pembeli tentang produk Eco-Enzyme.</p>
+                            <h4 class="text-sm sm:text-base font-bold text-slate-900">Ulasan Warga Terbaru</h4>
+                            <p class="text-xs text-slate-500">Pendapat dan pengalaman warga tentang produk Eco-Enzyme Desa Jeruklegi.</p>
                         </div>
                     </div>
                     @if (auth()->user()?->hasRole('super_admin') || auth()->user()?->hasPermissionTo('manage_testimonials'))
                         <a href="{{ route('admin.testimonials.index') }}"
                             class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 shrink-0">
-                            <span>Lihat Semua</span>
+                            <span>Lihat Semua Ulasan</span>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                                 </path>
@@ -364,7 +352,7 @@
                                     <div>
                                         <h5 class="text-xs font-bold text-slate-900">{{ $item->name }}</h5>
                                         @if ($item->location)
-                                            <p class="text-[11px] text-slate-400">{{ $item->location }}</p>
+                                            <p class="text-[11px] text-slate-500">{{ $item->location }}</p>
                                         @endif
                                     </div>
                                 </div>
@@ -377,7 +365,7 @@
                                     @endfor
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-600 italic line-clamp-2">"{{ $item->quote }}"</p>
+                            <p class="text-xs text-slate-700 italic line-clamp-2">"{{ $item->quote }}"</p>
                         </div>
                     @empty
                         <div class="py-8 text-center">
@@ -389,9 +377,8 @@
                                     </path>
                                 </svg>
                             </div>
-                            <p class="text-xs font-semibold text-slate-700">Belum ada testimoni</p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Tambahkan testimoni pertama melalui modul
-                                Testimoni.</p>
+                            <p class="text-xs font-semibold text-slate-700">Belum ada ulasan warga</p>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Tambahkan ulasan warga pertama melalui menu Ulasan & Testimoni.</p>
                         </div>
                     @endforelse
                 </div>
@@ -406,7 +393,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
                     </path>
                 </svg>
-                <span>Pintasan Aksi Cepat Operasional</span>
+                <span>Pintasan Menu Operasional Cepat</span>
             </h3>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
@@ -421,8 +408,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-800">Ganti Banner</span>
-                        <span class="text-[11px] text-slate-400 mt-0.5">Hero Beranda</span>
+                        <span class="text-xs font-bold text-slate-800">Ubah Banner Beranda</span>
+                        <span class="text-[11px] text-slate-500 mt-0.5">Foto & Banner Depan</span>
                     </a>
                 @endif
 
@@ -436,8 +423,8 @@
                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-800">Kelola Produk</span>
-                        <span class="text-[11px] text-slate-400 mt-0.5">Katalog & Harga</span>
+                        <span class="text-xs font-bold text-slate-800">Atur Katalog Produk</span>
+                        <span class="text-[11px] text-slate-500 mt-0.5">Daftar Produk & Harga</span>
                     </a>
                 @endif
 
@@ -452,8 +439,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-800">Tambah Testimoni</span>
-                        <span class="text-[11px] text-slate-400 mt-0.5">Ulasan Pelanggan</span>
+                        <span class="text-xs font-bold text-slate-800">Tambah Ulasan Warga</span>
+                        <span class="text-[11px] text-slate-500 mt-0.5">Pengalaman Pembeli</span>
                     </a>
                 @endif
 
@@ -468,8 +455,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-800">Update WhatsApp</span>
-                        <span class="text-[11px] text-slate-400 mt-0.5">Nomor & Kontak</span>
+                        <span class="text-xs font-bold text-slate-800">Ubah Kontak Bantuan</span>
+                        <span class="text-[11px] text-slate-500 mt-0.5">Nomor WhatsApp & Email</span>
                     </a>
                 @endif
 
@@ -484,8 +471,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-800">Atur Pengguna</span>
-                        <span class="text-[11px] text-slate-400 mt-0.5">{{ $totalUsers }} Admin Aktif</span>
+                        <span class="text-xs font-bold text-slate-800">Kelola Petugas</span>
+                        <span class="text-[11px] text-slate-500 mt-0.5">{{ $totalUsers }} Petugas Aktif</span>
                     </a>
                 @else
                     <a href="{{ route('admin.profile.edit') }}"
@@ -497,8 +484,8 @@
                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-800">Profil Saya</span>
-                        <span class="text-[11px] text-slate-400 mt-0.5">Kelola Akun</span>
+                        <span class="text-xs font-bold text-slate-800">Ubah Profil Saya</span>
+                        <span class="text-[11px] text-slate-500 mt-0.5">Kelola Akun Pribadi</span>
                     </a>
                 @endif
             </div>

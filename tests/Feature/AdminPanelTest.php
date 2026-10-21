@@ -51,7 +51,7 @@ class AdminPanelTest extends TestCase
     {
         $response = $this->get('/login');
         $response->assertStatus(200)
-            ->assertSee('Portal Manajemen Admin')
+            ->assertSee('Halaman Masuk Pengelola Desa')
             ->assertSee('togglePasswordBtn')
             ->assertSee('Tampilkan kata sandi');
     }
@@ -72,8 +72,8 @@ class AdminPanelTest extends TestCase
         $response = $this->actingAs($this->user)->get('/admin/dashboard');
 
         $response->assertStatus(200)
-            ->assertSee('Dashboard Overview')
-            ->assertSee('Admin Portal')
+            ->assertSee('Halaman Utama')
+            ->assertSee('Panel Pengelola')
             ->assertSee('Lihat Halaman Utama')
             ->assertSee('https://sanitasihijau.com/');
     }

@@ -301,20 +301,20 @@
                         </div>
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Status Penayangan</h3>
-                            <p class="text-xs text-slate-500">Atur penayangan informasi ini di website utama.</p>
+                            <p class="text-xs text-slate-500">Pilih apakah konten Tentang Kami ini langsung tampil atau disimpan sebagai draf.</p>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between py-2">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-slate-800">Status Bagian Ini</span>
+                                <span class="text-xs font-bold text-slate-800">Tayangkan di Website?</span>
                                 <span id="status-badge"
                                     class="px-2 py-0.5 rounded text-[10px] font-bold {{ $aboutSection->is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-200 text-slate-700' }}">
-                                    {{ $aboutSection->is_active ? 'Aktif' : 'Draf' }}
+                                    {{ $aboutSection->is_active ? 'Aktif di Website' : 'Disimpan Sebagai Draf' }}
                                 </span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Pilih apakah langsung aktif di website atau disimpan sementara.</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Jika aktif, pengunjung langsung dapat membaca profil dan kegiatan program ini.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1"
@@ -335,8 +335,8 @@
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <span class="font-bold block text-emerald-900">Aturan Tampilan Website</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Hanya 1 bagian Tentang Kami yang dapat aktif di website. Jika bagian ini diaktifkan, bagian lain otomatis menjadi <strong>Draf</strong>.
+                                <span class="font-bold block text-emerald-900">Kebijakan 1 Konten Aktif</span>
+                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Halaman depan hanya menampilkan 1 konten Tentang Kami. Jika konten ini diaktifkan, konten lama yang sebelumnya aktif otomatis dijadikan <strong>Draf</strong>.
                                 </p>
                             </div>
                         </div>
@@ -431,11 +431,11 @@
             const formAction = document.getElementById('form-action');
             if (elem.checked) {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
-                badge.innerText = 'Aktif';
+                badge.innerText = 'Aktif di Website';
                 if (formAction) formAction.value = 'publish';
             } else {
                 badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-slate-700';
-                badge.innerText = 'Draf';
+                badge.innerText = 'Draf (Belum Tampil)';
                 if (formAction) formAction.value = 'draft';
             }
         }

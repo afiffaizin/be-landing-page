@@ -229,7 +229,7 @@
                         </div>
                         <div>
                             <h3 class="text-base font-bold text-slate-900">Status Penayangan</h3>
-                            <p class="text-xs text-slate-500">Pilih apakah modul ini langsung tampil di website atau disimpan sebagai draf.</p>
+                            <p class="text-xs text-slate-500">Pilih apakah konten Tentang Kami ini langsung tampil atau disimpan sebagai draf.</p>
                         </div>
                     </div>
 
@@ -240,7 +240,7 @@
                                 <span id="status-badge"
                                     class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif di Website</span>
                             </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Jika aktif, pengunjung langsung dapat membaca modul ini.</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Jika aktif, pengunjung langsung dapat membaca profil dan kegiatan program ini.</p>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" id="is_active_toggle" value="1" checked
@@ -261,7 +261,7 @@
                             </svg>
                             <div>
                                 <span class="font-bold block text-emerald-900">Kebijakan 1 Konten Aktif</span>
-                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Halaman depan website menampilkan 1 konten Tentang Kami aktif. Saat konten baru ini ditayangkan, konten lama otomatis tersimpan sebagai <strong>Draf</strong>.</p>
+                                <p class="text-[11px] text-emerald-700/90 mt-0.5">Halaman depan hanya menampilkan 1 konten Tentang Kami. Jika konten ini diaktifkan, konten lama yang sebelumnya aktif otomatis dijadikan <strong>Draf</strong>.</p>
                             </div>
                         </div>
                     </div>
